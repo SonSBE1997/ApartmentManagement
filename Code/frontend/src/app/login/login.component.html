@@ -1,0 +1,33 @@
+<div class="container">
+  <div style="height: 150px;"></div>
+  <mat-card class="login-card">
+    <mat-card-header class="bg-info pl-0 pr-0">
+      <mat-card-title class="text-uppercase text-white login-title">Đăng nhập</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-4">
+      <form novalidate>
+        <mat-form-field class="full-width">
+          <input [formControl]="username" matInput placeholder="Tên đăng nhập">
+          <mat-error *ngIf="username.hasError('required')">
+            Bạn phải nhập tên đăng nhập
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="full-width">
+          <input type="password" [formControl]="password" matInput placeholder="Mật khẩu">
+          <mat-error *ngIf="password.hasError('required')">
+            Bạn phải nhập mật khẩu
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button type="submit" mat-raised-button color="primary" (click)="login()" matTooltip="Nhấn để đăng nhập"
+            matTooltipPosition="after" [disabled]="username.invalid || password.invalid">Đăng nhập</button>
+        </div>
+      </form>
+
+      <ng-container *ngIf="loginFailed===true">
+        <p class="mt-2 text-center" style="color: red; font-weight: bold;">Tên đang nhập hoặc mật khẩu không đúng</p>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>

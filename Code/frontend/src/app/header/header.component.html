@@ -1,0 +1,29 @@
+<div class="header col-xl-12">
+  <div class="float-left">
+    <button mat-button class="text-uppercase font-weight-bold"><i class="material-icons">location_city</i> Trang chủ</button>
+  </div>
+  <div class="float-right nav">
+    <button mat-button [ngClass]="{'active': url === 'apartment'}">Căn hộ</button>
+    <button mat-button [ngClass]="{'active': url === 'user'}">Cư dân</button>
+    <button mat-button [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
+    <button mat-button [ngClass]="{'active': url === 'infrastructure'}">Kỹ thuật</button>
+    <button mat-button [ngClass]="{'active': url === 'employee'}">Nhân viên</button>
+    <button mat-button [matMenuTriggerFor]="menu" [ngClass]="{'active': url === 'statistic'}">Thống kê</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+    <button mat-button class="text-info" [ngClass]="{'active': url === 'profile'}">{{ employee?.name }}</button>
+    <mat-icon class="m-2 pointer" matBadge="15" matBadgeColor="warn" [matMenuTriggerFor]="notify">notifications_active</mat-icon>
+    <mat-menu #notify="matMenu" xPosition="before" yPosition="below">
+      <div>
+        <div>Test</div>
+        <div>Test</div>
+      </div>
+      <hr>
+      <div>Item 2</div>
+    </mat-menu>
+    <button mat-button (click)="logout()">Đăng xuất</button>
+  </div>
+</div>
+<hr />

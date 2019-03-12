@@ -1,0 +1,9 @@
+<div class="page-body" *ngIf="!isAuthenticated">
+  <router-outlet></router-outlet>
+</div>
+<div *ngIf="isAuthenticated">
+  <app-header></app-header>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
