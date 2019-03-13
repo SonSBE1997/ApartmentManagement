@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../service/sharedService.service';
 import { Employee } from 'src/entity/Employee';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-header',
@@ -14,9 +15,15 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private sharedService: SharedService) {}
 
   ngOnInit() {
-    const e = localStorage.getItem('user');
-    if (e !== null) {
-      this.employee = JSON.parse(e);
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+      const data = jwt_decode(token);
+      console.log(data);
+      this.employee = {
+        id: data.employeeId,
+        name: data.name,
+        username: data.sub
+      };
     }
     this.url = window.location.href.split('/')[3];
   }
@@ -24,7 +31,6 @@ export class HeaderComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('isAuthen');
-    localStorage.removeItem('user');
     this.sharedService.authentic(false);
     this.router.navigateByUrl('/login');
   }

@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
 
     this.commonService.authentication(credentials).subscribe(e => {
       if (e != null) {
-        localStorage.setItem('user', JSON.stringify(e));
         this.sharedService.authentic(true);
         localStorage.setItem('isAuthen', 'true');
         this.router.navigateByUrl('/apartment');

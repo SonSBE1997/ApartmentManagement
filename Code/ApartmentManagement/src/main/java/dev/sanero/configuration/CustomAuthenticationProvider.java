@@ -46,7 +46,7 @@ public class CustomAuthenticationProvider
     }
     List<GrantedAuthority> roles = AuthorityUtils
         .commaSeparatedStringToAuthorityList(s.getRole());
-    return new CustomEmployeeDetails(s.getEmail(), token, s.getId(), roles);
+    return new CustomEmployeeDetails(s.getEmail(), token, s.getId(), s.getName(), roles);
 
   }
 

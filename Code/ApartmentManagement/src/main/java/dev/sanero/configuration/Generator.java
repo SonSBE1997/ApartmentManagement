@@ -18,6 +18,7 @@ public class Generator {
     Claims claims = Jwts.claims().setSubject(employee.getUsername());
     claims.put("employeeId", String.valueOf(employee.getId()));
     claims.put("role", employee.getRole());
+    claims.put("name", employee.getName());
 
     return Jwts.builder().setClaims(claims)
         .setExpiration(createExpirationDate())

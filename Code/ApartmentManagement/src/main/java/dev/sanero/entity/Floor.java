@@ -10,7 +10,7 @@
 package dev.sanero.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -39,7 +39,27 @@ public class Floor implements Serializable {
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "floor_id")
-  private List<Room> rooms;
+  private Set<Room> rooms;
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 13, 2019
+   * Created time: 9:03:19 PM
+   * @return the rooms
+   */
+  public Set<Room> getRooms() {
+    return rooms;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 13, 2019
+   * Created time: 9:03:19 PM
+   * @param rooms the rooms to set
+   */
+  public void setRooms(Set<Room> rooms) {
+    this.rooms = rooms;
+  }
 
   /*
    * Author: Sanero.

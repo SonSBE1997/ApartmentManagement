@@ -1,0 +1,31 @@
+.w-15 {
+  width: 15% !important;
+}
+
+.w100 {
+  width: 7em !important;
+  height: 1.5em !important;
+  border: 0.3px solid #000000;
+}
+// .custom-table {
+//   width: 1300px !important;
+//   overflow: scroll;
+// }
+
+.custom-table td {
+  padding: 0px !important;
+}
+
+.custom-table td button {
+  width: 100%;
+}
+
+.room-rent {
+  background-color: #d6d83c;
+  color: #ffffff;
+}
+
+.room-sale {
+  background-color: #f34040;
+  color: #ffffff;
+}

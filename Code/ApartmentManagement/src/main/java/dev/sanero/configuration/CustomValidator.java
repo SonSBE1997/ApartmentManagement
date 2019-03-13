@@ -39,6 +39,7 @@ public class CustomValidator {
         customEmployeeDetail
             .setId(Integer.parseInt((String) body.get("employeeId")));
         customEmployeeDetail.setRole((String) body.get("roles"));
+        customEmployeeDetail.setName((String) body.get("name"));
       }
       return customEmployeeDetail;
     } catch (Exception e) {

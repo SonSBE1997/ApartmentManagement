@@ -15,6 +15,7 @@ public class CustomEmployeeDetails implements UserDetails {
   private String username;
   private String token;
   private int id;
+  private String name;
   public Collection<? extends GrantedAuthority> authorities;
 
   public String getToken() {
@@ -25,12 +26,23 @@ public class CustomEmployeeDetails implements UserDetails {
     return id;
   }
 
+  /*
+   * Author: Sanero.
+   * Created date: Mar 14, 2019
+   * Created time: 12:31:48 AM
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
   public CustomEmployeeDetails(String username, String token, int userId,
-      Collection<? extends GrantedAuthority> authorities) {
+      String name, Collection<? extends GrantedAuthority> authorities) {
     super();
     this.username = username;
     this.token = token;
     this.id = userId;
+    this.name = name;
     this.authorities = authorities;
   }
 
