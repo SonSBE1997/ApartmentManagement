@@ -31,12 +31,25 @@ import {
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './home/home.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HomeComponent, AptPopUpComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
+import { RoomDetailComponent } from './home/room-detail/room-detail.component';
+import { HttpErrorInterceptor } from './errors/http-error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { WrongComponent } from './errors/wrong/wrong.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    HeaderComponent,
+    AptPopUpComponent,
+    RoomDetailComponent,
+    NotFoundComponent,
+    WrongComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -61,10 +74,17 @@ import { HeaderComponent } from './header/header.component';
     MatTooltipModule,
     MatMenuModule,
     MatIconModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDialogModule
   ],
+  entryComponents: [AptPopUpComponent],
   providers: [
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

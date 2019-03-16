@@ -25,7 +25,6 @@ public class LoginController {
   @PostMapping(value = "/login")
   public ResponseEntity<Employee> login(@RequestBody Employee employee,
       HttpServletResponse response) {
-    System.out.println(employee);
     Employee employeeAuthen = loginService.checkLogin(employee.getUsername(),
         employee.getPassword());
     String token = "";
@@ -34,7 +33,8 @@ public class LoginController {
       System.out.println(token);
       response.setHeader("token", token);
       return new ResponseEntity<>(employeeAuthen, HttpStatus.OK);
-    } else
+    } else {
       return new ResponseEntity<>(null, HttpStatus.OK);
+    }
   }
 }

@@ -365,15 +365,15 @@ public class Employee implements Serializable {
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 9:23:36 PM
+   * Created date: Mar 16, 2019
+   * Created time: 8:37:53 PM
    */
   @Override
   public String toString() {
     return "Employee [id=" + id + ", name=" + name + ", gender=" + gender
         + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber
         + ", email=" + email + ", address=" + address + ", idCard=" + idCard
-        + ", username=" + username + ", password=" + password + ", isManager="
-        + isManager + ", dept=" + dept + "]";
+        + ", username=" + username + ", password=" + password + ", role=" + role
+        + ", isManager=" + isManager + ", dept=" + dept + "]";
   }
 }

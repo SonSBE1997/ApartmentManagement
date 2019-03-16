@@ -21,13 +21,10 @@ public class AuthenticationTokenFilter extends AbstractAuthenticationProcessingF
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		String header = request.getHeader("Authorization");
-
 		if (header == null) {
 			throw new RuntimeException("Token is missing!");
 		}
-		String authorisationToken = header;
-
-		AuthenticationToken token = new AuthenticationToken(authorisationToken);
+		AuthenticationToken token = new AuthenticationToken(header);
 
 		return getAuthenticationManager().authenticate(token);
 	}

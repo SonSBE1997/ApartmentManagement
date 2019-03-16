@@ -14,11 +14,11 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.sanero.entity.Employee;
 import dev.sanero.repository.EmployeeRepository;
+import dev.sanero.utils.Md5Encryptor;
 
 /*
  * @author Sanero.
@@ -31,21 +31,6 @@ import dev.sanero.repository.EmployeeRepository;
 public class LoginService {
   @Autowired
   EmployeeRepository repository;
-
-  public PasswordEncoder getPasswordEncoder() {
-    return new PasswordEncoder() {
-
-      @Override
-      public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return true;
-      }
-
-      @Override
-      public String encode(CharSequence rawPassword) {
-        return rawPassword.toString();
-      }
-    };
-  }
 
   /**
    * Author: Sanero.
@@ -62,18 +47,9 @@ public class LoginService {
     if (optional.isPresent()) {
       Employee employee = optional.get();
       String pass = employee.getPassword();
-      if (pass.length() < 5) {
-        if (pass.equals(password)) {
-          return employee;
-        }
-        return null;
-      } else {
-        if (getPasswordEncoder().matches(password, pass)) {
-          return employee;
-        }
-        return null;
+      if(Md5Encryptor.encrypt(password).equals(pass)) {
+        return employee;
       }
-
     }
     return null;
   }

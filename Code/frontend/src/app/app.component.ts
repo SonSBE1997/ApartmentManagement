@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
       localStorage.setItem('isAuthen', 'true');
       this.isAuthenticated = true;
     }
+
     this.sharedService.authentic(this.isAuthenticated);
   }
 }

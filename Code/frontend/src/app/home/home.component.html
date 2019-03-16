@@ -11,9 +11,9 @@
 </div>
 <ng-container *ngIf="floors.length > 0">
 
-  <div class="row">
-    <div class="col-xl-7 text-right font-weight-bold">Trạng thái căn hộ: </div>
-    <div class="col-xl-5">
+  <div class="row mt-5">
+    <div class="col-sm-3 col-md-3 col-xl-7 text-right font-weight-bold">Trạng thái căn hộ: </div>
+    <div class="col-sm-9 col-md-9 col-xl-5">
       <div class="row align-content-center">
         <div class="col-xl-4"><div class="room-empty w100"></div> Trống</div>
         <div class="col-xl-4"><div class="room-rent w100"></div> Đang cho thuê</div>
@@ -21,23 +21,19 @@
       </div>
     </div>
   </div>
-  <div class="table-responsive mt-3">
+  <div class="table-responsive mt-4">
     <table class="table table-bordered w-100 text-center custom-table">
-      <thead>
-        <tr>
-          <th *ngFor="let f of floors" style="width: 75px;">{{ f.name }}</th>
-        </tr>
-      </thead>
       <tbody>
-        <tr *ngFor="let i of matrix">
-          <ng-template ngFor let-f [ngForOf]="floors">
-            <td *ngIf="f.rooms[i] != null" style="width: 75px;">
-              <button mat-button class="btn"
+        <tr *ngFor="let f of floors">
+          <td class="font-weight-bold vertical-align-middle" style="width: 75px;">{{f.name}}</td>
+          <ng-template ngFor let-i [ngForOf]="matrix">
+            <td *ngIf="f.rooms.length > i" style="width: 75px;">
+              <button mat-button class="btn" (click)="openDialog(f.rooms[i])"
                       [ngClass]="{'room-rent': f.rooms[i].status === '1', 'room-sale': f.rooms[i].status === '2'}">
                 {{ f.rooms[i].name }}
               </button>
             </td>
-            <td *ngIf="f.rooms[i] == null" style="width: 75px;">
+            <td *ngIf="f.rooms.length <= i" style="width: 75px;">
               <button mat-button class="btn"></button>
             </td>
           </ng-template>

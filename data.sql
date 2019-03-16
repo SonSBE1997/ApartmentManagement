@@ -113,3 +113,9 @@ INSERT INTO `apartment`.`room` (`name`, `area`, `status`, `floor_id`, `building_
    ('1008', 70, '0', 9, 1),
    ('1009', 70, '2', 9, 1),
    ('1010', 70, '0', 9, 1);
+   
+INSERT INTO `apartment`.`household` (`fullname`, `id_card`, `address`, `phone_number`, `come_date`,
+									`leave_date`, `is_hire`, `price`, `deposit`, `deposit_date`,`status`, `room_id`, `created_by`) 
+VALUES ('Nguyễn Văn Tuấn', '12345612134', 'Hà Nội', '098123123', '2011-01-03', '2017-12-12', 
+		0, '900000000', '500000000', '2010-12-25', 0, 1, 1);
+

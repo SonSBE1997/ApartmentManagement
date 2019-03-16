@@ -26,7 +26,6 @@ public class CustomValidator {
 
   //
   public Employee validate(String token) {
-
     Employee customEmployeeDetail = null;
 
     try {
@@ -38,7 +37,7 @@ public class CustomValidator {
         customEmployeeDetail.setUsername(body.getSubject());
         customEmployeeDetail
             .setId(Integer.parseInt((String) body.get("employeeId")));
-        customEmployeeDetail.setRole((String) body.get("roles"));
+        customEmployeeDetail.setRole((String) body.get("role"));
         customEmployeeDetail.setName((String) body.get("name"));
       }
       return customEmployeeDetail;

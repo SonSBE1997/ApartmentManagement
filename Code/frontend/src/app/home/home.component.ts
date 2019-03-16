@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ApartmentService } from '../service/apartment.service';
 import { Building } from 'src/entity/Building';
 import { Floor } from 'src/entity/Floor';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Room } from 'src/entity/Room';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,10 @@ export class HomeComponent implements OnInit {
   floors: Floor[] = [];
   matrix = [];
 
-  constructor(private aptService: ApartmentService) {}
+  constructor(
+    private aptService: ApartmentService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.aptService.getListApartment().subscribe(buildings => {
@@ -23,9 +28,7 @@ export class HomeComponent implements OnInit {
 
   selectionChange(value) {
     if (value >= 0) {
-      this.floors = this.buildings[value].floors.sort(
-        (a, b) => a.id - b.id
-      );
+      this.floors = this.buildings[value].floors.sort((a, b) => a.id - b.id);
       this.floors.forEach(v => {
         v.rooms = v.rooms.sort((r1, r2) => r1.id - r2.id);
       });
@@ -42,5 +45,33 @@ export class HomeComponent implements OnInit {
       this.floors = [];
       this.matrix = [];
     }
+  }
+
+  openDialog(r): void {
+    console.log(r);
+    const dialogRef = this.dialog.open(AptPopUpComponent, {
+      width: '300px',
+      data: r
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+}
+
+@Component({
+  selector: 'apt-pop-up',
+  templateUrl: 'apt-pop-up.html',
+  styleUrls: ['apt-pop-up.scss']
+})
+export class AptPopUpComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<AptPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Room
+  ) {}
+
+  ngOnInit() {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

@@ -22,18 +22,11 @@ public class CustomAuthenticationProvider
   @Autowired
   private CustomValidator validator;
 
-//	@Override
-//	public boolean supports(Class<?> aClass) {
-//		// TODO Auto-generated method stub
-//		return (AuthenticationToken.class.isAssignableFrom(aClass));
-//	}
-
   @SuppressWarnings("serial")
   @Override
   protected UserDetails retrieveUser(String username,
       UsernamePasswordAuthenticationToken authentication)
       throws AuthenticationException {
-
     AuthenticationToken authenticationToken = (AuthenticationToken) authentication;
 
     String token = authenticationToken.getToken();

@@ -28,7 +28,7 @@ import dev.sanero.service.BuildingService;
  * Description: TODO - 
  */
 @RestController
-@RequestMapping("/building")
+@RequestMapping("/api/building")
 public class BuildingController {
   @Autowired
   BuildingService buildingService;

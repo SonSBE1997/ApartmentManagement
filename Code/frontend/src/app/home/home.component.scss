@@ -18,14 +18,21 @@
 
 .custom-table td button {
   width: 100%;
+  height: 100%;
+}
+
+.vertical-align-middle {
+  vertical-align: middle !important;
 }
 
 .room-rent {
   background-color: #d6d83c;
   color: #ffffff;
+  border-color: #d6d83c;
 }
 
 .room-sale {
   background-color: #f34040;
   color: #ffffff;
+  border-color: #f34040;
 }

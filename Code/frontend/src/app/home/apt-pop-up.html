@@ -1,0 +1,30 @@
+<h1 mat-dialog-title class="text-center bt-1">Thông tin căn hộ</h1>
+<div mat-dialog-content class="bt-1 pb-4">
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Phòng </div>
+    <div class="col-xl-6">{{data.name}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Vị trí </div>
+    <div class="col-xl-6">{{data.floor.name}}</div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Diện tích </div>
+    <div class="col-xl-6">{{data.area}} m<sup>2</sup></div>
+  </div>
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Trạng thái </div>
+    <div class="col-xl-6" [ngClass]="{'room-rent': data.status === '1', 'room-sale': data.status === '2'}">
+      {{data.status === '0'? 'Trống' : data.status === '1'? 'Đang cho thuê' : 'Đã bán'}}
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="mt-0">
+    <button mat-raised-button color="primary" class="float-left" cdkFocusInitial
+      [routerLink]="['/room', data.id]" (click)="onNoClick()">
+      Xem chi tiết
+    </button>
+    <button mat-raised-button class="float-right" (click)="onNoClick()">
+      Huỷ
+    </button>
+</div>
