@@ -12,6 +12,6 @@ export interface Household {
   price: number;
   deposit: number;
   depositDate: Date;
-  status: false;
+  status: boolean;
   employee: Employee;
 }

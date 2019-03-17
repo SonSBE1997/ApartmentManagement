@@ -20,13 +20,14 @@ import {
   ShowOnDirtyErrorStateMatcher,
   MatRadioModule,
   MatCheckboxModule,
-  MatCard,
-  MatCardHeader,
   MatCardModule,
   MatTooltipModule,
   MatMenuModule,
   MatIconModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatSortModule,
+  MAT_DATE_LOCALE,
+  MatTabsModule
 } from '@angular/material';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +39,10 @@ import { RoomDetailComponent } from './home/room-detail/room-detail.component';
 import { HttpErrorInterceptor } from './errors/http-error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { WrongComponent } from './errors/wrong/wrong.component';
+import { NotifierModule } from 'angular-notifier';
+import { PopUpComponent } from './home/pop-up/pop-up.component';
+import { DetailComponent } from './home/detail/detail.component';
+import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +53,10 @@ import { WrongComponent } from './errors/wrong/wrong.component';
     AptPopUpComponent,
     RoomDetailComponent,
     NotFoundComponent,
-    WrongComponent
+    WrongComponent,
+    PopUpComponent,
+    DetailComponent,
+    DeletePopUpComponent
   ],
   imports: [
     BrowserModule,
@@ -75,16 +83,41 @@ import { WrongComponent } from './errors/wrong/wrong.component';
     MatMenuModule,
     MatIconModule,
     MatBadgeModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSortModule,
+    MatDatepickerModule,
+    MatTabsModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: {
+          position: 'right',
+          distance: 20
+        },
+        vertical: {
+          position: 'top',
+          distance: 50,
+          gap: 10
+        }
+      },
+      theme: 'material',
+      behaviour: {
+        autoHide: 3000,
+        onClick: 'hide',
+        onMouseover: 'pauseAutoHide',
+        showDismissButton: true,
+        stacking: 4
+      }
+    })
   ],
-  entryComponents: [AptPopUpComponent],
+  entryComponents: [AptPopUpComponent, DeletePopUpComponent],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
-    }
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'vi-VI' }
   ],
   bootstrap: [AppComponent]
 })

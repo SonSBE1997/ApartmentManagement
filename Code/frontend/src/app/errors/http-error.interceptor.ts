@@ -19,11 +19,20 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         console.log(error);
         if (error.status === 403) {
           alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
+          localStorage.removeItem('token');
+          localStorage.removeItem('isAuthen');
           window.location.href = '/';
         } else if (error.status === 404) {
-          window.location.href = '/errors/not-found';
+          // window.location.href = '/errors/not-found';
         } else {
-          window.location.href = `/errors/wrong/${error.status}`;
+          if (error.error.message === '403 Incorrect or expired!') {
+            alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
+            localStorage.removeItem('token');
+            localStorage.removeItem('isAuthen');
+            window.location.href = '/';
+          } else {
+            // window.location.href = `/errors/wrong/${error.status}`;
+          }
         }
         return throwError(error);
       })

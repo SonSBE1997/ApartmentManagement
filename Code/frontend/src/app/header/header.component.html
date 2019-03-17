@@ -3,7 +3,11 @@
     <button mat-button class="text-uppercase font-weight-bold"><i class="material-icons">location_city</i> Trang chủ</button>
   </div>
   <div class="float-right nav">
-    <button mat-button [ngClass]="{'active': url === 'apartment'}">Căn hộ</button>
+    <button mat-button [matMenuTriggerFor]="apartment" [ngClass]="{'active': url === 'apartment'}">Căn hộ</button>
+    <mat-menu #apartment="matMenu">
+      <button mat-menu-item [routerLink]="['/apartment']">Tổng quan</button>
+      <button mat-menu-item [routerLink]="['/apartment/detail']">Chi tiết</button>
+    </mat-menu>
     <button mat-button [ngClass]="{'active': url === 'user'}">Cư dân</button>
     <button mat-button [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
     <button mat-button [ngClass]="{'active': url === 'infrastructure'}">Kỹ thuật</button>

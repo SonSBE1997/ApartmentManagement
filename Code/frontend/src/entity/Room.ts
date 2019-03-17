@@ -1,5 +1,6 @@
 import { Building } from './Building';
 import { Floor } from './Floor';
+import { Household } from './Household';
 
 export interface Room {
   id: number;
@@ -8,4 +9,5 @@ export interface Room {
   status: string;
   building: Building;
   floor: Floor;
+  households: Household[];
 }

@@ -1,26 +1,53 @@
 <div class="container">
-  <span class="font-weight-bold">Toà nhà: </span>
-  <span class="text-center">
-    <mat-select placeholder="Chọn toà nhà" class="w-15" (valueChange)="selectionChange($event)">
-      <mat-option>Chọn toà nhà</mat-option>
-      <mat-option *ngFor="let b of buildings; index as i" [value]="i">
-        {{ b.name }}
-      </mat-option>
-    </mat-select>
-  </span>
-</div>
-<ng-container *ngIf="floors.length > 0">
-
-  <div class="row mt-5">
+  <div class="row">
+    <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
+        <li class="breadcrumb-item active">Tổng quan</li>
+      </ol>
+   </div>
+    <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+      <button mat-raised-button color="primary" [routerLink]="['/apartment/detail']">Thêm mới</button>
+      <button mat-raised-button color="accent" class="ml-1" matTooltip="Import">
+        Import
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3">
     <div class="col-sm-3 col-md-3 col-xl-7 text-right font-weight-bold">Trạng thái căn hộ: </div>
     <div class="col-sm-9 col-md-9 col-xl-5">
       <div class="row align-content-center">
-        <div class="col-xl-4"><div class="room-empty w100"></div> Trống</div>
-        <div class="col-xl-4"><div class="room-rent w100"></div> Đang cho thuê</div>
-        <div class="col-xl-4"><div class="room-sale w100"></div> Đã bán</div>
+        <div class="col-xl-4">
+          <div class="room-empty w100"></div> Trống
+        </div>
+        <div class="col-xl-4">
+          <div class="room-rent w100"></div> Đang cho thuê
+        </div>
+        <div class="col-xl-4">
+          <div class="room-sale w100"></div> Đã bán
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-xl-8">
+      <span class="font-weight-bold">Toà nhà: </span>
+      <span class="text-center">
+        <mat-select placeholder="Chọn toà nhà" class="w-15" (valueChange)="selectionChange($event)">
+          <mat-option>Chọn toà nhà</mat-option>
+          <mat-option *ngFor="let b of buildings; index as i" [value]="i">
+            {{ b.name }}
+          </mat-option>
+        </mat-select>
+      </span>
+    </div>
+    <div class="col-xl-4">
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="floors.length > 0">
   <div class="table-responsive mt-4">
     <table class="table table-bordered w-100 text-center custom-table">
       <tbody>

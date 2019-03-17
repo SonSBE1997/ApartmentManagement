@@ -1,5 +1,5 @@
 .w-15 {
-  width: 15% !important;
+  width: 25% !important;
 }
 
 .w100 {
@@ -35,4 +35,23 @@
   background-color: #f34040;
   color: #ffffff;
   border-color: #f34040;
+}
+
+
+.breadcrumb {
+  background: none !important;
+  font-size: 14px;
+  padding: 0px !important;
+}
+
+.breadcrumb-item {
+  color: #42a9ee;
+}
+
+.breadcrumb-item:hover {
+  cursor: pointer;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d !important;
 }

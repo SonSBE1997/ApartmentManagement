@@ -1,0 +1,41 @@
+.breadcrumb {
+  background: none !important;
+  font-size: 14px;
+  padding: 0px !important;
+}
+
+.breadcrumb-item {
+  color: #42a9ee;
+}
+
+.breadcrumb-item:hover {
+  cursor: pointer;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d !important;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  vertical-align: middle !important;
+  padding-left: 25px !important;
+}
+
+th div button{
+  margin: 0 auto !important;
+}
+
+th {
+  font-weight: bold;
+}
+
+table.table td a.edit {
+  color: #FFC107 !important;
+}
+table.table td a.delete {
+  color: #E34724 !important;
+}

@@ -4,6 +4,7 @@ import { Building } from 'src/entity/Building';
 import { Floor } from 'src/entity/Floor';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Room } from 'src/entity/Room';
+import { PopUpComponent } from './pop-up/pop-up.component';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +49,6 @@ export class HomeComponent implements OnInit {
   }
 
   openDialog(r): void {
-    console.log(r);
     const dialogRef = this.dialog.open(AptPopUpComponent, {
       width: '300px',
       data: r
@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
 }
 
 @Component({
-  selector: 'apt-pop-up',
+  selector: 'app-apt-pop-up',
   templateUrl: 'apt-pop-up.html',
   styleUrls: ['apt-pop-up.scss']
 })
