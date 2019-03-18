@@ -23,6 +23,10 @@ export class DetailComponent implements OnInit {
   }
 
   loadData() {
+    this.loadBuilding();
+  }
+
+  loadBuilding() {
     this.aptService.getListApartment().subscribe(buildings => {
       this.buildings = buildings;
       this.dataSource1 = new MatTableDataSource(buildings);
@@ -41,14 +45,8 @@ export class DetailComponent implements OnInit {
   addNew() {
     if (this.tab === 0) {
       const data = this.dataSource1.data;
-      let nextId = -1;
-      if (data.length > 0) {
-        nextId = data[data.length - 1].id + 1;
-      } else {
-        nextId = 1;
-      }
       const building: Building = {
-        id: nextId,
+        id: 0,
         name: '',
         floors: []
       };
@@ -65,11 +63,15 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  changeData(value, id){
+  changeData(value, id) {
     console.log(value);
     console.log(id);
     if (this.tab === 0) {
+    }
+  }
 
+  save() {
+    if (this.tab === 0) {
     }
   }
 }

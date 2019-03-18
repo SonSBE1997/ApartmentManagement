@@ -55,11 +55,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests().antMatchers("/login/**")
-        .permitAll().and()
-        .authorizeRequests().antMatchers(HttpMethod.GET, "**/building/**", "**/room/**", "**/household/**")
-        .access("hasRole('Manager')")
-        .and().exceptionHandling()
+    http.csrf().disable().authorizeRequests().antMatchers("/login/**", "/file/**")
+        .permitAll().and().authorizeRequests()
+        .antMatchers(HttpMethod.GET, "**/building/**", "**/floor/**",
+            "**/room/**", "**/household/**")
+        .access("hasRole('Manager')").and().exceptionHandling()
         .authenticationEntryPoint(entrypoint).accessDeniedHandler(denied).and()
         .cors().and().sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

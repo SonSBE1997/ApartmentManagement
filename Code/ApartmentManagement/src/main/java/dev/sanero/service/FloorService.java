@@ -1,50 +1,37 @@
 /**
  * Project name: ApartmentManagement
  * Package name: dev.sanero.service
- * File name: RoomService.java
+ * File name: FloorService.java
  * Author: Sanero.
- * Created date: Mar 16, 2019
- * Created time: 12:52:52 PM
+ * Created date: Mar 18, 2019
+ * Created time: 10:16:56 PM
  */
 
 package dev.sanero.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dev.sanero.entity.Room;
-import dev.sanero.repository.RoomRepository;
+import dev.sanero.entity.Floor;
+import dev.sanero.repository.FloorRepository;
 
 /*
  * @author Sanero.
- * Created date: Mar 16, 2019
- * Created time: 12:52:52 PM
+ * Created date: Mar 18, 2019
+ * Created time: 10:16:56 PM
  * Description: TODO - 
  */
 @Service
 @Transactional
-public class RoomService {
+public class FloorService {
   @Autowired
-  RoomRepository repository;
+  FloorRepository repository;
   
-  public Room findById(int roomId) {
-    try {
-      Optional<Room> optional = repository.findById(roomId);
-      if(optional.isPresent()) {
-        return optional.get();
-      }
-      return null;
-    } catch (Exception e) {
-      return null;
-    }
-  }
-  
-  public List<Room> findAll() {
+  public List<Floor> findAll() {
     try {
       return repository.findAll();
     } catch (Exception e) {
@@ -66,23 +53,12 @@ public class RoomService {
     }
   }
   
-  public boolean save(Room r) {
+  public boolean save(Floor f) {
     try {
-      repository.save(r);
+      repository.save(f);
       return true;
     } catch (Exception e) {
       return false;
     }
-  }
-  
-  public boolean deleteAll(List<Integer> rooms) {
-    int size = rooms.size();
-    if(size == 0) {
-      return false;
-    }
-    for(int i = 0; i < size; i++) {
-      deleteById(rooms.get(i));
-    }
-    return true;
   }
 }

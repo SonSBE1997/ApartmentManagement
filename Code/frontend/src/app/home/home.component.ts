@@ -4,7 +4,7 @@ import { Building } from 'src/entity/Building';
 import { Floor } from 'src/entity/Floor';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Room } from 'src/entity/Room';
-import { PopUpComponent } from './pop-up/pop-up.component';
+import { FileService } from '../service/file.service';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private aptService: ApartmentService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fileService: FileService
   ) {}
 
   ngOnInit() {
@@ -55,6 +56,10 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  downloadSample() {
+    this.fileService.downloadSample('Module.xlsx');
   }
 }
 

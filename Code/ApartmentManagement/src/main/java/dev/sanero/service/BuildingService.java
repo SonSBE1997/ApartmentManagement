@@ -38,4 +38,27 @@ public class BuildingService {
       return null;
     }
   }
+  
+  public boolean deleteById(int id) {
+    try {
+      long beforeDelete = repository.count();
+      repository.deleteById(id);
+      long afterDelete  = repository.count();
+      if(beforeDelete > afterDelete) {
+        return true;
+      }
+      return false;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  public boolean save(Building b) {
+    try {
+      b = repository.save(b);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
 }

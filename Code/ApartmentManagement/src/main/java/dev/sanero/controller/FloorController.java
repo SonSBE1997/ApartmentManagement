@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.sanero.entity.Building;
-import dev.sanero.service.BuildingService;
+import dev.sanero.entity.Floor;
+import dev.sanero.service.FloorService;
 
 /*
  * @author Sanero.
@@ -30,25 +30,25 @@ import dev.sanero.service.BuildingService;
  * Description: TODO - 
  */
 @RestController
-@RequestMapping("/api/building")
-public class BuildingController {
+@RequestMapping("/api/floor")
+public class FloorController {
   @Autowired
-  BuildingService buildingService;
+  FloorService floorService;
   
   @GetMapping()
-  public ResponseEntity<List<Building>> findAll(){
-    return new ResponseEntity<List<Building>>(buildingService.findAll(), HttpStatus.OK) ;
+  public ResponseEntity<List<Floor>> findAll(){
+    return new ResponseEntity<List<Floor>>(floorService.findAll(), HttpStatus.OK) ;
   }
   
   @PostMapping("/delete")
   public ResponseEntity<String> delete(@RequestBody int id){
-    buildingService.deleteById(id);
+    floorService.deleteById(id);
     return new ResponseEntity<String>(HttpStatus.OK);
   }
   
   @PostMapping("/save")
-  public ResponseEntity<String> save(@RequestBody Building building){
-    buildingService.save(building);
+  public ResponseEntity<String> save(@RequestBody Floor f){
+    floorService.save(f);
     return new ResponseEntity<String>(HttpStatus.OK);
   }
 }

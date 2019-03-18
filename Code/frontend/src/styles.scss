@@ -9,3 +9,42 @@ body {
   margin:0px;
   padding: 0px;
 }
+
+.breadcrumb {
+  background: none !important;
+  font-size: 14px;
+  padding: 0px !important;
+}
+
+.breadcrumb-item {
+  color: #42a9ee;
+}
+
+.breadcrumb-item:hover {
+  cursor: pointer;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d !important;
+}
+
+.import-excel{
+  background-image: url('assets/btn/btn_excel_up1.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  vertical-align: bottom !important;
+  height: 36px;
+  min-width: 48px !important;
+  padding: 0px !important;
+}
+
+
+.download-sample{
+  background-image: url('assets/btn/btn_sample_down1.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  vertical-align: bottom !important;
+  height: 36px;
+  min-width: 48px !important;
+  padding: 0px !important;
+}
