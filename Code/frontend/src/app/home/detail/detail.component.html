@@ -1,4 +1,5 @@
 <div class="container">
+  <notifier-container></notifier-container>
   <div class="row">
     <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
       <button mat-raised-button (click)="addNew()">Thêm</button>
@@ -19,26 +20,27 @@
         </mat-form-field>
       </div>
       <div class="mat-elevation-z8 mt-1">
-        <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource1" matSort>
+        <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource1">
 
           <ng-container matColumnDef="bId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 45%">Mã toà nhà</th>
+            <th mat-header-cell *matHeaderCellDef style="width: 45%">Mã toà nhà</th>
             <td mat-cell *matCellDef="let row">{{row.id}}</td>
           </ng-container>
 
           <ng-container matColumnDef="bName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 45%">Tên toà nhà</th>
-            <td mat-cell *matCellDef="let row" [contentEditable]=true (blur)="changeData($event.target.textContent, row.id)">{{row.name}} </td>
+            <th mat-header-cell *matHeaderCellDef style="width: 45%">Tên toà nhà</th>
+            <td mat-cell *matCellDef="let row; let i = index" [contentEditable]=true
+              (blur)="changeData($event,'name', i)">{{row.name}}</td>
           </ng-container>
           <ng-container matColumnDef="bAction">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%"></th>
-            <td mat-cell *matCellDef="let row">
-              <a mat-button class="delete" (click)="removeItem(row.id)"><i class="material-icons">&#xE872;</i></a>
+            <th mat-header-cell *matHeaderCellDef style="width: 5%"></th>
+            <td mat-cell *matCellDef="let row; let i = index">
+              <a mat-button class="delete" (click)="removeItem(row.id, i)"><i class="material-icons">&#xE872;</i></a>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="['bId','bName','bAction']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['bId','bName','bAction']">
+          <tr mat-row *matRowDef="let row; columns: ['bId','bName','bAction']; let i = index">
           </tr>
         </table>
       </div>
@@ -47,19 +49,3 @@
     <mat-tab label="Căn hộ"> Content 3 </mat-tab>
   </mat-tab-group>
 </div>
-<!-- <thead>
-  <tr class="text-center">
-    <th>Mã toà nhà</th>
-    <th>Tên toà nhà</th>
-    <th></th>
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let b of buildings">
-    <td style="width: 45%;">{{ b.id }}</td>
-    <td [contentEditable]="true" style="width: 50%;">{{ b.name }}</td>
-    <td style="width: 5%">
-      <a mat-button class="delete"><i class="material-icons">&#xE872;</i></a>
-    </td>
-  </tr>
-</tbody> -->
