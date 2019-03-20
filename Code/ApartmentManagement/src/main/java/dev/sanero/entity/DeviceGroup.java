@@ -32,6 +32,15 @@ public class DeviceGroup implements Serializable {
   private int id;
 
   private String name;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /**
    * Author: Sanero.
@@ -53,7 +62,7 @@ public class DeviceGroup implements Serializable {
    * Created time: 11:09:13 PM
    * Description: - .
    */
-  public DeviceGroup  () {
+  public DeviceGroup() {
     super();
     // TODO Auto-generated constructor stub
   }

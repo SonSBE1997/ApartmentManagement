@@ -48,6 +48,15 @@ public class Employee implements Serializable {
   private String username;
   private String password;
   private String role;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /*
    * Author: Sanero.

@@ -22,4 +22,5 @@ import dev.sanero.entity.Room;
  */
 @Repository
 public interface RoomRepository  extends JpaRepository<Room, Integer>{
+//  public List<Room> findAllRoomsByDisable(boolean disable);
 }

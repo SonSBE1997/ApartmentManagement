@@ -19,8 +19,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * @author Sanero.
@@ -36,10 +39,44 @@ public class Floor implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String name;
+  
+  @ManyToOne()
+  @JoinColumn(name = "building_id")
+  @JsonIgnoreProperties("floors")
+  private Building building;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "floor_id")
   private Set<Room> rooms;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 21, 2019
+   * Created time: 1:06:08 AM
+   * @return the building
+   */
+  public Building getBuilding() {
+    return building;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 21, 2019
+   * Created time: 1:06:08 AM
+   * @param building the building to set
+   */
+  public void setBuilding(Building building) {
+    this.building = building;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /*
    * Author: Sanero.

@@ -32,6 +32,15 @@ public class Spec implements Serializable {
   private int id;
 
   private String name;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /*
    * Author: Sanero.

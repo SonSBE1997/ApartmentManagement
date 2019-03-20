@@ -57,6 +57,15 @@ public class User implements Serializable {
   @JoinColumn(name = "household_id")
   @JsonIgnoreProperties("users")
   private HouseHold household;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

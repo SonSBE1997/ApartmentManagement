@@ -61,7 +61,7 @@ public class RoomController {
   
   
   @PostMapping("/save")
-  public ResponseEntity<String> save(@RequestBody Room r){
+  public ResponseEntity<String> save(@RequestBody List<Room> r){
     roomService.save(r);
     return new ResponseEntity<String>(HttpStatus.OK);
   }

@@ -14,7 +14,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,15 +42,19 @@ public class BuildingController {
     return new ResponseEntity<List<Building>>(buildingService.findAll(), HttpStatus.OK) ;
   }
   
-  @PostMapping("/delete")
-  public ResponseEntity<String> delete(@RequestBody int id){
-    buildingService.deleteById(id);
-    return new ResponseEntity<String>(HttpStatus.OK);
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<String> delete(@PathVariable int id){
+    if(buildingService.deleteById(id))
+      return new ResponseEntity<String>("Ok",HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok",HttpStatus.OK);
   }
   
   @PostMapping("/save")
-  public ResponseEntity<String> save(@RequestBody Building building){
-    buildingService.save(building);
-    return new ResponseEntity<String>(HttpStatus.OK);
+  public ResponseEntity<String> save(@RequestBody List<Building> building){
+    System.out.println("save");
+    System.out.println(building.size());
+    if(buildingService.save(building))
+      return new ResponseEntity<String>("OK",HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok",HttpStatus.OK);
   }
 }

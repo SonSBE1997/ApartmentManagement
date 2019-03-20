@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import dev.sanero.entity.Employee;
 import dev.sanero.entity.HouseHold;
 
 /*
@@ -28,4 +29,6 @@ public interface HouseholdRepository extends JpaRepository<HouseHold, Integer> {
   @Query(value = "select * from household WHERE room_id =?1 and ((come_date between ?2 and ?3) or (leave_date between ?2 and ?3))", nativeQuery = true)
   public List<HouseHold> findAllByRoomIdAndComeDateAndLeaveDate(int roomId,
       String comeDate, String leaveDate);
+  
+  public List<Employee> findAllHouseHoldsByDisable(boolean disable);
 }

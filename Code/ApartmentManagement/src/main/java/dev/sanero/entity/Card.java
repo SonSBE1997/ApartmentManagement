@@ -48,6 +48,16 @@ public class Card implements Serializable {
   @ManyToOne
   @JoinColumn(name = "created_by")
   private Employee employee;
+  
+  private boolean disable;
+  
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

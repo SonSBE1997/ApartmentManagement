@@ -10,4 +10,5 @@ export interface Room {
   building: Building;
   floor: Floor;
   households: Household[];
+  disable: boolean;
 }

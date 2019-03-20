@@ -9,6 +9,8 @@
 
 package dev.sanero.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +24,5 @@ import dev.sanero.entity.Floor;
  */
 @Repository
 public interface FloorRepository extends JpaRepository<Floor, Integer>{
-
+  public List<Floor> findAllFloorsByDisable(boolean disable);
 }

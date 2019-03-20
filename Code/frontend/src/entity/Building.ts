@@ -4,4 +4,5 @@ export interface Building {
   id: number;
   name: string;
   floors: Floor[];
+  disable: boolean;
 }

@@ -58,6 +58,16 @@ public class Vehicle implements Serializable {
         + user + ", vehicleType=" + vehicleType + "]";
   }
 
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
+
   /*
    * Author: Sanero.
    * Created date: Mar 10, 2019

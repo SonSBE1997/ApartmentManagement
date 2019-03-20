@@ -37,10 +37,20 @@ public class Building implements Serializable {
   private int id;
 
   private String name;
-
+  
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "building_id")
   private Set<Floor> floors;
+
+  private boolean disable;
+  
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /*
    * Author: Sanero.

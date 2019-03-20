@@ -10,6 +10,7 @@
 package dev.sanero.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -33,7 +34,7 @@ public class BuildingService {
   
   public List<Building> findAll(){
     try {
-      return repository.findAll();
+      return repository.findAllBuildingsByDisable(false);
     } catch (Exception e) {
       return null;
     }
@@ -41,21 +42,25 @@ public class BuildingService {
   
   public boolean deleteById(int id) {
     try {
-      long beforeDelete = repository.count();
-      repository.deleteById(id);
-      long afterDelete  = repository.count();
-      if(beforeDelete > afterDelete) {
+      Optional<Building> op = repository.findById(id);
+      if(op.isPresent()) {
+        Building b = op.get();
+        b.setDisable(true);
+        repository.save(b);
         return true;
       }
       return false;
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       return false;
     }
   }
   
-  public boolean save(Building b) {
+  public boolean save(List<Building> building) {
     try {
-      b = repository.save(b);
+      for (Building b : building) {
+        repository.save(b);
+      }
       return true;
     } catch (Exception e) {
       return false;

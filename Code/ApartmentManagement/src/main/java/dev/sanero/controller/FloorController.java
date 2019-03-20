@@ -14,7 +14,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,14 +42,14 @@ public class FloorController {
     return new ResponseEntity<List<Floor>>(floorService.findAll(), HttpStatus.OK) ;
   }
   
-  @PostMapping("/delete")
-  public ResponseEntity<String> delete(@RequestBody int id){
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<String> delete(@PathVariable int id){
     floorService.deleteById(id);
     return new ResponseEntity<String>(HttpStatus.OK);
   }
   
   @PostMapping("/save")
-  public ResponseEntity<String> save(@RequestBody Floor f){
+  public ResponseEntity<String> save(@RequestBody List<Floor> f){
     floorService.save(f);
     return new ResponseEntity<String>(HttpStatus.OK);
   }

@@ -27,6 +27,7 @@ export class RoomDetailComponent implements OnInit {
   come = new FormControl();
   leave = new FormControl();
   isFilter = false;
+  searchData = '';
 
   displayedColumns: string[] = [
     'fullName',
@@ -72,6 +73,9 @@ export class RoomDetailComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.customFilter();
+        if (this.searchData !== '') {
+          this.applyFilter(this.searchData);
+        }
       });
   }
 
@@ -96,6 +100,7 @@ export class RoomDetailComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+    this.searchData = filterValue;
   }
 
   filter() {
@@ -113,14 +118,15 @@ export class RoomDetailComponent implements OnInit {
       this.come.patchValue(temp);
     }
 
-    const comeDate = new Date(this.come.value).toISOString();
-    const leaveDate = new Date(this.leave.value).toISOString();
-
+    const comeDate = new Date(this.come.value);
+    comeDate.setHours(comeDate.getHours() + 7);
+    const leaveDate = new Date(this.leave.value);
+    leaveDate.setHours(leaveDate.getHours() + 7);
     this.roomService
       .filterHouseholdByRoomAndDate(
         this.room.id,
-        comeDate.substr(0, 10),
-        leaveDate.substr(0, 10)
+        comeDate.toISOString().substr(0, 10),
+        leaveDate.toISOString().substr(0, 10)
       )
       .subscribe(h => {
         if (h === null) {
@@ -131,6 +137,9 @@ export class RoomDetailComponent implements OnInit {
         this.dataSource.paginator.firstPage();
         this.dataSource.sort = this.sort;
         this.customFilter();
+        if (this.searchData !== '') {
+          this.applyFilter(this.searchData);
+        }
       });
     this.isFilter = true;
   }

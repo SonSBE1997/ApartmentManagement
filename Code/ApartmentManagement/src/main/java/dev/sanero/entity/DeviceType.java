@@ -23,15 +23,24 @@ import javax.persistence.Table;
  * Created time: 11:08:22 PM
  * Description: TODO - 
  */
-@Entity(name="device_type")
-@Table(name="device_type")
-public class DeviceType implements Serializable{
+@Entity(name = "device_type")
+@Table(name = "device_type")
+public class DeviceType implements Serializable {
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   private String name;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /**
    * Author: Sanero.

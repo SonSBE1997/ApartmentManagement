@@ -29,7 +29,7 @@ body {
 }
 
 .import-excel{
-  background-image: url('assets/btn/btn_excel_up1.gif');
+  background-image: url('assets/btn/btn_excel_up.gif');
   background-repeat: no-repeat;
   background-size: cover;
   vertical-align: bottom !important;
@@ -37,10 +37,14 @@ body {
   min-width: 48px !important;
   padding: 0px !important;
 }
+
+// .import-excel:hover {
+//  background-image: url('assets/btn/btn_excel_up1.gif');
+// }
 
 
 .download-sample{
-  background-image: url('assets/btn/btn_sample_down1.gif');
+  background-image: url('assets/btn/btn_sample_down.gif');
   background-repeat: no-repeat;
   background-size: cover;
   vertical-align: bottom !important;
@@ -48,3 +52,7 @@ body {
   min-width: 48px !important;
   padding: 0px !important;
 }
+
+// .download-sample{
+//   background-image: url('assets/btn/btn_sample_down1.gif');
+// }

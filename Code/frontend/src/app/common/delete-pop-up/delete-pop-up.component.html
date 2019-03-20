@@ -1,3 +1,8 @@
-<p>
-  delete-pop-up works!
-</p>
+<h1 mat-dialog-title class="font-weight-bold">Xác nhận</h1>
+<div mat-dialog-content>
+  <p>Bạn có chắc muốn xoá bản ghi này không?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="'ok'" class="btn-success">Đồng ý</button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

@@ -9,6 +9,7 @@
 
 package dev.sanero.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,5 @@ import dev.sanero.entity.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
   Optional<Employee> findByUsername(String username);
   boolean existsByUsername(int id);
+  public List<Employee> findAllEmployeesByDisable(boolean disable);
 }

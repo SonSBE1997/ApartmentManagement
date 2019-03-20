@@ -37,6 +37,15 @@ public class PartnerCompany implements Serializable {
   private String phoneNumber;
   private String email;
   private String address;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

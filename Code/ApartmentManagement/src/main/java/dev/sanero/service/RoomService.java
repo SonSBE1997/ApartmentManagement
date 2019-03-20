@@ -66,9 +66,11 @@ public class RoomService {
     }
   }
   
-  public boolean save(Room r) {
+  public boolean save(List<Room> rooms) {
     try {
-      repository.save(r);
+      for (Room r : rooms) {
+        repository.save(r);
+      }
       return true;
     } catch (Exception e) {
       return false;

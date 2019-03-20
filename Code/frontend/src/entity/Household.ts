@@ -14,4 +14,5 @@ export interface Household {
   depositDate: Date;
   status: boolean;
   employee: Employee;
+  disable: boolean;
 }

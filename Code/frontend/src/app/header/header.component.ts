@@ -18,11 +18,12 @@ export class HeaderComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token !== null) {
       const data = jwt_decode(token);
-      console.log(data);
+      // console.log(data);
       this.employee = {
         id: data.employeeId,
         name: data.name,
-        username: data.sub
+        username: data.sub,
+        disable: data.disable
       };
     }
     this.url = window.location.href.split('/')[3];

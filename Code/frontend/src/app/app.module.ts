@@ -112,11 +112,11 @@ import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.compo
   entryComponents: [AptPopUpComponent, DeletePopUpComponent],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: HttpErrorInterceptor,
+    //   multi: true
+    // },
     { provide: MAT_DATE_LOCALE, useValue: 'vi-VI' }
   ],
   bootstrap: [AppComponent]

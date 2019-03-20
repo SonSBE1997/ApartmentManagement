@@ -4,7 +4,6 @@ import { Building } from 'src/entity/Building';
 import { Floor } from 'src/entity/Floor';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Room } from 'src/entity/Room';
-import { FileService } from '../service/file.service';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +17,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private aptService: ApartmentService,
-    private dialog: MatDialog,
-    private fileService: FileService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -37,6 +35,7 @@ export class HomeComponent implements OnInit {
 
       let max = 0;
       this.floors.forEach(v => {
+        v.rooms = v.rooms.filter(r => !r.disable);
         max = Math.max(max, v.rooms.length);
       });
       for (let i = 0; i < max; i++) {
@@ -56,10 +55,6 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
-  }
-
-  downloadSample() {
-    this.fileService.downloadSample('Module.xlsx');
   }
 }
 

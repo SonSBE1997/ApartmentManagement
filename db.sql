@@ -4,7 +4,8 @@ use apartment;
 
 create table dept(
 	id int auto_increment primary key,
-    name varchar(100)
+    name varchar(100),
+    disable bit default 0
 );
 
 create table employee(
@@ -21,12 +22,14 @@ create table employee(
     role enum('Manager','Guardian') default 'Guardian',
     dept_id int,
     is_manager bit,
+    disable bit default 0,
     foreign key (dept_id) references dept(id)
 );
 
 create table building(
 	id int auto_increment primary key,
-    name varchar(50)
+    name varchar(50),
+    disable bit default 0
 );
 
 
@@ -34,6 +37,7 @@ create table floor (
 	id int  auto_increment primary key,
     name varchar(50),
     building_id int,
+    disable bit default 0,
     foreign key (building_id) references building(id)
 );
 
@@ -45,6 +49,7 @@ create table room (
     status enum('0','1','2') default '0',
     floor_id int,
     building_id int,
+    disable bit default 0,
     foreign key (building_id) references building(id),
     foreign key (floor_id) references floor(id)
 );
@@ -64,6 +69,7 @@ create table household(
     room_id int,
     status bit,
     created_by int,
+    disable bit default 0,
     foreign key (room_id) references room(id),
     foreign key (created_by) references employee(id)
 );
@@ -82,6 +88,7 @@ create  table user(
     leave_date date,
     is_enable bit,
     household_id int,
+    disable bit default 0,
     foreign key(household_id) references household(id)
 );
 
@@ -106,7 +113,8 @@ create table entLeaApt (
 
 create table card_type(
 	id int auto_increment primary key,
-    name varchar(50)
+    name varchar(50),
+    disable bit default 0
 );
 
 create table card (
@@ -115,6 +123,7 @@ create table card (
     card_type_id int,
     user_id int,
     created_by int, 
+    disable bit default 0,
     foreign key (user_id) references user(id), 
     foreign key (card_type_id) references card_type(id), 
     foreign key (created_by) references employee(id)
@@ -122,7 +131,8 @@ create table card (
 
 create table verhicle_type(
 	id int auto_increment primary key,
-    name varchar(50)
+    name varchar(50),
+    disable bit default 0
 );
 
 create  table verhicle(
@@ -132,7 +142,8 @@ create  table verhicle(
     verhicle_type int,
     foreign key (user_id) references user(id),
     foreign key (card_numb) references card(card_numb),
-    foreign key (verhicle_type) references verhicle_type(id)
+    foreign key (verhicle_type) references verhicle_type(id),
+    disable bit default 0
 );
 
 
@@ -141,7 +152,8 @@ create table partner_company(
     name varchar(255),
 	phone_number varchar(50),
     email varchar(50),
-    address varchar(100)
+    address varchar(100),
+    disable bit default 0
 );
 
 create  table service_type (
@@ -150,6 +162,7 @@ create  table service_type (
     price  double,
     unit varchar(50),
     partner_company int,
+    disable bit default 0,
     foreign key (partner_company) references partner_company(id)
 );
 
@@ -174,18 +187,21 @@ create table service (
 
 create table device_group (
 	id int auto_increment primary key,
-    name varchar(255)
+    name varchar(255),
+    disable bit default 0
 );
 
 
 create table device_type (
 	id int auto_increment primary key,
-    name varchar(255)
+    name varchar(255),
+    disable bit default 0
 );
 
 create table spec(
 	id int auto_increment primary key,
-    name varchar(255)
+    name varchar(255),
+    disable bit default 0
 );
 
 create table device_type_spec(

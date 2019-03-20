@@ -56,6 +56,15 @@ public class Room implements Serializable {
   @JoinColumn(name = "room_id")
   @JsonIgnoreProperties("room")
   private Set<HouseHold> households;
+  private boolean disable;
+
+  public boolean isDisable() {
+    return disable;
+  }
+
+  public void setDisable(boolean disable) {
+    this.disable = disable;
+  }
 
   /*
    * Author: Sanero.
