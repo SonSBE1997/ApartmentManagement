@@ -14,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,28 +42,21 @@ public class RoomController {
     return new ResponseEntity<Room>(roomService.findById(roomId),
         HttpStatus.OK);
   }
-  
+
   @GetMapping()
-  public ResponseEntity<List<Room>> findAll(){
-    return new ResponseEntity<List<Room>>(roomService.findAll(), HttpStatus.OK) ;
+  public ResponseEntity<List<Room>> findAll() {
+    return new ResponseEntity<List<Room>>(roomService.findAll(), HttpStatus.OK);
   }
-  
-  @PostMapping("/delete")
-  public ResponseEntity<String> delete(@RequestBody int id){
-    roomService.deleteById(id);
-    return new ResponseEntity<String>(HttpStatus.OK);
+
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<String> delete(@PathVariable int id) {
+    roomService.changeDisale(id);
+    return new ResponseEntity<String>("Ok", HttpStatus.OK);
   }
-  
-  @PostMapping("/delete-many")
-  public ResponseEntity<String> deleteMany(@RequestBody List<Integer> rooms){
-    roomService.deleteAll(rooms);
-    return new ResponseEntity<String>(HttpStatus.OK);
-  }
-  
-  
+
   @PostMapping("/save")
-  public ResponseEntity<String> save(@RequestBody List<Room> r){
+  public ResponseEntity<String> save(@RequestBody List<Room> r) {
     roomService.save(r);
-    return new ResponseEntity<String>(HttpStatus.OK);
+    return new ResponseEntity<String>("Ok", HttpStatus.OK);
   }
 }

@@ -11,4 +11,5 @@ export interface Room {
   floor: Floor;
   households: Household[];
   disable: boolean;
+  deletable: boolean;
 }

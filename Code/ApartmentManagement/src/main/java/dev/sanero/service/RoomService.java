@@ -52,15 +52,15 @@ public class RoomService {
     }
   }
 
-  public boolean deleteById(int id) {
+  public boolean changeDisale(int id) {
     try {
-      long beforeDelete = repository.count();
-      repository.deleteById(id);
-      long afterDelete  = repository.count();
-      if(beforeDelete > afterDelete) {
-        return true;
+      Optional<Room> op = repository.findById(id);
+      if(op.isPresent()) {
+        Room r = op.get();
+        r.setDisable(!r.isDisable());
+        repository.save(r);
       }
-      return false;
+      return true;
     } catch (Exception e) {
       return false;
     }
@@ -75,16 +75,5 @@ public class RoomService {
     } catch (Exception e) {
       return false;
     }
-  }
-  
-  public boolean deleteAll(List<Integer> rooms) {
-    int size = rooms.size();
-    if(size == 0) {
-      return false;
-    }
-    for(int i = 0; i < size; i++) {
-      deleteById(rooms.get(i));
-    }
-    return true;
   }
 }

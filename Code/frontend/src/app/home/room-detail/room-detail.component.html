@@ -1,13 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
-      <button mat-raised-button [routerLink]="['/apartment']">
-        <i class="material-icons">arrow_back</i> Quay lại
-      </button>
-    </div>
     <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+      <!-- <button mat-raised-button [routerLink]="['/apartment']">
+        <i class="material-icons">arrow_back</i> Quay lại
+      </button> -->
+    </div>
+    <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
       <ol class="breadcrumb float-right">
         <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
+        <li class="breadcrumb-item" [routerLink]="['/apartment/detail']">Thông tin chi tiết</li>
         <li class="breadcrumb-item active">Phòng {{room?.name}}</li>
       </ol>
     </div>

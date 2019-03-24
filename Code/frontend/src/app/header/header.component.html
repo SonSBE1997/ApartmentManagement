@@ -6,7 +6,7 @@
     <button mat-button [matMenuTriggerFor]="apartment" [ngClass]="{'active': url === 'apartment'}">Căn hộ</button>
     <mat-menu #apartment="matMenu">
       <button mat-menu-item [routerLink]="['/apartment']">Tổng quan</button>
-      <button mat-menu-item [routerLink]="['/apartment/detail']">Cập nhật thông tin</button>
+      <button mat-menu-item [routerLink]="['/apartment/detail']">Thông tin chi tiết</button>
     </mat-menu>
     <button mat-button [ngClass]="{'active': url === 'user'}">Cư dân</button>
     <button mat-button [ngClass]="{'active': url === 'service'}">Dịch vụ</button>

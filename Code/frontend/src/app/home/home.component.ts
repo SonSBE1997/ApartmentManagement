@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   buildings: Building[] = [];
   floors: Floor[] = [];
   matrix = [];
+  isSelected = false;
 
   constructor(
     private aptService: ApartmentService,
@@ -27,6 +28,8 @@ export class HomeComponent implements OnInit {
   }
 
   selectionChange(value) {
+    this.floors = [];
+    this.matrix = [];
     if (value >= 0) {
       this.floors = this.buildings[value].floors.sort((a, b) => a.id - b.id);
       this.floors.forEach(v => {
@@ -41,10 +44,10 @@ export class HomeComponent implements OnInit {
       for (let i = 0; i < max; i++) {
         this.matrix.push(i);
       }
+      this.isSelected = true;
       return;
     } else {
-      this.floors = [];
-      this.matrix = [];
+      this.isSelected = false;
     }
   }
 

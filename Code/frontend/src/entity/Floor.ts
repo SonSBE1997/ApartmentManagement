@@ -7,4 +7,5 @@ export interface Floor {
   rooms: Room[];
   building: Building;
   disable: boolean;
+  deletable: boolean;
 }

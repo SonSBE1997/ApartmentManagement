@@ -45,12 +45,12 @@ public class FloorController {
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<String> delete(@PathVariable int id){
     floorService.deleteById(id);
-    return new ResponseEntity<String>(HttpStatus.OK);
+    return new ResponseEntity<String>("Ok", HttpStatus.OK);
   }
   
   @PostMapping("/save")
   public ResponseEntity<String> save(@RequestBody List<Floor> f){
     floorService.save(f);
-    return new ResponseEntity<String>(HttpStatus.OK);
+    return new ResponseEntity<String>("Ok",HttpStatus.OK);
   }
 }

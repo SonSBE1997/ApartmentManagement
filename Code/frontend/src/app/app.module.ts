@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,7 +27,8 @@ import {
   MatBadgeModule,
   MatSortModule,
   MAT_DATE_LOCALE,
-  MatTabsModule
+  MatTabsModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -43,6 +44,12 @@ import { NotifierModule } from 'angular-notifier';
 import { PopUpComponent } from './home/pop-up/pop-up.component';
 import { DetailComponent } from './home/detail/detail.component';
 import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.component';
+import { UserComponent } from './user/user.component';
+import { UpdateInfoComponent } from './user/update-info/update-info.component';
+import { RegisterCardComponent } from './user/register-card/register-card.component';
+import { RegisterRoomComponent } from './user/register-room/register-room.component';
+import { RegisterInfoComponent } from './user/register-info/register-info.component';
+import { ErrorsHandler } from './errors/error-handler';
 
 @NgModule({
   declarations: [
@@ -56,7 +63,12 @@ import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.compo
     WrongComponent,
     PopUpComponent,
     DetailComponent,
-    DeletePopUpComponent
+    DeletePopUpComponent,
+    UserComponent,
+    UpdateInfoComponent,
+    RegisterCardComponent,
+    RegisterRoomComponent,
+    RegisterInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +99,8 @@ import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.compo
     MatSortModule,
     MatDatepickerModule,
     MatTabsModule,
+    ReactiveFormsModule,
+    MatProgressBarModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
@@ -109,7 +123,7 @@ import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.compo
       }
     })
   ],
-  entryComponents: [AptPopUpComponent, DeletePopUpComponent],
+  entryComponents: [AptPopUpComponent, DeletePopUpComponent, PopUpComponent],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     // {
@@ -117,7 +131,11 @@ import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.compo
     //   useClass: HttpErrorInterceptor,
     //   multi: true
     // },
-    { provide: MAT_DATE_LOCALE, useValue: 'vi-VI' }
+    { provide: MAT_DATE_LOCALE, useValue: 'vi-VI' },
+    {
+      provide: ErrorHandler,
+      useClass: ErrorsHandler
+    }
   ],
   bootstrap: [AppComponent]
 })
