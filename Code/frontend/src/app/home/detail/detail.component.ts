@@ -51,8 +51,6 @@ export class DetailComponent implements OnInit {
   rCheck: boolean[] = [];
   rLength = 0;
   rSave = false;
-  rIsFilter = false;
-  rFilterData = 0;
   rsearchData = '';
   @ViewChild('rpaginator') rpaginator: MatPaginator;
   @ViewChild(MatSort) rsort: MatSort;
@@ -79,7 +77,7 @@ export class DetailComponent implements OnInit {
   }
 
   downloadSample() {
-    this.fileService.downloadSample('Module.xlsx');
+    this.fileService.downloadSample('Apartment.xlsx');
   }
 
   changeTab(e) {
@@ -575,21 +573,6 @@ export class DetailComponent implements OnInit {
     this.rsearchData = filterValue;
   }
 
-  rClickFilter() {
-    this.rIsFilter = true;
-    let data = this.dataSource3.data;
-    data = data.filter(v => v.floor.id === this.fFilterData);
-    this.dataSource3.data = data;
-    if (this.rsearchData !== '') {
-      this.rFilter(this.rsearchData);
-    }
-  }
-
-  rClickCancelFilter() {
-    this.fIsFilter = false;
-    this.loadRoom();
-  }
-
   selectFloorChange(e, id) {
     const data = this.dataSource3.data;
     const r = data.find(v => v.id === id);
@@ -710,6 +693,10 @@ export class DetailComponent implements OnInit {
       position: { top: '50px' }
     });
 
-    dialogRef.afterClosed().subscribe(result => { });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.loadData();
+      }
+    });
   }
 }

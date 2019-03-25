@@ -1,4 +1,6 @@
 import { Employee } from './Employee';
+import { User } from './User';
+import { Room } from './Room';
 
 export interface Household {
   id: number;
@@ -15,4 +17,6 @@ export interface Household {
   status: boolean;
   employee: Employee;
   disable: boolean;
+  user: User[];
+  room: Room;
 }

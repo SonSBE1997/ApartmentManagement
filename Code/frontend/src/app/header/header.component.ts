@@ -12,13 +12,16 @@ import jwt_decode from 'jwt-decode';
 export class HeaderComponent implements OnInit {
   url = '';
   employee: Employee = null;
-  constructor(private router: Router, private sharedService: SharedService) {}
+  constructor(private router: Router, private sharedService: SharedService) {
+    setInterval(() => {
+      this.url = window.location.href.split('/')[3];
+    }, 100);
+  }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     if (token !== null) {
       const data = jwt_decode(token);
-      // console.log(data);
       this.employee = {
         id: data.employeeId,
         name: data.name,
@@ -26,7 +29,6 @@ export class HeaderComponent implements OnInit {
         disable: data.disable
       };
     }
-    this.url = window.location.href.split('/')[3];
   }
 
   logout() {

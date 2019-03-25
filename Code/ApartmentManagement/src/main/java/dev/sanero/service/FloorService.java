@@ -65,4 +65,20 @@ public class FloorService {
       return false;
     }
   }
+  
+  public Floor save(Floor f) {
+    try {
+      return repository.save(f);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+  
+  public Floor findByNameAndBuilding(String name, int buildingId) {
+    List<Floor> floors = repository.findByName(name, buildingId);
+    if(floors.size() > 0) {
+      return floors.get(0);
+    }
+    return null;
+  }
 }

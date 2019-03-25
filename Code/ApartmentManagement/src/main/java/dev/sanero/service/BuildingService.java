@@ -66,4 +66,20 @@ public class BuildingService {
       return false;
     }
   }
+  
+  public Building save(Building b) {
+    try {
+      return repository.save(b);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+  
+  public Building findByName(String name) {
+    List<Building> buildings = repository.findByName(name);
+    if(buildings.size() > 0) {
+      return buildings.get(0);
+    }
+    return null;
+  }
 }

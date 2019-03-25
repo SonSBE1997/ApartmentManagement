@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpClient, HttpEventType } from '@angular/common/http';
+import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-pop-up',
   templateUrl: './pop-up.component.html',
@@ -14,7 +15,8 @@ export class PopUpComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private http: HttpClient
+    private http: HttpClient,
+    private notifierService: NotifierService
   ) {}
 
   ngOnInit() {}
@@ -60,16 +62,23 @@ export class PopUpComponent implements OnInit {
           if (event.type === HttpEventType.Response) {
             console.log(event.body);
           }
+          if (this.progress === 100) {
+            this.message = 'Tải lên thành công.';
+          }
         },
         error => {
           console.log(error);
-          if (error.error.text === 'upload success') {
-            this.message = 'Tải lên thành công.';
-            setTimeout(() => {
-              this.uploading = false;
-              this.message = '';
-            }, 2000);
+          const result = error.error.text;
+          if (result === 'Import thành công') {
+            this.notifierService.notify('success', result);
+            this.dialogRef.close(true);
+          } else {
+            this.notifierService.notify('error', result);
           }
+          setTimeout(() => {
+            this.uploading = false;
+            this.message = '';
+          }, 2000);
         }
       );
   }

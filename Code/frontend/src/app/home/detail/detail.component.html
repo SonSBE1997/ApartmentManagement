@@ -113,22 +113,6 @@
             <input matInput (keyup)="rFilter($event.target.value)" placeholder="Tìm kiếm">
           </mat-form-field>
           <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
-          <!-- <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
-            <mat-label>Chọn toà nhà</mat-label>
-            <mat-select [(value)]="fFilterData">
-              <ng-container *ngFor="let b of buildings">
-                <mat-option [value]="b.id">{{b.name}}</mat-option>
-              </ng-container>
-            </mat-select>
-          </mat-form-field>
-          <div class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
-            <button *ngIf="fIsFilter===false" mat-raised-button style="margin-top: 10px;" (click)="fClickFilter()">
-              Lọc <i class="fa fa-filter"></i>
-            </button>
-            <button *ngIf="fIsFilter===true" mat-raised-button style="margin-top: 10px;" (click)="fClickCancelFilter()">
-              Huỷ lọc
-            </button>
-          </div> -->
         </div>
         <div class="mat-elevation-z8 mt-1">
           <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource3" matSort>
