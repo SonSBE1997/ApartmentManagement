@@ -53,11 +53,36 @@ public class User implements Serializable {
   @Column(name = "is_enable")
   private boolean isEnable;
 
+  @Column(name="date_of_birth")
+  private Date dateOfBirth;
+  
+
   @ManyToOne()
   @JoinColumn(name = "household_id")
   @JsonIgnoreProperties("users")
   private HouseHold household;
   private boolean disable;
+
+  
+  /*
+   * Author: Sanero.
+   * Created date: Mar 26, 2019
+   * Created time: 11:19:40 PM
+   * @return the dateOfBirth
+   */
+  public Date getDateOfBirth() {
+    return dateOfBirth;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 26, 2019
+   * Created time: 11:19:40 PM
+   * @param dateOfBirth the dateOfBirth to set
+   */
+  public void setDateOfBirth(Date dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+  }
 
   public boolean isDisable() {
     return disable;

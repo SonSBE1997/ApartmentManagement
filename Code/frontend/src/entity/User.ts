@@ -11,6 +11,7 @@ export interface User {
   head: boolean;
   leaveDate: Date;
   leave: boolean;
+  dateOfBirth: Date;
   disable: boolean;
   household: Household;
 }

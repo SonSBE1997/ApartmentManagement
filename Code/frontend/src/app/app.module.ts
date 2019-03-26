@@ -28,7 +28,8 @@ import {
   MatSortModule,
   MAT_DATE_LOCALE,
   MatTabsModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -101,6 +102,7 @@ import { ErrorsHandler } from './errors/error-handler';
     MatTabsModule,
     ReactiveFormsModule,
     MatProgressBarModule,
+    MatAutocompleteModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

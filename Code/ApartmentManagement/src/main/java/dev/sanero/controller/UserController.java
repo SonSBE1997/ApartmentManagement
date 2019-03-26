@@ -32,8 +32,7 @@ import dev.sanero.service.UserService;
  * Description: TODO - 
  */
 @RestController
-//@RequestMapping("/api/user")
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
   @Autowired
   UserService userService;

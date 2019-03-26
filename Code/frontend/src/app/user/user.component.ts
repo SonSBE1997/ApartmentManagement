@@ -1,4 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { User } from 'src/entity/User';
+import { Building } from 'src/entity/Building';
+import { UserService } from '../service/user.service';
+import { ApartmentService } from '../service/apartment.service';
+import {
+  MatDialog,
+  MatSort,
+  MatPaginator,
+  MatTableDataSource
+} from '@angular/material';
+import { NotifierService } from 'angular-notifier';
+import { SelectionModel } from '@angular/cdk/collections';
+import { DateService } from '../service/date.servce';
+import { Room } from 'src/entity/Room';
+import { Floor } from 'src/entity/Floor';
+import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -6,10 +24,141 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  users: User[] = [];
+  buildings: Building[] = [];
+  floors: Floor[] = [];
+  rooms: Room[] = [];
 
-  constructor() { }
+  @ViewChild(MatPaginator) matPaginator: MatPaginator;
+  @ViewChild(MatSort) matSort: MatSort;
+  dataSource: MatTableDataSource<User>;
+  selection = new SelectionModel<User>(true, []);
+
+  // Filter
+  searchStr = '';
+  isFilter = false;
+  checkedFilter = false;
+  filteredOptions: Observable<Room[]>;
+  autocomplete = new FormControl();
+  selectedBuilding: Building = null;
+  selectedFloor: Floor = null;
+  selectedRoom: Room = null;
+  constructor(
+    private userService: UserService,
+    private buildingService: ApartmentService,
+    private dialog: MatDialog,
+    private notifierService: NotifierService,
+    private dateService: DateService
+  ) {}
 
   ngOnInit() {
+    this.loadData();
   }
 
+  downloadSample() {}
+
+  loadData() {
+    this.loadUser();
+    this.loadBuilding();
+  }
+  loadBuilding() {
+    this.buildings = [];
+    this.buildingService.getListApartment().subscribe(buildings => {
+      this.buildings = buildings;
+    });
+  }
+
+  loadUser() {
+    this.users = [];
+    this.userService.getListUser().subscribe(users => {
+      this.users = users;
+      this.dataSource = new MatTableDataSource(users);
+      this.dataSource.paginator = this.matPaginator;
+      this.dataSource.filterPredicate = (data, filter) => {
+        let dataStr =
+          data.id + data.address + data.email + data.household.room.name;
+        dataStr += data.gender ? 'nam' : 'nữ';
+        dataStr += data.name + data.phoneNumber + data.idCard;
+        dataStr += data.head ? 'chủ hộ' : '';
+        dataStr += data.disable ? 'đã chuyển đi' : 'đangcưtrú';
+        dataStr += this.dateService.toDateString(data.dateOfBirth, '-');
+        return dataStr.toLowerCase().indexOf(filter) !== -1;
+      };
+      this.dataSource.sort = this.matSort;
+    });
+  }
+
+  search(filterValue: string) {
+    this.searchStr = filterValue.trim().toLowerCase();
+    this.dataSource.filter = this.searchStr;
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    if (this.dataSource === undefined) {
+      return false;
+    }
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  checkboxLabel(user?: User): string {
+    if (!user) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    const index = this.dataSource.data.indexOf(user);
+    return `${
+      this.selection.isSelected(user) ? 'deselect' : 'select'
+    } row ${index + 1}`;
+  }
+
+  clickFilter() {
+    this.isFilter = true;
+    if (this.selectedBuilding === null) {
+      this.search('đangcưtrú');
+      this.searchStr = '';
+    }
+  }
+
+  cancelFilter() {
+    this.isFilter = false;
+  }
+
+  selectBuildingChange(e) {
+    this.floors = [];
+    this.selectedBuilding = null;
+    if (e.value !== undefined) {
+      const b = this.buildings.find(v => v.id === e.value);
+      this.selectedBuilding = b;
+      this.floors = b.floors;
+    }
+  }
+
+  selectFloorChange(e) {
+    this.rooms = [];
+    this.selectedFloor = null;
+    if (e.value !== undefined) {
+      const f = this.floors.find(v => v.id === e.value);
+      this.selectedFloor = f;
+      this.rooms = f.rooms;
+      this.filteredOptions = this.autocomplete.valueChanges.pipe(
+        startWith(''),
+        map(value => this.rooms.filter(v => v.name.toLowerCase().indexOf(value.toLowerCase()) === 0))
+      );
+    }
+  }
+
+  selectedRoomChange(r) {
+    this.selectedRoom = r;
+  }
+
+  addNew() {
+    console.log(this.selection);
+  }
 }
