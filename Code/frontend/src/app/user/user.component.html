@@ -47,11 +47,14 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <div class="col-xl-2 col-md-2 col-sm-2 col-lg-2" style="margin-top: 1.5em;">
-    <mat-checkbox [(ngModel)]="checkedFilter" labelPosition="before">
-      Đã chuyển đi
-    </mat-checkbox>
-  </div>
+  <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
+    <mat-label>Tình trạng</mat-label>
+    <mat-select class="text-left" [(value)]="status">
+      <mat-option>-- Bỏ chọn --</mat-option>
+      <mat-option value="Đang cư trú">Đang cư trú</mat-option>
+      <mat-option value="Đã chuyển đi">Đã chuyển đi</mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class="col-xl-1 col-md-1 col-sm-1 col-lg-1">
     <button *ngIf="isFilter===false" mat-raised-button style="margin-top: 10px;" (click)="clickFilter()">
       Lọc <i class="fa fa-filter"></i>

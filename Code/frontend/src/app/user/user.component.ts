@@ -37,12 +37,12 @@ export class UserComponent implements OnInit {
   // Filter
   searchStr = '';
   isFilter = false;
-  checkedFilter = false;
   filteredOptions: Observable<Room[]>;
   autocomplete = new FormControl();
   selectedBuilding: Building = null;
   selectedFloor: Floor = null;
   selectedRoom: Room = null;
+  status = '';
   constructor(
     private userService: UserService,
     private buildingService: ApartmentService,
@@ -80,11 +80,14 @@ export class UserComponent implements OnInit {
         dataStr += data.gender ? 'nam' : 'nữ';
         dataStr += data.name + data.phoneNumber + data.idCard;
         dataStr += data.head ? 'chủ hộ' : '';
-        dataStr += data.disable ? 'đã chuyển đi' : 'đangcưtrú';
+        dataStr += data.disable ? 'đã chuyển đi' : 'đang cư trú';
         dataStr += this.dateService.toDateString(data.dateOfBirth, '-');
         return dataStr.toLowerCase().indexOf(filter) !== -1;
       };
       this.dataSource.sort = this.matSort;
+      if (this.searchStr !== '') {
+        this.search(this.searchStr);
+      }
     });
   }
 
@@ -120,19 +123,42 @@ export class UserComponent implements OnInit {
 
   clickFilter() {
     this.isFilter = true;
-    if (this.selectedBuilding === null) {
-      this.search('đangcưtrú');
-      this.searchStr = '';
+    let data = this.dataSource.data;
+    if (this.selectedBuilding !== null && this.selectedFloor === null) {
+      data = data.filter(
+        v => v.household.room.building.id === this.selectedBuilding.id
+      );
+    } else if (this.selectedFloor !== null && this.selectedRoom === null) {
+      data = data.filter(
+        v => v.household.room.floor.id === this.selectedFloor.id
+      );
+    } else if (this.selectedRoom !== null) {
+      data = data.filter(v => v.household.room.id === this.selectedRoom.id);
+    }
+
+    if (!(this.status === undefined) && this.status !== '') {
+      const disable = this.status !== 'Đang cư trú';
+      data = data.filter(v => v.disable === disable);
+    }
+
+    this.dataSource.data = data;
+
+    if (this.searchStr !== '') {
+      this.search(this.searchStr);
     }
   }
 
   cancelFilter() {
     this.isFilter = false;
+    this.loadUser();
   }
 
   selectBuildingChange(e) {
     this.floors = [];
     this.selectedBuilding = null;
+    this.selectedFloor = null;
+    this.selectedRoom = null;
+    this.autocomplete.setValue('');
     if (e.value !== undefined) {
       const b = this.buildings.find(v => v.id === e.value);
       this.selectedBuilding = b;
@@ -149,7 +175,11 @@ export class UserComponent implements OnInit {
       this.rooms = f.rooms;
       this.filteredOptions = this.autocomplete.valueChanges.pipe(
         startWith(''),
-        map(value => this.rooms.filter(v => v.name.toLowerCase().indexOf(value.toLowerCase()) === 0))
+        map(value =>
+          this.rooms.filter(
+            v => v.name.toLowerCase().indexOf(value.toLowerCase()) === 0
+          )
+        )
       );
     }
   }
