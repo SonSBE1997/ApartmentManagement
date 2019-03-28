@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { CommonServiceService } from '../common-service.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../service/sharedService.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private commonService: CommonServiceService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private cookieService: CookieService
   ) {}
 
   ngOnInit() {
@@ -28,6 +30,12 @@ export class LoginComponent implements OnInit {
     if (authen != null && authen !== 'false') {
       this.router.navigateByUrl('/apartment');
     }
+    // if (this.cookieService.check('isAuthen')) {
+    //   const authen = this.cookieService.get('isAuthen');
+    //   if (authen !== 'false') {
+    //     this.router.navigateByUrl('/apartment');
+    //   }
+    // }
   }
 
   login() {
@@ -41,10 +49,12 @@ export class LoginComponent implements OnInit {
         const token = res.headers.get('token');
         if (token != null && token !== '') {
           localStorage.setItem('token', token);
+          // this.cookieService.set('token', token);
         }
         if (res.body != null) {
           this.sharedService.authentic(true);
           localStorage.setItem('isAuthen', 'true');
+          // this.cookieService.set('isAuthen', 'true');
           this.router.navigateByUrl('/apartment');
         } else {
           this.loginFailed = true;
