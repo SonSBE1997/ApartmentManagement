@@ -5,7 +5,6 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -55,10 +54,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests().antMatchers("/login/**", "/file/**", "/user/**")
-        .permitAll().and().authorizeRequests()
-        .antMatchers(HttpMethod.GET, "**/building/**", "**/floor/**",
-            "**/room/**", "**/household/**")
+    http.csrf().disable().authorizeRequests()
+        .antMatchers("/login/**", "/file/**").permitAll().and()
+        .authorizeRequests()
+        .antMatchers("**/building/**", "**/floor/**",
+            "**/room/**", "**/household/**", "**/user/**", "**/employee/**",
+            "**/dept/**")
         .access("hasRole('Manager')").and().exceptionHandling()
         .authenticationEntryPoint(entrypoint).accessDeniedHandler(denied).and()
         .cors().and().sessionManagement()

@@ -38,6 +38,40 @@ export class UserService {
       );
   }
 
+  findByPaging(page, pageSize, searchStr): Observable<any> {
+    let url = '';
+    if (searchStr === '') {
+      url = this.url + `/paginator?page=${page}&pageSize=${pageSize}`;
+    } else {
+      url =
+        this.url +
+        `/paginator?page=${page}&pageSize=${pageSize}&searchStr=${searchStr}`;
+    }
+    return this.http
+      .get<any>(url, {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      })
+      .pipe(
+        tap(),
+        catchError(err => of(null))
+      );
+  }
+
+  filter(page, pageSize, buildingId, floorId, roomId, status): Observable<any> {
+    return this.http
+      .get<any>(
+        this.url +
+          `/filter?page=${page}&pageSize=${pageSize}&buildingId=${buildingId}&floorId=${floorId}&roomId=${roomId}&status=${status}`,
+        {
+          headers: new HttpHeaders().set('Authorization', this.token)
+        }
+      )
+      .pipe(
+        tap(),
+        catchError(err => of(null))
+      );
+  }
+
   // saveRoom(data: Room[]) {
   //   return this.http.post(this.url + '/api/room/save', data, {
   //     headers: new HttpHeaders().set('Authorization', this.token)

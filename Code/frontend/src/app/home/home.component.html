@@ -1,13 +1,14 @@
 <div class="container">
+  <div class="page-header mt-2 text-center text-uppercase font-weight-bold">Tổng quan chung cư</div>
   <div class="row">
     <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
       <button mat-raised-button [routerLink]="['/apartment/detail']">Cập nhật thông tin</button>
     </div>
     <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
-      <ol class="breadcrumb float-right">
+      <!-- <ol class="breadcrumb float-right">
         <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
         <li class="breadcrumb-item active">Tổng quan</li>
-      </ol>
+      </ol> -->
    </div>
   </div>
   <div class="row mt-3">
@@ -34,7 +35,7 @@
     <div class="col-xl-8">
       <span class="font-weight-bold">Toà nhà: </span>
       <span class="text-center">
-        <mat-select placeholder="Chọn toà nhà" class="w-15" (valueChange)="selectionChange($event)">
+        <mat-select placeholder="Chọn toà nhà" class="w-15" (valueChange)="selectionChange($event)" [value]="selectedValue">
           <mat-option>Chọn toà nhà</mat-option>
           <mat-option *ngFor="let b of buildings; index as i" [value]="i">
             {{ b.name }}

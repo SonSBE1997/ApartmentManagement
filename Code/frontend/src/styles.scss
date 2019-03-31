@@ -8,7 +8,10 @@ body {
   font-family: 'Roboto', sans-serif;
   margin:0px;
   padding: 0px;
+  font-size: 13px !important;
+  height: 100vh;
 }
+
 
 .breadcrumb {
   background: none !important;
@@ -56,3 +59,42 @@ body {
 // .download-sample{
 //   background-image: url('assets/btn/btn_sample_down1.gif');
 // }
+
+table {
+  width: 100%;
+}
+
+th, td {
+  vertical-align: middle !important;
+  padding-left: 25px !important;
+}
+
+th div button{
+  margin: 0 auto !important;
+}
+
+th {
+  font-weight: bold;
+}
+
+table.table td a.edit {
+  color: #FFC107 !important;
+}
+table.table td a.delete {
+  color: #E34724 !important;
+}
+
+table.table td a.edit:hover{
+  cursor: pointer;
+}
+
+table.table td a.delete:hover{
+  cursor: pointer;
+}
+
+.page-header {
+  height: 40px;
+  font-size: 16px !important;
+  color: rgba(195, 21, 79, 0.911);
+  font-weight: bold;
+}

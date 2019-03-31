@@ -1,0 +1,121 @@
+<div class="container">
+  <notifier-container></notifier-container>
+  <div class="page-header text-center text-uppercase font-weight-bold">
+    Trang cá nhân
+  </div>
+  <div>
+    <mat-sidenav-container>
+      <mat-sidenav #sidenav mode="side" opened position="start">
+        <mat-nav-list>
+          <a [ngClass]="{'active': page === 0 }" mat-list-item (click)="page = 0">Thông tin cá nhân</a>
+          <a [ngClass]="{'active': page === 1 }" mat-list-item (click)="page = 1">Đổi mật khẩu</a>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <div *ngIf="page===0">
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Họ và tên:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.name}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Giới tính:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.gender? 'Nam' : 'Nữ'}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Ngày sinh:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.dateOfBirth | date: 'dd-MM-yyyy'}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Chứng minh nhân dân:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.idCard}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Địa chỉ:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.address}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Số điện thoại:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.phoneNumber}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Email:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.email}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Phòng ban:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.dept?.name}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6 title">Tên đăng nhập:</div>
+            <div class="col-xl-6 col-md-6 col-xs-6 col-sm-6">{{employee?.username}}</div>
+          </div>
+        </div>
+<!-- ############################################################################################################################# -->
+        <div *ngIf="page===1">
+          <form novalidate [formGroup]="passFrm" class="form-horizontal">
+            <mat-form-field class="full-width">
+              <input [type]="hidePass ? 'password' : 'text'" [formControl]="passFrm.get('curPass')"
+                     matInput placeholder="Mật khẩu hiện tại" #curPass required>
+              <button mat-icon-button matSuffix (click)="hidePass = !hidePass">
+                <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-hint align="end">{{curPass.value.length}} / 100</mat-hint>
+              <mat-error *ngIf="passFrm.get('curPass').hasError('required')">
+                Bạn phải nhập mật khẩu hiện tại
+              </mat-error>
+              <mat-error *ngIf="passFrm.get('curPass').hasError('currentpassnotmatch')">
+                Mật khẩu hiện tại không đúng
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <br />
+            <mat-form-field class="full-width">
+              <input [type]="hidePass1 ? 'password' : 'text'" [formControl]="passFrm.get('inPass')"
+                    matInput placeholder="Mật khẩu mới" #inPass required>
+              <button mat-icon-button matSuffix (click)="hidePass1 = !hidePass1">
+                <mat-icon>{{hidePass1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-hint align="end">{{inPass.value.length}} / 100</mat-hint>
+              <mat-error *ngIf="passFrm.get('inPass').hasError('required')">
+                Bạn phải nhập mật khẩu mới
+              </mat-error>
+              <mat-error *ngIf="passFrm.get('inPass').hasError('minlength')">
+                Mật khẩu mới phải có ít nhất 8 kí tự
+              </mat-error>
+              <mat-error *ngIf="passFrm.get('inPass').hasError('duplicatepassword')">
+                Mật khẩu mới không được trùng với mật khẩu cũ
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <br />
+            <mat-form-field class="full-width">
+              <input [type]="hidePass2 ? 'password' : 'text'" [formControl]="passFrm.get('rePass')"
+                     matInput placeholder="Nhập lại mật khẩu mới" #rePass required>
+              <button mat-icon-button matSuffix (click)="hidePass2 = !hidePass2">
+                <mat-icon>{{hidePass2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-hint align="end">{{rePass.value.length}} / 100</mat-hint>
+              <mat-error *ngIf="passFrm.get('rePass').hasError('required')">
+                Bạn phải xác nhận mật khẩu mới.
+              </mat-error>
+              <mat-error *ngIf="passFrm.get('rePass').hasError('passwordnotmatch')">
+                Hai mật khẩu không khớp
+              </mat-error>
+            </mat-form-field>
+          </form>
+          <br />
+          <button mat-raised-button color="primary" (click)="update()" [disabled]="passFrm.invalid">Cập nhật</button>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

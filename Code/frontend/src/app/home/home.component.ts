@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   floors: Floor[] = [];
   matrix = [];
   isSelected = false;
+  selectedValue = 0;
 
   constructor(
     private aptService: ApartmentService,
@@ -23,11 +24,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.aptService.getListApartment().subscribe(buildings => {
-      this.buildings = buildings;
+      buildings.forEach((v, i) => {
+        this.buildings.push(v);
+        if (i === 0) {
+          this.selectionChange(0);
+        }
+      });
     });
   }
 
   selectionChange(value) {
+    this.selectedValue = value;
     this.floors = [];
     this.matrix = [];
     if (value >= 0) {

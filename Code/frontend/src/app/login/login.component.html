@@ -8,13 +8,17 @@
       <form novalidate>
         <mat-form-field class="full-width">
           <input [formControl]="username" matInput placeholder="Tên đăng nhập">
+          <mat-icon matSuffix>person</mat-icon>
           <mat-error *ngIf="username.hasError('required')">
             Bạn phải nhập tên đăng nhập
           </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="full-width">
-          <input type="password" [formControl]="password" matInput placeholder="Mật khẩu">
+          <input [type]="isHidePass ? 'password' : 'text'" [formControl]="password" matInput placeholder="Mật khẩu">
+          <button mat-icon-button matSuffix (click)="isHidePass = !isHidePass">
+            <mat-icon>{{isHidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error *ngIf="password.hasError('required')">
             Bạn phải nhập mật khẩu
           </mat-error>

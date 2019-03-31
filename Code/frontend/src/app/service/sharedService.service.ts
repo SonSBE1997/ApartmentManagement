@@ -5,12 +5,21 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   providedIn: 'root'
 })
 export class SharedService {
+  // authen
   private authentication = new BehaviorSubject<boolean>(false);
   isAuthentication = this.authentication.asObservable();
 
-  constructor() { }
+  // url
+  private url = new BehaviorSubject<string>('login');
+  matchUrl = this.url.asObservable();
+
+  constructor() {}
 
   authentic(isAuthentication: boolean) {
     this.authentication.next(isAuthentication);
+  }
+
+  changePage(matchUrl: string) {
+    this.url.next(matchUrl);
   }
 }

@@ -10,12 +10,19 @@
 package dev.sanero.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * @author Sanero.
@@ -33,6 +40,32 @@ public class Dept implements Serializable {
 
   private String name;
   private boolean disable;
+  
+  
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "dept_id")
+  @JsonIgnoreProperties(value = "dept", allowSetters = true)
+  private Set<Employee> employees;
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 30, 2019
+   * Created time: 9:30:34 PM
+   * @return the employees
+   */
+  public Set<Employee> getEmployees() {
+    return employees;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Mar 30, 2019
+   * Created time: 9:30:34 PM
+   * @param employees the employees to set
+   */
+  public void setEmployees(Set<Employee> employees) {
+    this.employees = employees;
+  }
 
   public boolean isDisable() {
     return disable;

@@ -1,25 +1,32 @@
 <div class="header col-xl-12">
-  <div class="float-left">
-    <button [routerLink]="['/apartment']" mat-button class="text-uppercase font-weight-bold">
-      <i class="material-icons">location_city</i> Trang chủ
-    </button>
-  </div>
   <div class="float-right nav">
     <button mat-button [matMenuTriggerFor]="apartment" [ngClass]="{'active': url === 'apartment'}">Căn hộ</button>
     <mat-menu #apartment="matMenu">
-      <button mat-menu-item [routerLink]="['/apartment']">Tổng quan</button>
-      <button mat-menu-item [routerLink]="['/apartment/detail']">Thông tin chi tiết</button>
+      <button mat-menu-item (click)="changePage('apartment', '/apartment')">
+              Tổng quan
+      </button>
+      <button mat-menu-item (click)="changePage('apartment', '/apartment/detail')">Cập nhật thông tin</button>
     </mat-menu>
-    <button mat-button [routerLink]="['/user']" [ngClass]="{'active': url === 'user'}">Cư dân</button>
-    <button mat-button [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
-    <button mat-button [ngClass]="{'active': url === 'infrastructure'}">Kỹ thuật</button>
-    <button mat-button [ngClass]="{'active': url === 'employee'}">Nhân viên</button>
+    <button mat-button (click)="changePage('user', '/user')"          [ngClass]="{'active': url === 'user'}">Cư dân</button>
+    <button mat-button (click)="changePage('service', '/service')"    [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
+    <button mat-button (click)="changePage('infrastructure', '/infrastructure')"
+            [ngClass]="{'active': url === 'infrastructure'}">
+            Kỹ thuật
+    </button>
+    <button mat-button  (click)="changePage('employee', '/employee')" [ngClass]="{'active': url === 'employee'}">
+            Nhân viên
+    </button>
+    <button mat-button (click)="changePage('dept', '/dept')"          [ngClass]="{'active': url === 'dept'}">
+            Phòng ban
+    </button>
     <button mat-button [matMenuTriggerFor]="menu" [ngClass]="{'active': url === 'statistic'}">Thống kê</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item>Item 1</button>
       <button mat-menu-item>Item 2</button>
     </mat-menu>
-    <button mat-button class="text-info" [ngClass]="{'active': url === 'profile'}">{{ employee?.name }}</button>
+    <button mat-button class="text-info" (click)="changePage('profile', '/profile')" [ngClass]="{'active': url === 'profile'}">
+              {{ employee?.name }}
+    </button>
     <mat-icon class="m-2 pointer" matBadge="15" matBadgeColor="warn" [matMenuTriggerFor]="notify">notifications_active</mat-icon>
     <mat-menu #notify="matMenu" xPosition="before" yPosition="below">
       <div>

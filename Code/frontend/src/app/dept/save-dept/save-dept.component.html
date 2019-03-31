@@ -1,0 +1,27 @@
+<h1 mat-dialog-title class="font-weight-bold">{{data === null? 'Thêm mới' : 'Cập nhật thông tin'}}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="deptFrm" class="form-horizontal">
+    <mat-form-field class="full-width disabled">
+      <input [formControl]="deptFrm.get('id')" matInput placeholder="Mã phòng ban" readonly="true">
+      <mat-hint align="start">Bạn không cần nhập trường này</mat-hint>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="deptFrm.get('name')" matInput placeholder="Tên phòng ban" #name required>
+      <mat-hint align="end">{{name.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="deptFrm.get('name').hasError('required')">
+        Bạn phải nhập tên phòng ban
+      </mat-error>
+      <mat-error *ngIf="deptFrm.get('name').hasError('minlength') || deptFrm.get('name').hasError('maxlength')">
+        Tên phòng ban phải có độ dài trong khoảng 5 - 100
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="deptFrm.invalid" class="btn-success" (click)="save()">
+    {{data === null? 'Thêm' : 'Cập nhật'}}
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

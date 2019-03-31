@@ -29,7 +29,10 @@ import {
   MAT_DATE_LOCALE,
   MatTabsModule,
   MatProgressBarModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSliderModule,
+  MatSidenavModule,
+  MatListModule
 } from '@angular/material';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -51,6 +54,11 @@ import { RegisterCardComponent } from './user/register-card/register-card.compon
 import { RegisterRoomComponent } from './user/register-room/register-room.component';
 import { RegisterInfoComponent } from './user/register-info/register-info.component';
 import { ErrorsHandler } from './errors/error-handler';
+import { EmployeeComponent } from './employee/employee.component';
+import { DeptComponent } from './dept/dept.component';
+import { SaveDeptComponent } from './dept/save-dept/save-dept.component';
+import { SaveEmpComponent } from './employee/save-emp/save-emp.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +77,12 @@ import { ErrorsHandler } from './errors/error-handler';
     UpdateInfoComponent,
     RegisterCardComponent,
     RegisterRoomComponent,
-    RegisterInfoComponent
+    RegisterInfoComponent,
+    EmployeeComponent,
+    DeptComponent,
+    SaveDeptComponent,
+    SaveEmpComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +115,8 @@ import { ErrorsHandler } from './errors/error-handler';
     MatTabsModule,
     ReactiveFormsModule,
     MatProgressBarModule,
+    MatListModule,
+    MatSidenavModule,
     MatAutocompleteModule,
     NotifierModule.withConfig({
       position: {
@@ -125,7 +140,13 @@ import { ErrorsHandler } from './errors/error-handler';
       }
     })
   ],
-  entryComponents: [AptPopUpComponent, DeletePopUpComponent, PopUpComponent],
+  entryComponents: [
+    AptPopUpComponent,
+    DeletePopUpComponent,
+    PopUpComponent,
+    SaveDeptComponent,
+    SaveEmpComponent
+  ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     // {
@@ -138,7 +159,7 @@ import { ErrorsHandler } from './errors/error-handler';
       provide: ErrorHandler,
       useClass: ErrorsHandler
     },
-      CookieService
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

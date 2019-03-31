@@ -17,7 +17,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       retry(1),
       catchError((error: HttpErrorResponse) => {
         console.log(error);
-        if (error.status === 403) {
+        if (error.status === 401) {
           alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
           localStorage.removeItem('token');
           localStorage.removeItem('isAuthen');
@@ -25,7 +25,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         } else if (error.status === 404) {
           // window.location.href = '/errors/not-found';
         } else {
-          if (error.error.message === '403 Incorrect or expired!') {
+          if (error.error.message === '401 Incorrect or expired!') {
             alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
             localStorage.removeItem('token');
             localStorage.removeItem('isAuthen');

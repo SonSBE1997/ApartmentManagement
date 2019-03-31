@@ -26,6 +26,5 @@ import dev.sanero.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
   Optional<Employee> findByUsername(String username);
-  boolean existsByUsername(int id);
   public List<Employee> findAllEmployeesByDisable(boolean disable);
 }

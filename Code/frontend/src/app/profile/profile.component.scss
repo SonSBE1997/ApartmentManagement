@@ -1,0 +1,33 @@
+.mat-sidenav-container {
+  border: 1px solid #9094c7;
+  height: 530px !important;
+  max-height: 530px !important;
+}
+
+.mat-sidenav {
+  width: 20% !important;
+  padding: 2% !important;
+}
+
+.mat-nav-list a.active {
+  border-bottom: 3px #0fac29 solid;
+}
+
+.mat-sidenav-content {
+  padding: 7% !important;
+  padding-left: 15% !important;
+  background-color: #ffffff;
+}
+
+.mat-sidenav-content .row {
+  margin-bottom: 20px !important;
+}
+
+.mat-sidenav-content .row .title {
+  font-weight: bold;
+  font-size: 14px !important;
+}
+
+.full-width {
+  width: 100% !important;
+}

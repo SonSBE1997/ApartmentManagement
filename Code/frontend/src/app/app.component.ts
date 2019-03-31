@@ -12,8 +12,7 @@ export class AppComponent implements OnInit {
   isAuthenticated: boolean;
   constructor(
     private router: Router,
-    private sharedService: SharedService,
-    private cookieService: CookieService
+    private sharedService: SharedService
   ) {
     this.sharedService.isAuthentication.subscribe(isAuthentication => {
       this.isAuthenticated = isAuthentication;
@@ -28,20 +27,6 @@ export class AppComponent implements OnInit {
       localStorage.setItem('isAuthen', 'true');
       this.isAuthenticated = true;
     }
-
-    // if (this.cookieService.check('isAuthen')) {
-    //   const authen = this.cookieService.get('isAuthen');
-    //   if (authen === 'false') {
-    //     this.isAuthenticated = false;
-    //     this.router.navigateByUrl('/');
-    //   } else {
-    //     this.isAuthenticated = true;
-    //     this.cookieService.set('isAuthen', 'true');
-    //   }
-    // } else {
-    //   this.isAuthenticated = false;
-    //   this.router.navigateByUrl('/');
-    // }
 
     this.sharedService.authentic(this.isAuthenticated);
   }

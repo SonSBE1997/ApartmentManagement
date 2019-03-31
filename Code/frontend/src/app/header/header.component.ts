@@ -16,8 +16,15 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private sharedService: SharedService
   ) {
+    this.sharedService.matchUrl.subscribe(u => {
+      this.url = u;
+    });
+    const url = localStorage.getItem('url');
+    if (url !== null) {
+      this.url = url;
+      this.sharedService.changePage(url);
+    }
     setInterval(() => {
-      this.url = window.location.href.split('/')[3];
       const token = localStorage.getItem('token');
       if (token !== null) {
         const data = jwt_decode(token);
@@ -27,39 +34,43 @@ export class HeaderComponent implements OnInit {
           window.location.href = '/';
         }
       }
-    }, 50);
+    }, 500);
   }
 
   ngOnInit() {
     const token = localStorage.getItem('token');
     if (token !== null) {
       const data = jwt_decode(token);
-      console.log(data);
-      console.log(new Date().getTime());
+      localStorage.setItem('userId', data.employeeId + '');
       this.employee = {
         id: data.employeeId,
         name: data.name,
         username: data.sub,
-        disable: data.disable
+        disable: data.disable,
+        role: '',
+        phoneNumber: '',
+        password: '',
+        idCard: '',
+        gender: false,
+        email: '',
+        dateOfBirth: null,
+        address: '',
+        dept: null
       };
     }
-
-    // if (this.cookieService.check('token')) {
-    //   const data = jwt_decode(this.cookieService.get('token'));
-    //   this.employee = {
-    //     id: data.employeeId,
-    //     name: data.name,
-    //     username: data.sub,
-    //     disable: data.disable
-    //   };
-    // }
   }
 
   logout() {
     localStorage.clear();
-    // this.cookieService.delete('token');
-    // this.cookieService.delete('isAuthen');
     this.sharedService.authentic(false);
+    this.sharedService.changePage('login');
     this.router.navigateByUrl('/login');
+  }
+
+  changePage(activeUrl, url) {
+    localStorage.setItem('url', activeUrl);
+    this.url = activeUrl;
+    this.sharedService.changePage(activeUrl);
+    this.router.navigateByUrl(url);
   }
 }

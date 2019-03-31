@@ -1,24 +1,37 @@
 <div class="container">
   <notifier-container></notifier-container>
-  <div class="row">
+  <p class="page-header text-center font-weight-bold text-uppercase">Danh sách cư dân</p>
+  <div class="row mt-0">
     <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
-      <button mat-raised-button (click)="addNew()">Thêm mới</button>
-      <button mat-raised-button class="ml-1 download-sample" matTooltip="Tải về mẫu"
-        (click)="downloadSample()"></button>
-      <button mat-raised-button class="ml-1 import-excel" matTooltip="Tải tệp excel lên"></button>
-      <button mat-raised-button class="ml-1">Đăng ký thẻ</button>
+        <button mat-raised-button (click)="addNew()" class="btn-success" matTooltip="Thêm mới">
+          <i class="material-icons">
+          add
+          </i>
+        </button>
+        <button mat-raised-button class="ml-1 download-sample" matTooltip="Tải về mẫu"
+          (click)="downloadSample()"></button>
+        <button mat-raised-button class="ml-1 import-excel" matTooltip="Tải tệp excel lên"></button>
+        <button mat-raised-button class="ml-1 btn-info" matTooltip="Đăng ký thẻ">
+          <i class="material-icons">
+            credit_card
+          </i>
+        </button>
+        <!-- <button mat-raised-button class="ml-1 btn-secondary" matTooltip="Đăng ký chuyển đi">
+          <i class="material-icons">
+            exit_to_app
+          </i>
+        </button> -->
     </div>
     <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
-      <ol class="breadcrumb float-right">
-        <li class="breadcrumb-item" [routerLink]="['/user']">Danh sách cư dân</li>
-      </ol>
+        <!-- <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item" [routerLink]="['/user']">Danh sách cư dân</li>
+        </ol> -->
     </div>
   </div>
-  <p class="text-center font-weight-bold text-uppercase mt-2">Danh sách cư dân</p>
 </div>
 <div class="row mt-3">
   <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
-    <input matInput (keyup)="search($event.target.value)" placeholder="Tìm kiếm">
+    <input matInput [(ngModel)]="searchStr" (keyup)="search($event.keyCode)" placeholder="Tìm kiếm">
   </mat-form-field>
   <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
     <mat-label>Toà nhà</mat-label>
@@ -51,8 +64,9 @@
     <mat-label>Tình trạng</mat-label>
     <mat-select class="text-left" [(value)]="status">
       <mat-option>-- Bỏ chọn --</mat-option>
-      <mat-option value="Đang cư trú">Đang cư trú</mat-option>
-      <mat-option value="Đã chuyển đi">Đã chuyển đi</mat-option>
+      <mat-option value="0">Đang cư trú</mat-option>
+      <mat-option value="1">Đã chuyển đi</mat-option>
+      <mat-option value="2">Sắp chuyển đi</mat-option>
     </mat-select>
   </mat-form-field>
   <div class="col-xl-1 col-md-1 col-sm-1 col-lg-1">
@@ -66,20 +80,6 @@
 </div>
 <div class="mat-elevation-z8 mt-1">
   <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource" matSort>
-
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef style="width: 2%">
-        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-
     <ng-container matColumnDef="household_room_name">
       <th mat-header-cell *matHeaderCellDef style="width: 5%">Căn hộ</th>
       <td mat-cell *matCellDef="let row; let i = index" [title]="row?.household?.room?.name">
@@ -93,7 +93,7 @@
     </ng-container>
 
     <ng-container matColumnDef="gender">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 3%">Giới tính</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%">Giới tính</th>
       <td class="room-number" mat-cell *matCellDef="let row; let i = index" [title]="row?.gender ? 'Nam' : 'Nữ'">
         {{ row?.gender ? 'Nam' : 'Nữ'}}
       </td>
@@ -121,7 +121,7 @@
     </ng-container>
 
     <ng-container matColumnDef="address">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 20%">Quê quán</th>
+      <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 18%">Quê quán</th>
       <td mat-cell *matCellDef="let row; let i = index" [title]="row?.address">
         {{row?.address}}
       </td>
@@ -144,25 +144,26 @@
 
     <ng-container matColumnDef="disable">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 10%">Trạng thái</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row?.disable ? 'Đã chuyển đi' : ''">
-        {{row?.disable ? 'Đã chuyển đi' : ''}}
+      <td mat-cell *matCellDef="let row; let i = index"
+          [title]="row?.disable && row?.leave? 'Đã chuyển đi' : row?.disable && !row?.leave? 'Sẽ chuyển đi' : 'Đang cư trú'">
+        {{row?.disable && row?.leave? 'Đã chuyển đi' : row?.disable && !row?.leave? 'Sẽ chuyển đi' : ''}}
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="action" style="width: 4%">
-      <th mat-header-cell *matHeaderCellDef></th>
+    <ng-container matColumnDef="action" >
+      <th mat-header-cell *matHeaderCellDef style="width: 8%"></th>
       <td mat-cell *matCellDef="let row; let i = index">
-        <a mat-button class="btn-success" title="Nhấn để mở">Sửa</a>
+        <a class="edit"><i class="material-icons" matTooltip="Sửa">border_color</i></a>
+        <a class="out ml-1"><i class="material-icons" matTooltip="Đăng ký chuyển đi">exit_to_app</i></a>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['select','household_room_name','name', 'gender', 'dateOfBirth',
+    <tr mat-header-row *matHeaderRowDef="['household_room_name','name', 'gender', 'dateOfBirth',
          'phoneNumber', 'email', 'address', 'idCard', 'head', 'disable', 'action']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['select','household_room_name','name', 'gender', 'dateOfBirth',
-         'phoneNumber', 'email', 'address', 'idCard', 'head', 'disable', 'action']; let i = index"
-      (click)="selection.toggle(row)">
+    <tr mat-row *matRowDef="let row; columns: ['household_room_name','name', 'gender', 'dateOfBirth',
+         'phoneNumber', 'email', 'address', 'idCard', 'head', 'disable', 'action']; let i = index">
     </tr>
   </table>
-  <mat-paginator #rpaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons>
+  <mat-paginator (page)="changePage($event)" [pageSizeOptions]="[5, 10, 25, 50]"  showFirstLastButtons>
   </mat-paginator>
 </div>

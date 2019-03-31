@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   password: FormControl;
   loginFailed = false;
   message = '';
+  isHidePass = true;
 
   constructor(
     private commonService: CommonServiceService,
@@ -30,12 +31,6 @@ export class LoginComponent implements OnInit {
     if (authen != null && authen !== 'false') {
       this.router.navigateByUrl('/apartment');
     }
-    // if (this.cookieService.check('isAuthen')) {
-    //   const authen = this.cookieService.get('isAuthen');
-    //   if (authen !== 'false') {
-    //     this.router.navigateByUrl('/apartment');
-    //   }
-    // }
   }
 
   login() {
@@ -49,12 +44,11 @@ export class LoginComponent implements OnInit {
         const token = res.headers.get('token');
         if (token != null && token !== '') {
           localStorage.setItem('token', token);
-          // this.cookieService.set('token', token);
         }
         if (res.body != null) {
           this.sharedService.authentic(true);
+          this.sharedService.changePage('apartment');
           localStorage.setItem('isAuthen', 'true');
-          // this.cookieService.set('isAuthen', 'true');
           this.router.navigateByUrl('/apartment');
         } else {
           this.loginFailed = true;

@@ -84,7 +84,7 @@ create  table user(
     address varchar(100),
     id_card varchar(50),
     is_head bit,
-    is_leave bit,
+    is_leave bit default 0,
     leave_date date,
     is_enable bit,
     household_id int,

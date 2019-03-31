@@ -9,7 +9,11 @@
 
 package dev.sanero.repository;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import dev.sanero.entity.User;
@@ -22,5 +26,52 @@ import dev.sanero.entity.User;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+  @Query("SELECT u FROM user u")
+  List<User> findByPage(Pageable pageable);
 
+  @Query("SELECT u FROM user u where u.name like ?1 or u.phoneNumber like ?1 or u.address like ?1 or u.idCard like ?1 "
+      + "or u.household.room.name like ?1")
+  List<User> searchByPage(String searchStr, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.name like ?1 or u.phoneNumber like ?1 or u.address like ?1 or u.idCard like ?1 "
+      + "or u.household.room.name like ?1")
+  long searchCount(String searchStr);
+  
+  // FILTER  
+  @Query("SELECT u FROM user u where u.household.room.id = ?1")
+  List<User> filterByRoom(int roomId, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.household.room.id = ?1")
+ long filterByRoomCount(int roomId);
+  
+  @Query("SELECT u FROM user u where u.household.room.floor.id = ?1")
+  List<User> filterByFloor(int floorId, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.household.room.floor.id = ?1")
+  long filterByFloorCount(int floorId);
+  
+  @Query("SELECT u FROM user u where u.household.room.building.id = ?1")
+  List<User> filterByBuilding(int buildingId, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.household.room.building.id = ?1")
+  long filterByBuildingCount(int buildingId);
+  
+  //  FILTER BY STATUS 
+  @Query("SELECT u FROM user u where u.household.room.id = ?1 and u.disable = ?2 and u.isLeave = ?3")
+  List<User> filterByRoomAndStatus(int roomId, boolean disable, boolean leave, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.household.room.id = ?1 and u.disable = ?2 and u.isLeave = ?3")
+ long filterByRoomAndStatusCount(int roomId, boolean disable, boolean leave);
+  
+  @Query("SELECT u FROM user u where u.household.room.floor.id = ?1 and u.disable = ?2 and u.isLeave = ?3")
+  List<User> filterByFloorAndStatus(int floorId, boolean disable, boolean leave, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.household.room.floor.id = ?1 and u.disable = ?2 and u.isLeave = ?3")
+  long filterByFloorAndStatusCount(int floorId, boolean disable, boolean leave);
+  
+  @Query("SELECT u FROM user u where u.household.room.building.id = ?1 and u.disable = ?2 and u.isLeave = ?3")
+  List<User> filterByBuildingAndStatus(int buildingId, boolean disable, boolean leave, Pageable pageable);
+  
+  @Query("SELECT count(u.id) FROM user u where u.household.room.building.id = ?1 and u.disable = ?2 and u.isLeave = ?3")
+  long filterByBuildingAndStatusCount(int buildingId, boolean disable, boolean leave);
 }

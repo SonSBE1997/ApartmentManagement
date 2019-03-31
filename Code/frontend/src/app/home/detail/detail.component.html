@@ -1,19 +1,29 @@
 <div class="container">
   <notifier-container></notifier-container>
+  <div class="page-header mt-2 text-center text-uppercase font-weight-bold">Cập nhật thông tin</div>
   <div class="row">
     <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
-      <button mat-raised-button (click)="addNew()">Thêm</button>
-      <button mat-raised-button class="ml-1" (click)="save()">Lưu</button>
+      <button mat-raised-button (click)="addNew()" class="btn-success" matTooltip="Thêm mới">
+        <i class="material-icons">
+        add
+        </i>
+      </button>
+      <button mat-raised-button class="ml-1 btn-info" (click)="save()" matTooltip="Lưu">
+        <i class="material-icons">
+          save
+        </i>
+      </button>
       <button mat-raised-button class="ml-1 download-sample" matTooltip="Tải về mẫu" (click)="downloadSample()"></button>
       <button mat-raised-button class="ml-1 import-excel" matTooltip="Tải tệp excel lên" (click)="import()"></button>
     </div>
     <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
-      <ol class="breadcrumb float-right">
+      <!-- <ol class="breadcrumb float-right">
         <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
         <li class="breadcrumb-item active">Thông tin chi tiết</li>
-      </ol>
+      </ol> -->
     </div>
   </div>
+
   <mat-tab-group mat-align-tabs="center" (selectedIndexChange)="changeTab($event)">
     <!-- ############################# Building #################### -->
     <mat-tab label="Toà nhà">

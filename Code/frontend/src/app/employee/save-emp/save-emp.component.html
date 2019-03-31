@@ -1,0 +1,127 @@
+<h1 mat-dialog-title class="font-weight-bold">{{data.new? 'Thêm mới' : 'Cập nhật thông tin'}}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="empFrm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="empFrm.get('name')" matInput placeholder="Họ và tên" #name required>
+      <mat-hint align="end">{{name.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="empFrm.get('name').hasError('required')">
+        Bạn phải nhập họ và tên
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('name').hasError('minlength') || empFrm.get('name').hasError('maxlength')">
+        Họ và tên phải có độ dài dưới 100
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br/>
+
+    <mat-radio-group [formControl]="empFrm.get('gender')">
+      <mat-radio-button [value]="true">Nam</mat-radio-button>
+      <mat-radio-button class="ml-2" [value]="false">Nữ</mat-radio-button>
+    </mat-radio-group>
+
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="date" [formControl]="empFrm.get('dateOfBirth')" matInput placeholder="Ngày sinh" required>
+      <mat-error *ngIf="empFrm.get('dateOfBirth').hasError('required')">
+        Bạn phải nhập ngày sinh
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="empFrm.get('idCard')" matInput placeholder="CMND" #idCard required>
+      <mat-hint align="end">{{idCard.value.length}} / 12</mat-hint>
+      <mat-error *ngIf="empFrm.get('idCard').hasError('required')">
+        Bạn phải nhập CMND
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('idCard').hasError('validIdCard')">
+        CMND phải có độ dài là 9 hoặc 12
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="empFrm.get('phoneNumber')" matInput placeholder="Số ĐT" #phoneNumber required>
+      <mat-hint align="end">{{phoneNumber.value.length}} / 10</mat-hint>
+      <mat-error *ngIf="empFrm.get('phoneNumber').hasError('required')">
+        Bạn phải nhập số ĐT
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('phoneNumber').hasError('validPhone')">
+        Số ĐT phải có độ dài là 10 và bắt đầu bằng số 0
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="empFrm.get('email')" matInput placeholder="Email" #email required>
+      <mat-hint align="end">{{email.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="empFrm.get('email').hasError('required')">
+        Bạn phải nhập email
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('email').hasError('maxlength')">
+        Email phải có độ dài nhỏ hơn 100
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('email').hasError('email')">
+        Bạn phải nhập đúng định dạng email
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="empFrm.get('address')" matInput placeholder="Địa chỉ" #address required>
+      <mat-hint align="end">{{address.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="empFrm.get('address').hasError('required')">
+        Bạn phải nhập địa chỉ
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('address').hasError('maxlength')">
+        Địa chỉ phải có độ dài nhỏ hơn 100
+      </mat-error>
+    </mat-form-field>
+    <br  *ngIf="data.new" />
+    <br  *ngIf="data.new" />
+    <mat-form-field class="full-width" *ngIf="data.new">
+      <input type="text" [formControl]="empFrm.get('username')" matInput placeholder="Tên đăng nhập"  #username required>
+      <mat-hint align="end">{{username.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="empFrm.get('username').hasError('required')">
+        Bạn phải nhập username
+      </mat-error>
+      <mat-error *ngIf="empFrm.get('username').hasError('minlength')">
+        Username phải có độ dài lớn hơn 2
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br>
+    <mat-form-field class="full-width">
+      <mat-select [formControl]="empFrm.get('role')">
+        <mat-option value="Guardian">Guardian</mat-option>
+        <mat-option value="Manager">Manager</mat-option>
+      </mat-select>
+      <mat-label>
+        Vai trò
+      </mat-label>
+      <mat-error *ngIf="empFrm.get('dept').hasError('required')">
+        Bạn phải chọn phòng ban
+      </mat-error>
+    </mat-form-field>
+    <br/>
+    <br>
+    <mat-form-field class="full-width">
+      <mat-select required [formControl]="empFrm.get('dept')">
+        <mat-option *ngFor="let d of depts" [value]="d.id">{{d.name}}</mat-option>
+      </mat-select>
+      <mat-label>
+        Phòng ban
+      </mat-label>
+      <mat-error *ngIf="empFrm.get('dept').hasError('required')">
+        Bạn phải chọn phòng ban
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="empFrm.invalid" class="btn-success" (click)="save()">
+    {{data.new? 'Thêm' : 'Cập nhật'}}
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

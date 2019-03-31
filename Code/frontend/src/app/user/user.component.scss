@@ -8,3 +8,11 @@ th, td {
   padding-left: 0.5em !important;
   padding-right: 0.5em !important;
 }
+
+table.table td a.out {
+  color: rgb(160, 141, 136) !important;
+}
+
+table.table td a.out:hover{
+  cursor: pointer;
+}

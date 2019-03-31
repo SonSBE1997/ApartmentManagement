@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider
 
     Employee s = validator.validate(token);
     if (s == null) {
-      throw new HttpStatusCodeException(HttpStatus.FORBIDDEN,
+      throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED,
           "Incorrect or expired!") {
       };
     }
