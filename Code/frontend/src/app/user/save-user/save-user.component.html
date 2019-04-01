@@ -1,0 +1,93 @@
+<h1 mat-dialog-title class="font-weight-bold">{{data.new? 'Thêm mới' : 'Cập nhật thông tin'}}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('name')" matInput placeholder="Họ và tên" #name required>
+      <mat-hint align="end">{{name.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('name').hasError('required')">
+        Bạn phải nhập họ và tên
+      </mat-error>
+      <mat-error *ngIf="frm.get('name').hasError('minlength') || frm.get('name').hasError('maxlength')">
+        Họ và tên phải có độ dài dưới 100
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-radio-group [formControl]="frm.get('gender')">
+      <mat-radio-button [value]="true">Nam</mat-radio-button>
+      <mat-radio-button class="ml-2" [value]="false">Nữ</mat-radio-button>
+    </mat-radio-group>
+
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="date" [formControl]="frm.get('dateOfBirth')" matInput placeholder="Ngày sinh" required>
+      <mat-error *ngIf="frm.get('dateOfBirth').hasError('required')">
+        Bạn phải nhập ngày sinh
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('idCard')" matInput placeholder="CMND" #idCard>
+      <mat-hint align="end">{{idCard.value.length}} / 12</mat-hint>
+      <mat-error *ngIf="frm.get('idCard').hasError('validIdCard')">
+        CMND phải có độ dài là 9 hoặc 12
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('phoneNumber')" matInput placeholder="Số ĐT" #phoneNumber>
+      <mat-hint align="end">{{phoneNumber.value.length}} / 10</mat-hint>
+      <mat-error *ngIf="frm.get('phoneNumber').hasError('validPhone')">
+        Số ĐT phải có độ dài là 10 và bắt đầu bằng số 0
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('email')" matInput placeholder="Email" #email>
+      <mat-hint align="end">{{email.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('email').hasError('maxlength')">
+        Email phải có độ dài nhỏ hơn 100
+      </mat-error>
+      <mat-error *ngIf="frm.get('email').hasError('email')">
+        Bạn phải nhập đúng định dạng email
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('address')" matInput placeholder="Quê quán" #address required>
+      <mat-hint align="end">{{address.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('address').hasError('required')">
+        Bạn phải nhập quê quán
+      </mat-error>
+      <mat-error *ngIf="frm.get('address').hasError('maxlength')">
+        Quê quán phải có độ dài nhỏ hơn 100
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br>
+
+    <mat-form-field class="full-width">
+      <mat-select required [formControl]="frm.get('household')">
+        <mat-option *ngFor="let h of households" [value]="h.id">{{h.room.name + ' - ' + h.room.building.name}}</mat-option>
+      </mat-select>
+      <mat-label>
+        Căn hộ - toà nhà
+      </mat-label>
+      <mat-error *ngIf="frm.get('household').hasError('required')">
+        Bạn phải chọn căn hộ
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
+    {{data.new? 'Thêm' : 'Cập nhật'}}
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

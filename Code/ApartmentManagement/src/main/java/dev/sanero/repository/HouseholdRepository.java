@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import dev.sanero.entity.Employee;
 import dev.sanero.entity.HouseHold;
 
 /*
@@ -30,5 +29,8 @@ public interface HouseholdRepository extends JpaRepository<HouseHold, Integer> {
   public List<HouseHold> findAllByRoomIdAndComeDateAndLeaveDate(int roomId,
       String comeDate, String leaveDate);
   
-  public List<Employee> findAllHouseHoldsByDisable(boolean disable);
+  public List<HouseHold> findAllHouseHoldsByDisable(boolean disable);
+  
+  @Query("select h from household h WHERE h.leaveDate = null")
+  public List<HouseHold> findAllHouseholdIsLive();
 }

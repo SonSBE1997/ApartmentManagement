@@ -8,9 +8,6 @@
           add
           </i>
         </button>
-        <button mat-raised-button class="ml-1 download-sample" matTooltip="Tải về mẫu"
-          (click)="downloadSample()"></button>
-        <button mat-raised-button class="ml-1 import-excel" matTooltip="Tải tệp excel lên"></button>
         <button mat-raised-button class="ml-1 btn-info" matTooltip="Đăng ký thẻ">
           <i class="material-icons">
             credit_card
@@ -82,47 +79,47 @@
   <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="household_room_name">
       <th mat-header-cell *matHeaderCellDef style="width: 5%">Căn hộ</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row?.household?.room?.name">
+      <td mat-cell *matCellDef="let row" [title]="row?.household?.room?.name">
         {{ row?.household?.room?.name }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%">Họ và tên</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row?.name">{{row.name}}</td>
+      <td mat-cell *matCellDef="let row" [title]="row?.name">{{row.name}}</td>
     </ng-container>
 
     <ng-container matColumnDef="gender">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%">Giới tính</th>
-      <td class="room-number" mat-cell *matCellDef="let row; let i = index" [title]="row?.gender ? 'Nam' : 'Nữ'">
+      <td class="room-number" mat-cell *matCellDef="let row" [title]="row?.gender ? 'Nam' : 'Nữ'">
         {{ row?.gender ? 'Nam' : 'Nữ'}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="dateOfBirth">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%">Ngày sinh</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row.dateOfBirth | date: 'dd-MM-yyyy'">
+      <td mat-cell *matCellDef="let row" [title]="row.dateOfBirth | date: 'dd-MM-yyyy'">
         {{row.dateOfBirth | date: 'dd-MM-yyyy'}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="phoneNumber">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 8%">Số điện thoại</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row !== null? row?.phoneNumber : ''">
+      <td mat-cell *matCellDef="let row" [title]="row !== null? row?.phoneNumber : ''">
         {{row?.phoneNumber}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="email">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 10%">Email</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row !== null? row?.email : ''">
+      <td mat-cell *matCellDef="let row" [title]="row !== null? row?.email : ''">
         {{row?.email}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="address">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 18%">Quê quán</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row?.address">
+      <td mat-cell *matCellDef="let row" [title]="row?.address">
         {{row?.address}}
       </td>
     </ng-container>
@@ -130,38 +127,43 @@
 
     <ng-container matColumnDef="idCard">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 10%">Số CMND</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row !== null? row?.idCard : ''">
+      <td mat-cell *matCellDef="let row" [title]="row !== null? row?.idCard : ''">
         {{row?.idCard}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="head">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 5%">Chủ hộ</th>
-      <td mat-cell *matCellDef="let row; let i = index" [title]="row?.head ? 'Chủ hộ' : ''">
+      <td mat-cell *matCellDef="let row" [title]="row?.head ? 'Chủ hộ' : ''">
         {{row?.head ? 'Chủ hộ' : ''}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="disable">
       <th mat-header-cell mat-sort-header *matHeaderCellDef style="width: 10%">Trạng thái</th>
-      <td mat-cell *matCellDef="let row; let i = index"
-          [title]="row?.disable && row?.leave? 'Đã chuyển đi' : row?.disable && !row?.leave? 'Sẽ chuyển đi' : 'Đang cư trú'">
-        {{row?.disable && row?.leave? 'Đã chuyển đi' : row?.disable && !row?.leave? 'Sẽ chuyển đi' : ''}}
+      <td mat-cell *matCellDef="let row"
+          [title]="row?.disable && row?.leave? 'Đã chuyển đi' : row?.disable && !row?.leave? 'Sắp chuyển đi' : 'Đang cư trú'">
+          {{row?.disable? (row?.leaveDate | date: 'dd-MM-yyyy') : 'Đang cư trú'}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="action" >
       <th mat-header-cell *matHeaderCellDef style="width: 8%"></th>
-      <td mat-cell *matCellDef="let row; let i = index">
-        <a class="edit"><i class="material-icons" matTooltip="Sửa">border_color</i></a>
-        <a class="out ml-1"><i class="material-icons" matTooltip="Đăng ký chuyển đi">exit_to_app</i></a>
+      <td mat-cell *matCellDef="let row">
+        <a class="edit"><i class="material-icons" matTooltip="Sửa" (click)="edit(row)">border_color</i></a>
+        <a class="out ml-1" *ngIf="!row?.disable">
+            <i class="material-icons" matTooltip="Đăng ký chuyển đi" (click)="leave(row)">exit_to_app</i>
+        </a>
+        <a class="out ml-1" *ngIf="row?.disable">
+          <i class="material-icons" matTooltip="Đã đăng ký chuyển đi" [title]="row?.leaveDate | date: 'dd-MM-yyyy'">exit_to_app</i>
+        </a>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="['household_room_name','name', 'gender', 'dateOfBirth',
          'phoneNumber', 'email', 'address', 'idCard', 'head', 'disable', 'action']"></tr>
     <tr mat-row *matRowDef="let row; columns: ['household_room_name','name', 'gender', 'dateOfBirth',
-         'phoneNumber', 'email', 'address', 'idCard', 'head', 'disable', 'action']; let i = index">
+         'phoneNumber', 'email', 'address', 'idCard', 'head', 'disable', 'action']">
     </tr>
   </table>
   <mat-paginator (page)="changePage($event)" [pageSizeOptions]="[5, 10, 25, 50]"  showFirstLastButtons>

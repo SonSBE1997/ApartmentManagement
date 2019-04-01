@@ -72,11 +72,11 @@ export class UserService {
       );
   }
 
-  // saveRoom(data: Room[]) {
-  //   return this.http.post(this.url + '/api/room/save', data, {
-  //     headers: new HttpHeaders().set('Authorization', this.token)
-  //   });
-  // }
+  save(data: User) {
+    return this.http.post(this.url + '/save', data, {
+      headers: new HttpHeaders().set('Authorization', this.token)
+    });
+  }
 
   // deleteRoom(id: number): Observable<any> {
   //   return this.http.delete(this.url + `/api/room/delete/${id}`, {

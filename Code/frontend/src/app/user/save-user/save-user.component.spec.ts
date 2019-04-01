@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdateInfoComponent } from './update-info.component';
+import { SaveUserComponent } from './save-user.component';
 
-describe('UpdateInfoComponent', () => {
-  let component: UpdateInfoComponent;
-  let fixture: ComponentFixture<UpdateInfoComponent>;
+describe('SaveUserComponent', () => {
+  let component: SaveUserComponent;
+  let fixture: ComponentFixture<SaveUserComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdateInfoComponent ]
+      declarations: [ SaveUserComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpdateInfoComponent);
+    fixture = TestBed.createComponent(SaveUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,20 @@
+<h1 mat-dialog-title class="font-weight-bold">Đăng ký chuyển đi</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <input type="date" [formControl]="frm.get('leaveDate')" matInput placeholder="Ngày chuyển đi" required>
+      <mat-error *ngIf="frm.get('leaveDate').hasError('leaveDate')">
+        Bạn phải nhập chuyển đi
+      </mat-error>
+      <mat-error *ngIf="frm.get('leaveDate').hasError('invalidleavedate')">
+        Ngày chuyển đi phải sau ngày hiện tại
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
+    Đăng ký
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ</button>
+</div>

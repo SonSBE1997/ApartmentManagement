@@ -35,11 +35,11 @@ public class UserService {
   @Autowired
   UserRepository repository;
   
-  public ResultList findByPage(Pageable page) {
+  public ResultList findByPage(Pageable pageable) {
     try {
       ResultList result = new ResultList();
-      result.setObj(repository.findByPage(page));
-      result.setSize(repository.count());
+      result.setObj(repository.filterByStatus(false, false, pageable));
+      result.setSize(repository.filterByStatusCount(false, false));
       return result;
     } catch (Exception e) {
       return null;
@@ -130,6 +130,9 @@ public class UserService {
          } else if (roomId != 0) {
            list = repository.filterByRoomAndStatus(roomId, disable, leave, pageable);
            size = repository.filterByRoomAndStatusCount(roomId, disable, leave);
+         } else {
+           list = repository.filterByStatus(disable, leave, pageable);
+           size = repository.filterByStatusCount(disable, leave);
          }
        }
        

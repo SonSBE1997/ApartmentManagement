@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import dev.sanero.entity.Employee;
 import dev.sanero.repository.EmployeeRepository;
+import dev.sanero.utils.Md5Encryptor;
 
 /*
  * @author Sanero.
@@ -56,6 +57,9 @@ public class EmployeeService {
           if(op.get() != null) 
             return 2;
         }
+      }
+      if("".equals(emp.getPassword())) {
+        emp.setPassword(Md5Encryptor.encrypt("123"));
       }
       repository.save(emp);
       return 1;

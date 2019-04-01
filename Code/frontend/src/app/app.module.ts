@@ -49,16 +49,15 @@ import { PopUpComponent } from './home/pop-up/pop-up.component';
 import { DetailComponent } from './home/detail/detail.component';
 import { DeletePopUpComponent } from './common/delete-pop-up/delete-pop-up.component';
 import { UserComponent } from './user/user.component';
-import { UpdateInfoComponent } from './user/update-info/update-info.component';
 import { RegisterCardComponent } from './user/register-card/register-card.component';
-import { RegisterRoomComponent } from './user/register-room/register-room.component';
-import { RegisterInfoComponent } from './user/register-info/register-info.component';
 import { ErrorsHandler } from './errors/error-handler';
 import { EmployeeComponent } from './employee/employee.component';
 import { DeptComponent } from './dept/dept.component';
 import { SaveDeptComponent } from './dept/save-dept/save-dept.component';
 import { SaveEmpComponent } from './employee/save-emp/save-emp.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SaveUserComponent } from './user/save-user/save-user.component';
+import { RegisterLeaveComponent } from './user/register-leave/register-leave.component';
 
 @NgModule({
   declarations: [
@@ -74,15 +73,14 @@ import { ProfileComponent } from './profile/profile.component';
     DetailComponent,
     DeletePopUpComponent,
     UserComponent,
-    UpdateInfoComponent,
     RegisterCardComponent,
-    RegisterRoomComponent,
-    RegisterInfoComponent,
     EmployeeComponent,
     DeptComponent,
     SaveDeptComponent,
     SaveEmpComponent,
-    ProfileComponent
+    ProfileComponent,
+    SaveUserComponent,
+    RegisterLeaveComponent
   ],
   imports: [
     BrowserModule,
@@ -145,7 +143,10 @@ import { ProfileComponent } from './profile/profile.component';
     DeletePopUpComponent,
     PopUpComponent,
     SaveDeptComponent,
-    SaveEmpComponent
+    SaveEmpComponent,
+    SaveUserComponent,
+    RegisterLeaveComponent,
+    RegisterCardComponent
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

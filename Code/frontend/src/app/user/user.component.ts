@@ -17,6 +17,8 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { CommonServiceService } from '../common-service.service';
+import { SaveUserComponent } from './save-user/save-user.component';
+import { RegisterLeaveComponent } from './register-leave/register-leave.component';
 
 @Component({
   selector: 'app-user',
@@ -118,7 +120,9 @@ export class UserComponent implements OnInit {
   search(key) {
     if (key === 13) {
       if (this.isFilter) {
-        this.dataSource.filter = this.commonService.nonAccentVietnamese(this.searchStr.trim());
+        this.dataSource.filter = this.commonService.nonAccentVietnamese(
+          this.searchStr.trim()
+        );
       } else {
         this.loadByPaging();
       }
@@ -155,8 +159,6 @@ export class UserComponent implements OnInit {
     if (this.status === undefined || this.status === '') {
       this.status = '-1';
     }
-
-    this.matPaginator.pageIndex = 0;
     this.userService
       .filter(
         this.matPaginator.pageIndex,
@@ -248,8 +250,73 @@ export class UserComponent implements OnInit {
   }
 
   changePage(event) {
-    this.loadByPaging();
+    this.reloadData();
   }
 
-  addNew() {}
+  reloadData() {
+    if (this.isFilter) {
+      this.clickFilter();
+    } else {
+      this.loadByPaging();
+    }
+  }
+
+  addNew() {
+    const dialogRef = this.dialog.open(SaveUserComponent, {
+      width: '400px',
+      data: {
+        new: true,
+        user: null
+      },
+      position: { top: '50px' },
+      disableClose: true,
+      role: 'alertdialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+      this.reloadData();
+    });
+  }
+
+  edit(u) {
+    const dialogRef = this.dialog.open(SaveUserComponent, {
+      width: '400px',
+      data: {
+        new: false,
+        user: u
+      },
+      position: { top: '50px' },
+      disableClose: true,
+      role: 'alertdialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+      this.reloadData();
+    });
+  }
+
+  leave(u) {
+    const dialogRef = this.dialog.open(RegisterLeaveComponent, {
+      width: '400px',
+      data: {
+        user: u
+      },
+      position: { top: '50px' },
+      disableClose: true,
+      role: 'alertdialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+      this.reloadData();
+    });
+  }
 }

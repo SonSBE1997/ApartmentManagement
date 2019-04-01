@@ -38,9 +38,14 @@ public class HouseholdController {
   public ResponseEntity<List<HouseHold>> findAllByRoomIdAndComeDateAndLeaveDate(
       @PathVariable int roomId, @PathVariable String comeDate,
       @PathVariable String leaveDate) {
-    return new ResponseEntity<List<HouseHold>>(
-        householdService.findAllByRoomIdAndComeDateAndLeaveDate(roomId,
-            comeDate, leaveDate),
+    return new ResponseEntity<List<HouseHold>>(householdService
+        .findAllByRoomIdAndComeDateAndLeaveDate(roomId, comeDate, leaveDate),
         HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/live")
+  public ResponseEntity<List<HouseHold>> findAllHouseholdIsLive() {
+    return new ResponseEntity<List<HouseHold>>(
+        householdService.findAllHouseholdIslive(), HttpStatus.OK);
   }
 }

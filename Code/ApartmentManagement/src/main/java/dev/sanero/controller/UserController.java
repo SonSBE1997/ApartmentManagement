@@ -52,7 +52,7 @@ public class UserController {
       @RequestParam(name = "pageSize", required = false, defaultValue = "5") Integer pageSize,
       @RequestParam(name = "searchStr", required = false, defaultValue = "") String searchStr) {
     Pageable pageable = PageRequest.of(page, pageSize);
-    if (searchStr == "")
+    if ("".equals(searchStr))
       return new ResponseEntity<ResultList>(userService.findByPage(pageable),
           HttpStatus.OK);
     return new ResponseEntity<ResultList>(
@@ -82,7 +82,7 @@ public class UserController {
   @PostMapping("/save")
   public ResponseEntity<String> save(@RequestBody User user) {
     if (userService.save(user))
-      return new ResponseEntity<String>("OK", HttpStatus.OK);
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
     return new ResponseEntity<String>("Not ok", HttpStatus.OK);
   }
 }

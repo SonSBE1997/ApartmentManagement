@@ -34,10 +34,17 @@ public class HouseholdService {
   public List<HouseHold> findAllByRoomIdAndComeDateAndLeaveDate(int roomId,
       String comeDate, String leaveDate) {
     try {
-      List<HouseHold> list =  repository.findAllByRoomIdAndComeDateAndLeaveDate(roomId, comeDate,
+      return repository.findAllByRoomIdAndComeDateAndLeaveDate(roomId, comeDate,
           leaveDate);
-      System.out.println(list.size() + "");
-      return list;
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return null;
+    }
+  }
+
+  public List<HouseHold> findAllHouseholdIslive() {
+    try {
+      return repository.findAllHouseholdIsLive();
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return null;
