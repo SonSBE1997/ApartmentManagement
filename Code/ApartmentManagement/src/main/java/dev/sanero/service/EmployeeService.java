@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import dev.sanero.entity.Employee;
 import dev.sanero.repository.EmployeeRepository;
+import dev.sanero.utils.GenerateRandomString;
 import dev.sanero.utils.Md5Encryptor;
 
 /*
@@ -32,15 +33,18 @@ import dev.sanero.utils.Md5Encryptor;
 public class EmployeeService {
   @Autowired
   EmployeeRepository repository;
-  
-  public List<Employee> findAll(){
+
+  @Autowired
+  MailService mailService;
+
+  public List<Employee> findAll() {
     try {
       return repository.findAllEmployeesByDisable(false);
     } catch (Exception e) {
       return null;
     }
   }
-  
+
   public Employee findById(int id) {
     try {
       return repository.findById(id).get();
@@ -48,18 +52,22 @@ public class EmployeeService {
       return null;
     }
   }
-  
+
   public int save(Employee emp) {
     try {
-      if(emp.getId() == 0) {
+      if (emp.getId() == 0) {
         Optional<Employee> op = repository.findByUsername(emp.getUsername());
-        if(op.isPresent()) {
-          if(op.get() != null) 
+        if (op.isPresent()) {
+          if (op.get() != null)
             return 2;
         }
       }
-      if("".equals(emp.getPassword())) {
-        emp.setPassword(Md5Encryptor.encrypt("123"));
+      if ("".equals(emp.getPassword())) {
+        String password = GenerateRandomString
+            .givenUsingPlainJava_whenGeneratingRandomStringBounded_thenCorrect();
+        mailService.sendMail("sonvuongso@gmail.com", mailService
+            .genContentMail(emp.getName(), emp.getUsername(), password));
+        emp.setPassword(Md5Encryptor.encrypt(password));
       }
       repository.save(emp);
       return 1;
@@ -68,7 +76,7 @@ public class EmployeeService {
       return -1;
     }
   }
-  
+
   public boolean delete(int id) {
     try {
       Employee emp = repository.findById(id).get();

@@ -9,6 +9,7 @@
 
 package dev.sanero.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,7 @@ public interface HouseholdRepository extends JpaRepository<HouseHold, Integer> {
   
   @Query("select h from household h WHERE h.leaveDate = null")
   public List<HouseHold> findAllHouseholdIsLive();
+  
+  @Query("select h from household h WHERE h.comeDate = ?1")
+  public List<HouseHold> findHouseHoldComeToDay(Date date);
 }

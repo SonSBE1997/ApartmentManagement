@@ -1,10 +1,13 @@
 package dev.sanero.configuration;
 
 import java.util.Collections;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,9 +60,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     http.csrf().disable().authorizeRequests()
         .antMatchers("/login/**", "/file/**").permitAll().and()
         .authorizeRequests()
-        .antMatchers("**/building/**", "**/floor/**",
-            "**/room/**", "**/household/**", "**/user/**", "**/employee/**",
-            "**/dept/**")
+        .antMatchers("**/building/**", "**/floor/**", "**/room/**",
+            "**/household/**", "**/user/**", "**/employee/**", "**/dept/**")
         .access("hasRole('Manager')").and().exceptionHandling()
         .authenticationEntryPoint(entrypoint).accessDeniedHandler(denied).and()
         .cors().and().sessionManagement()
@@ -69,5 +71,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
         UsernamePasswordAuthenticationFilter.class);
 
     http.headers().cacheControl();
+  }
+
+  @Bean
+  public JavaMailSender getJavaMailSender() {
+    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    mailSender.setHost("smtp.gmail.com");
+    mailSender.setPort(587);
+    mailSender.setUsername("sonsbe1997@gmail.com");
+    mailSender.setPassword("32142135123");
+    Properties props = mailSender.getJavaMailProperties();
+    props.put("mail.transport.protocol", "smtp");
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.debug", "true");
+//      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
+//      props.put("mail.smtp.socketFactory.port", "465"); 
+//      <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> 
+//      <prop key="mail.smtp.socketFactory.port">465</prop> 
+//      <prop key="mail.smtp.starttls.enable">true</prop> 
+    return mailSender;
   }
 }

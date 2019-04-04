@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { PushNotificationService } from 'ngx-push-notifications';
 import {
   MatInputModule,
   MatSelectModule,
@@ -58,6 +58,7 @@ import { SaveEmpComponent } from './employee/save-emp/save-emp.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SaveUserComponent } from './user/save-user/save-user.component';
 import { RegisterLeaveComponent } from './user/register-leave/register-leave.component';
+import { SaveHouseholdComponent } from './home/room-detail/save-household/save-household.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { RegisterLeaveComponent } from './user/register-leave/register-leave.com
     SaveEmpComponent,
     ProfileComponent,
     SaveUserComponent,
-    RegisterLeaveComponent
+    RegisterLeaveComponent,
+    SaveHouseholdComponent
   ],
   imports: [
     BrowserModule,
@@ -146,7 +148,8 @@ import { RegisterLeaveComponent } from './user/register-leave/register-leave.com
     SaveEmpComponent,
     SaveUserComponent,
     RegisterLeaveComponent,
-    RegisterCardComponent
+    RegisterCardComponent,
+    SaveHouseholdComponent
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
@@ -160,7 +163,8 @@ import { RegisterLeaveComponent } from './user/register-leave/register-leave.com
       provide: ErrorHandler,
       useClass: ErrorsHandler
     },
-    CookieService
+    CookieService,
+    PushNotificationService
   ],
   bootstrap: [AppComponent]
 })

@@ -78,6 +78,17 @@ export class UserService {
     });
   }
 
+  leaveToday(): Observable<User[]> {
+    return this.http
+      .get<User[]>(this.url + '/leave', {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      })
+      .pipe(
+        tap(),
+        catchError(err => of(null))
+      );
+  }
+
   // deleteRoom(id: number): Observable<any> {
   //   return this.http.delete(this.url + `/api/room/delete/${id}`, {
   //     headers: new HttpHeaders().set('Authorization', this.token)

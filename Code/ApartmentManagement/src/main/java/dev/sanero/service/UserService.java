@@ -9,6 +9,7 @@
 
 package dev.sanero.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -143,6 +144,15 @@ public class UserService {
        result.setObj(list);
        result.setSize(size);
       return result;
+    } catch (Exception e) {
+      return null;
+    }
+  }
+  
+  public List<User> leaveToDay() {
+    try {
+      Date date = new Date(new java.util.Date().getTime());
+      return repository.leaveToday(date);
     } catch (Exception e) {
       return null;
     }

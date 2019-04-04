@@ -7,12 +7,16 @@ import {
   MatTableDataSource,
   MatSort,
   MatPaginator,
-  MAT_DATE_LOCALE
+  MAT_DATE_LOCALE,
+  MatDialog
 } from '@angular/material';
 import { Household } from 'src/entity/Household';
 import { FormControl } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 import { DateService } from 'src/app/service/date.servce';
+import { SaveHouseholdComponent } from './save-household/save-household.component';
+import { EmployeeService } from 'src/app/service/employee.service';
+import { Employee } from 'src/entity/Employee';
 
 @Component({
   selector: 'app-room-detail',
@@ -28,7 +32,7 @@ export class RoomDetailComponent implements OnInit {
   leave = new FormControl();
   isFilter = false;
   searchData = '';
-
+  employee: Employee = null;
   displayedColumns: string[] = [
     'fullName',
     'idCard',
@@ -52,11 +56,15 @@ export class RoomDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private roomService: RoomService,
     private notifierService: NotifierService,
-    private dateService: DateService
+    private dateService: DateService,
+    private dialog: MatDialog,
+    private employeeService: EmployeeService
   ) {}
 
   ngOnInit() {
     this.loadData();
+    const userLogin = localStorage.getItem('userId');
+    this.employeeService.findById(parseInt(userLogin, 10)).subscribe(e => this.employee = e);
   }
 
   loadData() {
@@ -148,5 +156,25 @@ export class RoomDetailComponent implements OnInit {
     this.loadData();
     this.dataSource.paginator.firstPage();
     this.isFilter = false;
+  }
+
+  addNew() {
+    const dialogRef = this.dialog.open(SaveHouseholdComponent, {
+      width: '400px',
+      data: {
+        room: this.room,
+        employee: this.employee
+      },
+      position: { top: '50px' },
+      disableClose: true,
+      role: 'alertdialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+      this.loadData();
+    });
   }
 }

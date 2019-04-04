@@ -30,3 +30,33 @@ hr{
 }
 
 .pointer {cursor: pointer;}
+
+.mat-menu-item {
+  width: 270px !important;
+  text-align: center;
+  font-size: 13px !important;
+  height: 35px !important;
+}
+
+.notification {
+  padding-left: 3px !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+}
+
+.matmenucontent div {
+  margin-top: 5px !important;
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  border-top: 0.5px #b4aaaa solid !important;
+}
+
+.notify-badge{
+  border-top: 0.5px #b4aaaa solid !important;
+  padding-top: 10px !important;
+}
+
+.bt {
+  border-top: 0.5px #b4aaaa solid !important;
+  font-size: 12px !important;
+}

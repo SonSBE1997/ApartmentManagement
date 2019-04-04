@@ -85,4 +85,9 @@ public class UserController {
       return new ResponseEntity<String>("Ok", HttpStatus.OK);
     return new ResponseEntity<String>("Not ok", HttpStatus.OK);
   }
+  
+  @GetMapping("/leave")
+  public ResponseEntity<List<User>> leaveToDay() {
+    return new ResponseEntity<List<User>>(userService.leaveToDay(), HttpStatus.OK);
+  }
 }

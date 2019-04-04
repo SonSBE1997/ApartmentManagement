@@ -84,8 +84,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   
 
   @Query("SELECT u FROM user u where u.disable = true and u.isLeave = false and leaveDate = ?1")
-  long leaveToday(Date now);
+  List<User> leaveToday(Date now);
   
-  @Query("SELECT count(u.id) FROM user u where u.disable = true and u.isLeave = false and leaveDate = ?1")
+  @Query("SELECT count(u.id) FROM user u where u.disable = true and u.isLeave = false and leaveDate > ?1")
   long leaveTodayCount(Date now);
+  
 }

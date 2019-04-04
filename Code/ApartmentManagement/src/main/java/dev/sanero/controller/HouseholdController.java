@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,5 +49,18 @@ public class HouseholdController {
   public ResponseEntity<List<HouseHold>> findAllHouseholdIsLive() {
     return new ResponseEntity<List<HouseHold>>(
         householdService.findAllHouseholdIslive(), HttpStatus.OK);
+  }
+  
+  @PostMapping("/save")
+  public ResponseEntity<String> save(@RequestBody HouseHold h) {
+    if (householdService.save(h))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
+  }
+  
+  @GetMapping(value = "/come-today")
+  public ResponseEntity<List<HouseHold>> findHouseHoldComeToDay() {
+    return new ResponseEntity<List<HouseHold>>(
+        householdService.findHouseHoldComeToDay(), HttpStatus.OK);
   }
 }

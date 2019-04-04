@@ -27,14 +27,35 @@
     <button mat-button class="text-info" (click)="changePage('profile', '/profile')" [ngClass]="{'active': url === 'profile'}">
               {{ employee?.name }}
     </button>
-    <mat-icon class="m-2 pointer" matBadge="15" matBadgeColor="warn" [matMenuTriggerFor]="notify">notifications_active</mat-icon>
-    <mat-menu #notify="matMenu" xPosition="before" yPosition="below">
-      <div>
-        <div>Test</div>
-        <div>Test</div>
-      </div>
-      <hr>
-      <div>Item 2</div>
+    <mat-icon class="m-2 pointer" [matBadge]="notifyNum" matBadgeColor="warn" [matMenuTriggerFor]="notify">
+      notifications_active
+    </mat-icon>
+    <mat-menu #notify="matMenu" xPosition="after" yPosition="below">
+      <div class="notification">Thông báo</div>
+      <div class="notification bt">Chuyển đến (căn hộ - ngày)</div>
+      <ng-container  *ngIf="households.length != 0">
+        <ng-container *ngFor="let h of households">
+          <div mat-menu-item>
+            {{h.room.name}} - {{h.comeDate | date: 'dd/MM/yyyy'}}
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="households.length == 0">
+        <div mat-menu-item>Không có căn hộ chuyển đến hôm nay</div>
+      </ng-container>
+
+      <div class="notification bt">Chuyển đi (người chuyển đi - căn hộ - ngày)</div>
+      <ng-container *ngIf="userLeave.length != 0">
+        <ng-container *ngFor="let u of userLeave">
+          <div mat-menu-item>
+            {{u.name}} - {{u.household.room.name}} - {{u.leaveDate | date: 'dd/MM/yyyy'}}
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="userLeave.length == 0">
+        <div mat-menu-item>Không có ai chuyển đi hôm nay</div>
+      </ng-container>
+
     </mat-menu>
     <button mat-button (click)="logout()">Đăng xuất</button>
   </div>

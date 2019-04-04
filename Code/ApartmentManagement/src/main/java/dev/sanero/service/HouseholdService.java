@@ -9,6 +9,7 @@
 
 package dev.sanero.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -45,6 +46,25 @@ public class HouseholdService {
   public List<HouseHold> findAllHouseholdIslive() {
     try {
       return repository.findAllHouseholdIsLive();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return null;
+    }
+  }
+
+  public boolean save(HouseHold h) {
+    try {
+      repository.save(h);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  public List<HouseHold> findHouseHoldComeToDay() {
+    try {
+      Date date = new Date(new java.util.Date().getTime());
+      return repository.findHouseHoldComeToDay(date);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return null;
