@@ -16,3 +16,15 @@ table.table td a.out {
 table.table td a.out:hover{
   cursor: pointer;
 }
+
+td.active {
+  border-left: 5px solid #0d8828 !important;
+}
+
+.card-table {
+  width: 100% !important;
+}
+
+.col-custom {
+  padding: 0px !important;
+}

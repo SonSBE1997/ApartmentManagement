@@ -19,6 +19,11 @@ import { startWith, map } from 'rxjs/operators';
 import { CommonServiceService } from '../common-service.service';
 import { SaveUserComponent } from './save-user/save-user.component';
 import { RegisterLeaveComponent } from './register-leave/register-leave.component';
+import { Card } from 'src/entity/Card';
+import { CardService } from '../service/card.service';
+import { VehicleService } from '../service/vehicle.service';
+import { DeletePopUpComponent } from '../common/delete-pop-up/delete-pop-up.component';
+import { RegisterCardComponent } from './register-card/register-card.component';
 
 @Component({
   selector: 'app-user',
@@ -31,7 +36,9 @@ export class UserComponent implements OnInit {
   floors: Floor[] = [];
   rooms: Room[] = [];
   now = new Date();
-
+  cards: Card[] = [];
+  selectedUser = -1;
+  cardDataSource: MatTableDataSource<Card>;
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   @ViewChild(MatSort) matSort: MatSort;
   dataSource: MatTableDataSource<User>;
@@ -51,11 +58,12 @@ export class UserComponent implements OnInit {
     private dialog: MatDialog,
     private notifierService: NotifierService,
     private dateService: DateService,
-    private commonService: CommonServiceService
+    private commonService: CommonServiceService,
+    private cardService: CardService,
+    private vehicleService: VehicleService
   ) {}
 
   ngOnInit() {
-    // this.loadData();
     this.matPaginator.pageIndex = 0;
     this.matPaginator.pageSize = 5;
     this.loadData();
@@ -130,6 +138,7 @@ export class UserComponent implements OnInit {
   }
 
   clickFilter() {
+    this.selectedUser = -1;
     this.isFilter = true;
     if (
       this.selectedBuilding === null &&
@@ -254,6 +263,8 @@ export class UserComponent implements OnInit {
   }
 
   reloadData() {
+    this.selectedUser = -1;
+    this.cards = [];
     if (this.isFilter) {
       this.clickFilter();
     } else {
@@ -301,11 +312,15 @@ export class UserComponent implements OnInit {
     });
   }
 
-  leave(u) {
+  leave(u: User) {
+    if (u.disable && new Date(u.leaveDate).getTime() <= new Date().getTime()) {
+      return;
+    }
     const dialogRef = this.dialog.open(RegisterLeaveComponent, {
       width: '400px',
       data: {
-        user: u
+        user: u,
+        change: u.disable
       },
       position: { top: '50px' },
       disableClose: true,
@@ -317,6 +332,98 @@ export class UserComponent implements OnInit {
         return;
       }
       this.reloadData();
+    });
+  }
+
+  selectedUserChange(user: User) {
+    if (user.disable && new Date(user.leaveDate).getTime() <= new Date().getTime()) {
+      this.selectedUser = -1;
+      return;
+    }
+    this.loadCard(user);
+  }
+
+  loadCard(user: User) {
+    const id = user.id;
+    this.selectedUser = id;
+    this.cards = [];
+    this.cardService.findAllByUserId(id).subscribe(cards => {
+      if (cards != null) {
+        cards.forEach(v => {
+          this.cards.push(v);
+          this.cardDataSource = new MatTableDataSource(this.cards);
+          window.scrollTo({
+            top: 1000,
+            left: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
+    });
+  }
+
+  removeCard(c: Card) {
+    const dialogRef = this.dialog.open(DeletePopUpComponent, {
+      width: '320px',
+      data: {},
+      position: { top: '50px' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== 'ok') {
+        return;
+      }
+      if (c.cardType.name === 'Thẻ ra vào') {
+        this.cardService.delete(c.cardNumber).subscribe(
+          success => console.log(success),
+          error => {
+            if (error.error.text === 'Ok') {
+              this.notifierService.notify('success', 'Huỷ thẻ thành công');
+              this.loadCard(this.dataSource.data.find(value => value.id === this.selectedUser));
+            }
+          }
+        );
+      } else {
+        this.vehicleService.delete(c.vehicle.plateNumber).subscribe(
+          success => console.log(success),
+          error => {
+            if (error.error.text === 'Ok') {
+              this.cardService.delete(c.cardNumber).subscribe(
+                s => console.log(s),
+                e => {
+                  if (e.error.text === 'Ok') {
+                    this.notifierService.notify('success', 'Huỷ thẻ thành công');
+                    this.loadCard(this.dataSource.data.find (value => value.id === this.selectedUser));
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    });
+  }
+
+  createCard() {
+    if (this.selectedUser === -1) {
+      this.notifierService.notify('info', 'Bạn phải chọn cư dân trước');
+      return;
+    }
+    const u = this.dataSource.data.find(v => v.id === this.selectedUser);
+    const dialogRef = this.dialog.open(RegisterCardComponent, {
+      width: '400px',
+      data: {
+        user: u
+      },
+      position: { top: '50px' },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+      this.loadCard(u);
     });
   }
 }

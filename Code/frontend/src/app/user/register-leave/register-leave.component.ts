@@ -38,6 +38,10 @@ export class RegisterLeaveComponent implements OnInit {
     this.frm = this.fb.group({
       leaveDate: ['', [Validators.required, validateLeaveDate(new Date())]]
     });
+
+    this.frm.patchValue({
+      leaveDate: this.data.user.leaveDate != null ? this.data.user.leaveDate : ''
+    });
   }
 
   save() {
@@ -47,15 +51,41 @@ export class RegisterLeaveComponent implements OnInit {
 
     data.leaveDate = new Date(this.frm.get('leaveDate').value);
     data.disable = true;
-
+    const action = this.data.change ? 'Đổi ngày' : 'Đăng ký';
     this.userService.save(data).subscribe(
       success => console.log(success),
       error => {
         if (error.error.text === 'Ok') {
-          this.notifierService.notify('success', `Đăng ký chuyển đi thành công`);
+          this.notifierService.notify(
+            'success',
+            `${action} chuyển đi thành công`
+          );
           this.dialogRef.close(true);
         } else {
-          this.notifierService.notify('error', `Đăng ký chuyển đi thất bại`);
+          this.notifierService.notify('error', `${action} chuyển đi thất bại`);
+        }
+      }
+    );
+  }
+
+  cancelLeave() {
+    const data: User = {
+      ...this.data.user
+    };
+
+    data.leaveDate = null;
+    data.disable = false;
+    this.userService.save(data).subscribe(
+      success => console.log(success),
+      error => {
+        if (error.error.text === 'Ok') {
+          this.notifierService.notify(
+            'success',
+            `Huỷ chuyển đi thành công`
+          );
+          this.dialogRef.close(true);
+        } else {
+          this.notifierService.notify('error', `Huỷ chuyển đi thất bại`);
         }
       }
     );

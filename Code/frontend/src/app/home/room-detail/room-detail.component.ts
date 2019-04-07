@@ -68,6 +68,7 @@ export class RoomDetailComponent implements OnInit {
   }
 
   loadData() {
+    this.room = null;
     this.activatedRoute.paramMap
       .pipe(
         mergeMap(params => {
@@ -77,7 +78,10 @@ export class RoomDetailComponent implements OnInit {
       )
       .subscribe(r => {
         this.room = r;
-        this.dataSource = new MatTableDataSource(r.households);
+        this.room.households.sort((a, b) => {
+          return b.id - a.id;
+        });
+        this.dataSource = new MatTableDataSource(this.room.households);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.customFilter();

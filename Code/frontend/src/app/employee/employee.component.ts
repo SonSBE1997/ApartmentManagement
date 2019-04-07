@@ -64,7 +64,8 @@ export class EmployeeComponent implements OnInit {
         let dataStr = data.id + data.name;
         dataStr += data.dept.name + this.dateService.toDateString(data.dateOfBirth, '-');
         dataStr += data.email + data.gender ? 'Nam' : 'Nữ';
-        dataStr += data.idCard + data.phoneNumber + data.role + data.username;
+        dataStr += data.idCard + data.phoneNumber + data.username;
+        dataStr += data.role === 'Manager' ? 'Quản lý' : 'Bảo vệ';
         dataStr = dataStr.toLowerCase();
         return dataStr.indexOf(filter) !== -1;
       };

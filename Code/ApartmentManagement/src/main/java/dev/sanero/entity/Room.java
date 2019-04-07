@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,9 @@ public class Room implements Serializable {
   private String name;
   private double area;
   private String status;
-
+  @Column(name="room_type")
+  private String roomType;
+  
   @ManyToOne()
   @JoinColumn(name = "floor_id")
   @JsonIgnoreProperties("rooms")
@@ -51,6 +54,26 @@ public class Room implements Serializable {
   @JoinColumn(name = "building_id")
   @JsonIgnoreProperties("floors")
   private Building building;
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 6, 2019
+   * Created time: 3:05:07 PM
+   * @return the roomType
+   */
+  public String getRoomType() {
+    return roomType;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 6, 2019
+   * Created time: 3:05:07 PM
+   * @param roomType the roomType to set
+   */
+  public void setRoomType(String roomType) {
+    this.roomType = roomType;
+  }
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "room_id")

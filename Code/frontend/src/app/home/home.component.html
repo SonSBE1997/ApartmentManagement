@@ -1,23 +1,27 @@
 <div class="container">
-  <div class="page-header mt-2 text-center text-uppercase font-weight-bold">Tổng quan chung cư</div>
+  <div class="page-header mt-2 text-center text-uppercase">Tổng quan chung cư</div>
+</div>
+
+
+<mat-card>
   <div class="row">
     <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
       <button mat-raised-button [routerLink]="['/apartment/detail']">Cập nhật thông tin</button>
     </div>
     <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
       <!-- <ol class="breadcrumb float-right">
-        <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
-        <li class="breadcrumb-item active">Tổng quan</li>
-      </ol> -->
-   </div>
+            <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
+            <li class="breadcrumb-item active">Tổng quan</li>
+          </ol> -->
+    </div>
   </div>
   <div class="row mt-3">
     <div class="col-sm-3 col-md-3 col-xl-7 text-right font-weight-bold">Trạng thái căn hộ: </div>
     <div class="col-sm-10 col-md-10 col-xl-5">
       <div class="row align-content-center">
         <!-- <div class="col-xl-3">
-          <div class="color-secondary w100"></div> Tạm đóng
-        </div> -->
+              <div class="color-secondary w100"></div> Tạm đóng
+            </div> -->
         <div class="col-xl-4">
           <div class="room-empty w100"></div> Trống
         </div>
@@ -35,7 +39,8 @@
     <div class="col-xl-8">
       <span class="font-weight-bold">Toà nhà: </span>
       <span class="text-center">
-        <mat-select placeholder="Chọn toà nhà" class="w-15" (valueChange)="selectionChange($event)" [value]="selectedValue">
+        <mat-select placeholder="Chọn toà nhà" class="w-15" (valueChange)="selectionChange($event)"
+          [value]="selectedValue">
           <mat-option>Chọn toà nhà</mat-option>
           <mat-option *ngFor="let b of buildings; index as i" [value]="i">
             {{ b.name }}
@@ -46,37 +51,37 @@
     <div class="col-xl-4">
     </div>
   </div>
-</div>
 
-<ng-container *ngIf="floors.length > 0">
-  <div class="table-responsive mt-4">
-    <table class="table table-bordered w-100 text-center custom-table">
-      <tbody>
-        <tr *ngFor="let f of floors">
-          <td class="font-weight-bold vertical-align-middle" style="width: 75px;">{{f.name}}</td>
-          <ng-template ngFor let-i [ngForOf]="matrix">
-            <td *ngIf="f.rooms.length > i" style="width: 75px;">
-              <button *ngIf="!f.rooms[i].disable" mat-button class="btn" (click)="openDialog(f.rooms[i])"
-                    [ngClass]="{'room-rent': f.rooms[i].status === '1', 'room-sale': f.rooms[i].status === '2'}">
-                {{ f.rooms[i].name }}
-              </button>
-              <button *ngIf="f.rooms[i].disable" mat-button class="btn color-secondary" (click)="openDialog(f.rooms[i])">
-                {{ f.rooms[i].name }}
-              </button>
-            </td>
-            <td *ngIf="f.rooms.length <= i" style="width: 75px;">
-              <button mat-button class="btn"></button>
-            </td>
-          </ng-template>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</ng-container>
+  <ng-container *ngIf="floors.length > 0">
+    <div class="table-responsive mt-4">
+      <table class="table table-bordered w-100 text-center custom-table">
+        <tbody>
+          <tr *ngFor="let f of floors">
+            <td class="font-weight-bold vertical-align-middle" style="width: 75px;">{{f.name}}</td>
+            <ng-template ngFor let-i [ngForOf]="matrix">
+              <td *ngIf="f.rooms.length > i" style="width: 75px;">
+                <button *ngIf="!f.rooms[i].disable" mat-button class="btn" (click)="openDialog(f.rooms[i])"
+                  [ngClass]="{'room-rent': f.rooms[i].status === '1', 'room-sale': f.rooms[i].status === '2'}">
+                  {{ f.rooms[i].name }}
+                </button>
+                <button *ngIf="f.rooms[i].disable" mat-button class="btn color-secondary"
+                  (click)="openDialog(f.rooms[i])">
+                  {{ f.rooms[i].name }}
+                </button>
+              </td>
+              <td *ngIf="f.rooms.length <= i" style="width: 75px;">
+                <button mat-button class="btn"></button>
+              </td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
 
-<ng-container *ngIf="isSelected && (floors.length === 0 || matrix.length === 0)">
-  <div class="container text-center mt-5 text-danger font-weight-bold">
-    Không có căn hộ nào.
-  </div>
-</ng-container>
-
+  <ng-container *ngIf="isSelected && (floors.length === 0 || matrix.length === 0)">
+    <div class="container text-center mt-5 text-danger font-weight-bold">
+      Không có căn hộ nào.
+    </div>
+  </ng-container>
+</mat-card>

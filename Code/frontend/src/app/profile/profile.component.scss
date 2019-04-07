@@ -1,5 +1,5 @@
 .mat-sidenav-container {
-  border: 1px solid #9094c7;
+  // border: 1px solid #9094c7;
   height: 530px !important;
   max-height: 530px !important;
 }
@@ -11,11 +11,13 @@
 
 .mat-nav-list a.active {
   border-bottom: 3px #0fac29 solid;
+  background-color: #efefef;
 }
 
 .mat-sidenav-content {
-  padding: 7% !important;
+  padding: 5% !important;
   padding-left: 15% !important;
+  padding-right: 15% !important;
   background-color: #ffffff;
 }
 
@@ -30,4 +32,19 @@
 
 .full-width {
   width: 100% !important;
+}
+
+.mat-card  {
+  padding: 0px !important;
+}
+
+.mat-card, .mat-sidenav-container{
+  max-height: 525px !important;
+}
+
+.update-password {
+  color: #fff;
+  background-color: #9c27b0;
+  border-color: #9c27b0;
+  box-shadow: 0 2px 2px 0 rgba(156,39,176,.14), 0 3px 1px -2px rgba(156,39,176,.2), 0 1px 5px 0 rgba(156,39,176,.12);
 }

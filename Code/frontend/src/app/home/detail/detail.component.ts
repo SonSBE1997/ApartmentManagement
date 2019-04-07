@@ -125,7 +125,8 @@ export class DetailComponent implements OnInit {
         deletable: true,
         area: 0,
         status: '0',
-        households: []
+        households: [],
+        roomType: 'B'
       };
       this.rId--;
       data.unshift(room);
@@ -557,7 +558,7 @@ export class DetailComponent implements OnInit {
             : data.status === '1'
             ? 'Đang cho thuê'
             : 'Đã bán';
-        dataStr += data.disable ? 'Đóng' : 'Mở';
+        dataStr += data.disable ? 'Mở' : 'Đóng';
         dataStr = dataStr.toLowerCase();
         return dataStr.indexOf(filter) !== -1;
       };
@@ -579,6 +580,15 @@ export class DetailComponent implements OnInit {
     const row = data.indexOf(r);
     data[row].floor = this.floors.find(v => v.id === e.value);
     data[row].building = data[row].floor.building;
+    this.dataSource3.data = data;
+    this.rCheck[row] = true;
+  }
+
+  selectRoomTypeChange(e, id) {
+    const data = this.dataSource3.data;
+    const r = data.find(v => v.id === id);
+    const row = data.indexOf(r);
+    data[row].roomType = e.value;
     this.dataSource3.data = data;
     this.rCheck[row] = true;
   }
@@ -630,18 +640,17 @@ export class DetailComponent implements OnInit {
           this.notifierService.notify('warning', 'Bạn phải nhập tên căn hộ');
           return false;
         }
-
-        if (data[i].area === 0) {
+        if (data[i].area <= 0) {
           document.getElementById('rarea' + i).focus();
           this.notifierService.notify(
             'warning',
-            'Bạn phải nhập diện tích căn hộ'
+            'Bạn phải nhập diện tích căn hộ lớn hơn 0'
           );
           return false;
         }
       }
       for (let j = i + 1; j < size; j++) {
-        if (data[i].floor === null) {
+        if (data[j].floor === null) {
           document.getElementById('rname' + i).focus();
           this.notifierService.notify(
             'warning',
@@ -650,17 +659,17 @@ export class DetailComponent implements OnInit {
           return false;
         }
 
-        if (data[i].name === '') {
+        if (data[j].name === '') {
           document.getElementById('rname' + i).focus();
           this.notifierService.notify('warning', 'Bạn phải nhập tên căn hộ');
           return false;
         }
 
-        if (data[i].area === 0) {
+        if (data[j].area <= 0) {
           document.getElementById('rarea' + i).focus();
           this.notifierService.notify(
             'warning',
-            'Bạn phải nhập diện tích căn hộ'
+            'Bạn phải nhập diện tích căn hộ lớn hơn 0'
           );
           return false;
         }

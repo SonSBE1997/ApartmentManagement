@@ -3,7 +3,6 @@ hr{
 }
 
 .header {
-  // background-color: #673ab7;
   // color: #ffffff;
   font-weight: bold;
   padding-top: 5px;
@@ -16,10 +15,21 @@ hr{
   display: -webkit-flex;
   display: flex;
   justify-content: space-around;
+  background: #fff;
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 38px -12px rgba(0,0,0,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
 }
 
 .active {
-  background-color: rgba(71, 195, 226, 0.835);
+  background-color: #9c27b0;
+  // background-color: rgba(71, 195, 226, 0.835);
   color: #ffffff !important;
 }
 
@@ -29,6 +39,7 @@ hr{
   vertical-align: middle;
 }
 
+
 .pointer {cursor: pointer;}
 
 .mat-menu-item {
@@ -36,6 +47,13 @@ hr{
   text-align: center;
   font-size: 13px !important;
   height: 35px !important;
+  vertical-align: middle !important;
+}
+
+.sub-menu:hover {
+  vertical-align: middle !important;
+  background: #ab47bc;
+  color: #ffffff;
 }
 
 .notification {

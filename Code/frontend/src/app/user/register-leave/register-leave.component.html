@@ -1,4 +1,4 @@
-<h1 mat-dialog-title class="font-weight-bold">Đăng ký chuyển đi</h1>
+<h1 mat-dialog-title class="font-weight-bold">{{data.change? 'Đổi ngày chuyển đi' : 'Đăng ký chuyển đi'}}</h1>
 <div mat-dialog-content>
   <form novalidate [formGroup]="frm" class="form-horizontal">
     <mat-form-field class="full-width">
@@ -14,7 +14,10 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
-    Đăng ký
+    {{data.change? 'Đổi' : 'Đăng ký'}}
+  </button>
+  <button mat-raised-button class="btn-warning" (click)="cancelLeave()" *ngIf="data.change">
+    Huỷ chuyển đi
   </button>
   <button mat-raised-button (click)="onNoClick()">Huỷ</button>
 </div>

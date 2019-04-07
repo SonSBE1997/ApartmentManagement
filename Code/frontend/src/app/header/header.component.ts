@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../service/sharedService.service';
 import { Employee } from 'src/entity/Employee';
@@ -11,6 +11,7 @@ import {
   PushNotificationOptions,
   PushNotificationService
 } from 'ngx-push-notifications';
+import { MatMenuTrigger } from '@angular/material';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,7 @@ import {
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
   url = '';
   employee: Employee = null;
   households: Household[] = [];
@@ -57,7 +59,10 @@ export class HeaderComponent implements OnInit {
     setInterval(() => {
       const d = new Date();
       const h = d.getHours();
-      if ((h === 8 || h === 10 || h === 14 || h === 16)  && d.getMinutes() === 0) {
+      if (
+        (h === 8 || h === 10 || h === 14 || h === 16) &&
+        d.getMinutes() === 0
+      ) {
         if (
           this.pushNotificationService.isPermissionGranted &&
           this.notifyNum > 0
@@ -108,7 +113,6 @@ export class HeaderComponent implements OnInit {
         this.notifyNum++;
       });
     });
-
   }
 
   showNotification() {
@@ -152,5 +156,13 @@ export class HeaderComponent implements OnInit {
     this.url = activeUrl;
     this.sharedService.changePage(activeUrl);
     this.router.navigateByUrl(url);
+  }
+
+  openMenuApartment() {
+    this.trigger.openMenu();
+  }
+
+  closeMenuApartment() {
+    this.trigger.closeMenu();
   }
 }

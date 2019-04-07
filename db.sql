@@ -49,6 +49,7 @@ create table room (
     status enum('0','1','2') default '0',
     floor_id int,
     building_id int,
+    room_type enum('A', 'B') default 'B',
     disable bit default 0,
     foreign key (building_id) references building(id),
     foreign key (floor_id) references floor(id)
@@ -86,7 +87,7 @@ create  table user(
     is_head bit,
     is_leave bit default 0,
     leave_date date,
-    is_enable bit,
+    is_enable bit default 0,
     household_id int,
     disable bit default 0,
     foreign key(household_id) references household(id)
@@ -136,7 +137,7 @@ create table verhicle_type(
 );
 
 create  table verhicle(
-	plate_numb varchar(50),
+	plate_numb varchar(50) primary key,
     card_numb varchar(50),
     user_id int,
     verhicle_type int,

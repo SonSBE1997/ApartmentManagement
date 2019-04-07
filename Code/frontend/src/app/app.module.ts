@@ -126,7 +126,7 @@ import { SaveHouseholdComponent } from './home/room-detail/save-household/save-h
         },
         vertical: {
           position: 'top',
-          distance: 50,
+          distance: 125,
           gap: 10
         }
       },

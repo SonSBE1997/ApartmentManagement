@@ -61,7 +61,8 @@ export class HomeComponent implements OnInit {
   openDialog(r): void {
     const dialogRef = this.dialog.open(AptPopUpComponent, {
       width: '300px',
-      data: r
+      data: r,
+      position: {top: '50px'}
     });
 
     dialogRef.afterClosed().subscribe(result => {});

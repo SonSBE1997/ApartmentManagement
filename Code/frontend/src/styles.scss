@@ -10,8 +10,8 @@ body {
   padding: 0px;
   font-size: 13px !important;
   height: 100vh;
+  background-color: #eee;
 }
-
 
 .breadcrumb {
   background: none !important;
@@ -66,8 +66,15 @@ table {
 
 th, td {
   vertical-align: middle !important;
-  padding-left: 25px !important;
+  padding-left: 0px !important;
+  margin: 0px !important;
 }
+
+.mat-cell, .mat-header-cell {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
 
 th div button{
   margin: 0 auto !important;
@@ -75,6 +82,7 @@ th div button{
 
 th {
   font-weight: bold;
+  // color: #9c27b0 !important;
 }
 
 table.table td a.edit {
@@ -93,8 +101,24 @@ table.table td a.delete:hover{
 }
 
 .page-header {
-  height: 40px;
-  font-size: 16px !important;
-  color: rgba(195, 21, 79, 0.911);
-  font-weight: bold;
+    height: 50px;
+    font-size: 16px !important;
+    /* color: rgba(195, 21, 79, 0.911); */
+    /* font-weight: bold; */
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    background: linear-gradient(120deg, #ab47bc, #8e24aa);
+    margin-bottom: 10px;
+    vertical-align: middle !important;
+    background-color: white;
+    color: #ffffffff;
+    padding-top: 13px !important;
+    border-radius: 5px !important;
+}
+
+table:hover {
+  cursor: pointer;
+}
+
+.mat-card {
+  min-height: 525px !important;
 }

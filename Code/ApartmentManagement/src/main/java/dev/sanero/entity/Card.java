@@ -12,12 +12,17 @@ package dev.sanero.entity;
 import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * @author Sanero.
@@ -37,6 +42,11 @@ public class Card implements Serializable {
   @Column(name = "created_date")
   private Date createdDate;
 
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "card")
+//  @JoinColumn(name = "card_numb")
+  @JsonIgnoreProperties(value = "card", allowSetters = true)
+  private Vehicle vehicle;
+
   @ManyToOne
   @JoinColumn(name = "card_type_id")
   private CardType cardType;
@@ -48,15 +58,35 @@ public class Card implements Serializable {
   @ManyToOne
   @JoinColumn(name = "created_by")
   private Employee employee;
-  
+
   private boolean disable;
-  
+
   public boolean isDisable() {
     return disable;
   }
 
   public void setDisable(boolean disable) {
     this.disable = disable;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 6, 2019
+   * Created time: 4:42:34 PM
+   * @return the vehicle
+   */
+  public Vehicle getVehicle() {
+    return vehicle;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 6, 2019
+   * Created time: 4:42:34 PM
+   * @param vehicle the vehicle to set
+   */
+  public void setVehicle(Vehicle vehicle) {
+    this.vehicle = vehicle;
   }
 
   /* (non-Javadoc)

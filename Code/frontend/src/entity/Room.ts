@@ -12,4 +12,5 @@ export interface Room {
   households: Household[];
   disable: boolean;
   deletable: boolean;
+  roomType: string;
 }

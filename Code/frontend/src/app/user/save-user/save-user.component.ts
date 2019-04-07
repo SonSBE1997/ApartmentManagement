@@ -52,9 +52,9 @@ export class SaveUserComponent implements OnInit {
         name: user.name,
         gender: user.gender,
         dateOfBirth: user.dateOfBirth,
-        idCard: user.idCard,
-        phoneNumber: user.phoneNumber,
-        email: user.email,
+        idCard: user.idCard != null ? user.idCard : '',
+        phoneNumber: user.phoneNumber != null ? user.phoneNumber : '',
+        email: user.email != null ? user.email : '',
         address: user.address,
         household: user.household.id
       });

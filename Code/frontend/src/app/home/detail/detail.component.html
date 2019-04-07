@@ -1,26 +1,30 @@
 <div class="container">
   <notifier-container></notifier-container>
-  <div class="page-header mt-2 text-center text-uppercase font-weight-bold">Cập nhật thông tin</div>
-  <div class="row">
-    <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
-      <button mat-raised-button (click)="addNew()" class="btn-success" matTooltip="Thêm mới">
-        <i class="material-icons">
-        add
-        </i>
-      </button>
-      <button mat-raised-button class="ml-1 btn-info" (click)="save()" matTooltip="Lưu">
-        <i class="material-icons">
-          save
-        </i>
-      </button>
-      <button mat-raised-button class="ml-1 download-sample" matTooltip="Tải về mẫu" (click)="downloadSample()"></button>
-      <button mat-raised-button class="ml-1 import-excel" matTooltip="Tải tệp excel lên" (click)="import()"></button>
-    </div>
-    <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
-      <!-- <ol class="breadcrumb float-right">
-        <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
-        <li class="breadcrumb-item active">Thông tin chi tiết</li>
-      </ol> -->
+  <div class="page-header mt-2 text-center text-uppercase">Cập nhật thông tin</div>
+</div>
+<mat-card>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
+        <button mat-raised-button (click)="addNew()" class="btn-success" matTooltip="Thêm mới">
+          <i class="material-icons">
+            add
+          </i>
+        </button>
+        <button mat-raised-button class="ml-1 btn-info" (click)="save()" matTooltip="Lưu">
+          <i class="material-icons">
+            save
+          </i>
+        </button>
+        <button mat-raised-button class="ml-1 download-sample" matTooltip="Tải về mẫu" (click)="downloadSample()"></button>
+        <button mat-raised-button class="ml-1 import-excel" matTooltip="Tải tệp excel lên" (click)="import()"></button>
+      </div>
+      <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+        <!-- <ol class="breadcrumb float-right">
+              <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
+              <li class="breadcrumb-item active">Thông tin chi tiết</li>
+            </ol> -->
+      </div>
     </div>
   </div>
 
@@ -36,7 +40,7 @@
         <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource1">
 
           <ng-container matColumnDef="c1">
-            <th mat-header-cell *matHeaderCellDef style="width: 20%">Số thứ tự</th>
+            <th mat-header-cell *matHeaderCellDef style="width: 30%">Số thứ tự</th>
             <td mat-cell *matCellDef="let row; index as i">{{i + 1}}</td>
           </ng-container>
 
@@ -61,35 +65,35 @@
     <!-- ############################# Floor #################### -->
     <mat-tab label="Tầng">
       <div class="row mt-3">
-        <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
-          <input matInput (keyup)="fFilter($event.target.value)" placeholder="Tìm kiếm">
-        </mat-form-field>
-        <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
-        <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
-          <mat-label>Chọn toà nhà</mat-label>
-          <mat-select [(value)]="fFilterData">
-            <ng-container *ngFor="let b of buildings">
-              <mat-option [value]="b.id">{{b.name}}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-        <div class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
-          <button *ngIf="fIsFilter===false" mat-raised-button style="margin-top: 10px;" (click)="fClickFilter()">
-            Lọc <i class="fa fa-filter"></i>
-          </button>
-          <button *ngIf="fIsFilter===true" mat-raised-button style="margin-top: 10px;" (click)="fClickCancelFilter()">
-            Huỷ lọc
-          </button>
-        </div>
+          <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
+            <input matInput (keyup)="fFilter($event.target.value)" placeholder="Tìm kiếm">
+          </mat-form-field>
+          <div class="col-xl-5 col-md-5 col-sm-5 col-lg-5"></div>
+          <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
+            <mat-label>Chọn toà nhà</mat-label>
+            <mat-select [(value)]="fFilterData">
+              <ng-container *ngFor="let b of buildings">
+                <mat-option [value]="b.id">{{b.name}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+          <div class="col-xl-1 col-md-1 col-sm-1 col-lg-1">
+            <button *ngIf="fIsFilter===false" mat-raised-button style="margin-top: 10px;" (click)="fClickFilter()">
+              Lọc <i class="fa fa-filter"></i>
+            </button>
+            <button *ngIf="fIsFilter===true" mat-raised-button style="margin-top: 10px;" (click)="fClickCancelFilter()">
+              Huỷ lọc
+            </button>
+          </div>
       </div>
       <div class="mat-elevation-z8 mt-1">
-        <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource2" >
+        <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource2">
 
           <ng-container matColumnDef="f1">
-            <th mat-header-cell *matHeaderCellDef style="width: 40%">Toà nhà</th>
+            <th mat-header-cell *matHeaderCellDef style="width: 50%">Toà nhà</th>
             <td mat-cell *matCellDef="let row; let i = index">
               <mat-select [value]="row.building?.id" (selectionChange)="selectBuildingChange($event, row.id)"
-                          [disabled]="row.deletable === false? true : false" >
+                [disabled]="row.deletable === false? true : false">
                 <ng-container *ngFor="let b of buildings">
                   <mat-option [value]="b.id">{{b.name}}</mat-option>
                 </ng-container>
@@ -113,76 +117,92 @@
           <tr mat-row *matRowDef="let row; columns: ['f1','f3','f4']; let i = index">
           </tr>
         </table>
-        <mat-paginator #fpaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+        <mat-paginator #fpaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons>
+        </mat-paginator>
       </div>
     </mat-tab>
     <!-- ############################# Room #################### -->
     <mat-tab label="Căn hộ">
-        <div class="row mt-3">
-          <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
-            <input matInput (keyup)="rFilter($event.target.value)" placeholder="Tìm kiếm">
-          </mat-form-field>
-          <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
-        </div>
-        <div class="mat-elevation-z8 mt-1">
-          <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource3" matSort>
-            <ng-container matColumnDef="r1">
-              <th mat-header-cell *matHeaderCellDef style="width: 20%">Toà nhà - tầng</th>
-              <td mat-cell *matCellDef="let row; let i = index" [title]="row?.building?.name + ' - ' + row?.floor?.name">
-                <mat-select [value]="row.floor?.id" (selectionChange)="selectFloorChange($event, row.id)"
-                  [disabled]="row.deletable === false? true : false">
-                  <ng-container *ngFor="let f of floors">
-                    <mat-option [value]="f.id">{{f.building.name}} - {{f.name}}</mat-option>
-                  </ng-container>
-                </mat-select>
-              </td>
-            </ng-container>
+      <div class="row mt-3">
+        <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
+          <input matInput (keyup)="rFilter($event.target.value)" placeholder="Tìm kiếm">
+        </mat-form-field>
+        <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
+      </div>
+      <div class="mat-elevation-z8 mt-1">
+        <table class="table-responsive table table-bordered table-sm" mat-table [dataSource]="dataSource3" matSort>
+          <ng-container matColumnDef="r1">
+            <th mat-header-cell *matHeaderCellDef style="width: 20%">Toà nhà - tầng</th>
+            <td mat-cell *matCellDef="let row; let i = index" [title]="row?.building?.name + ' - ' + row?.floor?.name">
+              <mat-select [value]="row.floor?.id" (selectionChange)="selectFloorChange($event, row.id)"
+                [disabled]="row.deletable === false? true : false">
+                <ng-container *ngFor="let f of floors">
+                  <mat-option [value]="f.id">{{f.building.name}} - {{f.name}}</mat-option>
+                </ng-container>
+              </mat-select>
+            </td>
+          </ng-container>
 
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header  style="width: 20%">Tên phòng</th>
-              <td mat-cell *matCellDef="let row; let i = index" [contentEditable]=true [id]="'rname' + i"
-                (blur)="changeData($event,'name', row.id)" [title]="row?.name">{{row.name}}</td>
-            </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%">Tên căn hộ</th>
+            <td mat-cell *matCellDef="let row; let i = index" [contentEditable]=true [id]="'rname' + i"
+              (blur)="changeData($event,'name', row.id)" [title]="row?.name">{{row.name}}</td>
+          </ng-container>
 
-            <ng-container matColumnDef="area">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 20%">Diện tích (m<sup>2</sup>)</th>
-              <td class="room-number" mat-cell *matCellDef="let row; let i = index" [title]="row?.area + ' m2'">
-                  <input class="form-control" [id]="'rarea' + i" type="number" [disabled]="!row.deletable" (blur)="changeData($event,'area', row.id)" [value]="row?.area"/>
-              </td>
-            </ng-container>
+          <ng-container matColumnDef="roomType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%">Loại căn hộ</th>
+            <td mat-cell *matCellDef="let row; let i = index" [title]="row?.roomType">
+              <mat-select [value]="row?.roomType" (selectionChange)="selectRoomTypeChange($event, row.id)"
+                [disabled]="row.deletable === false? true : false">
+                <mat-option value="A">Cao cấp</mat-option>
+                <mat-option value="B">Tầm trung</mat-option>
+              </mat-select>
+            </td>
+          </ng-container>
 
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 20%">Trạng thái</th>
-              <td mat-cell *matCellDef="let row; let i = index"
-                [title]="row.status === '0'  ? 'Trống' : (row?.status === '1'  ? 'Đang cho thuê'  : 'Đã  bán')"
-              >
-                {{row.status === '0'  ? 'Trống' : (row.status === '1'  ? 'Đang cho thuê'  : 'Đã  bán')}}
-              </td>
-            </ng-container>
+          <ng-container matColumnDef="area">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%">Diện tích (m<sup>2</sup>)</th>
+            <td class="room-number" mat-cell *matCellDef="let row; let i = index" [title]="row?.area + ' m2'">
+              <input class="form-control i-area" [id]="'rarea' + i" type="number" [disabled]="!row.deletable"
+                (blur)="changeData($event,'area', row.id)" [value]="row?.area" />
+            </td>
+          </ng-container>
 
-            <ng-container matColumnDef="r6">
-              <th mat-header-cell *matHeaderCellDef style="width: 10%"></th>
-              <td class="room-detail" mat-cell *matCellDef="let row; let i = index">
-                <a mat-button class="btn-primary" [routerLink]="['/apartment/room/', row.id]">Chi tiết</a>
-              </td>
-            </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%">Trạng thái</th>
+            <td mat-cell *matCellDef="let row; let i = index"
+              [title]="row.status === '0'  ? 'Trống' : (row?.status === '1'  ? 'Đang cho thuê'  : 'Đã  bán')">
+              {{row.status === '0'  ? 'Trống' : (row.status === '1'  ? 'Đang cho thuê'  : 'Đã  bán')}}
+            </td>
+          </ng-container>
 
-            <ng-container matColumnDef="r7">
-              <th mat-header-cell *matHeaderCellDef style="width: 10%"></th>
-              <td mat-cell *matCellDef="let row; let i = index" >
-                <a mat-button *ngIf="row.disable" class="btn-success" (click)="removeItem(row.id)"
-                  title="Nhấn để mở">Mở</a>
-                <a mat-button *ngIf="!row.disable" class="btn-danger" (click)="removeItem(row.id)"
-                  title="Nhấn để đóng">Đóng</a>
-              </td>
-            </ng-container>
+          <ng-container matColumnDef="r6">
+            <th mat-header-cell *matHeaderCellDef style="width: 10%"></th>
+            <td class="room-detail" mat-cell *matCellDef="let row; let i = index">
+              <button mat-button class="btn-primary" [routerLink]="['/apartment/room/', row.id]">Chi tiết</button>
+            </td>
+          </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="['r1','name','area', 'status', 'r6', 'r7']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['r1','name','area', 'status','r6', 'r7']; let i = index">
-            </tr>
-          </table>
-          <mat-paginator #rpaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
-        </div>
+          <ng-container matColumnDef="r7">
+            <th mat-header-cell *matHeaderCellDef style="width: 10%"></th>
+            <td mat-cell *matCellDef="let row; let i = index">
+              <button mat-raised-button *ngIf="row.disable" class="btn-success" (click)="removeItem(row.id)" title="Nhấn để mở">
+                Mở
+              </button>
+              <button mat-raised-button *ngIf="!row.disable" class="btn-danger" (click)="removeItem(row.id)"
+                title="Nhấn để đóng">
+                Đóng
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['r1','name', 'roomType', 'area', 'status', 'r6', 'r7']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['r1','name', 'roomType','area', 'status','r6', 'r7']; let i = index">
+          </tr>
+        </table>
+        <mat-paginator #rpaginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons>
+        </mat-paginator>
+      </div>
     </mat-tab>
   </mat-tab-group>
-</div>
+</mat-card>

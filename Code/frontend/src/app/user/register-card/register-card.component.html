@@ -1,3 +1,54 @@
-<p>
-  register-card works!
-</p>
+<h1 mat-dialog-title class="font-weight-bold">Đăng ký thẻ</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <mat-select required [formControl]="frm.get('cardType')" (selectionChange)="cardSelectionChange()">
+        <mat-option *ngFor="let c of cardTypes" [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+      <mat-label>
+        Loại thẻ
+      </mat-label>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('cardNumber')" matInput placeholder="Số thẻ" #cardNumber required>
+      <mat-hint align="end">{{cardNumber.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('cardNumber').hasError('required')">
+        Bạn phải nhập số thẻ
+      </mat-error>
+      <mat-error *ngIf="frm.get('cardNumber').hasError('maxlength')">
+        Số thẻ phải có độ dài dưới 50
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <ng-container *ngIf="frm.get('cardType').value === 2">
+      <mat-form-field class="full-width">
+        <mat-select required [formControl]="frm.get('vehicleType')">
+          <mat-option *ngFor="let v of vehicleTypes" [value]="v.id">{{v.name}}</mat-option>
+        </mat-select>
+        <mat-label>
+          Loại xe
+        </mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input type="text" [formControl]="frm.get('plateNumber')" matInput placeholder="Biển số xe" #plateNumber required>
+        <mat-hint align="end">{{plateNumber.value.length}} / 100</mat-hint>
+        <mat-error *ngIf="frm.get('plateNumber').hasError('required')">
+          Bạn phải nhập biển số xe
+        </mat-error>
+        <mat-error *ngIf="frm.get('plateNumber').hasError('maxlength')">
+          Biển số xe phải có độ dài dưới 50
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
+    Đăng ký
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ</button>
+</div>
