@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../service/sharedService.service';
 import { Employee } from 'src/entity/Employee';
@@ -7,11 +7,13 @@ import { HouseholdService } from '../service/household.service';
 import { Household } from 'src/entity/Household';
 import { User } from 'src/entity/User';
 import { UserService } from '../service/user.service';
+
 import {
   PushNotificationOptions,
   PushNotificationService
 } from 'ngx-push-notifications';
 import { MatMenuTrigger } from '@angular/material';
+import { RoomService } from '../service/room.service';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +21,8 @@ import { MatMenuTrigger } from '@angular/material';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  @ViewChildren(MatMenuTrigger) trigger: QueryList<MatMenuTrigger>;
+
   url = '';
   employee: Employee = null;
   households: Household[] = [];
@@ -30,7 +33,8 @@ export class HeaderComponent implements OnInit {
     private sharedService: SharedService,
     private householdService: HouseholdService,
     private userService: UserService,
-    private pushNotificationService: PushNotificationService
+    private pushNotificationService: PushNotificationService,
+    private roomService: RoomService
   ) {
     this.sharedService.matchUrl.subscribe(u => {
       this.url = u;
@@ -51,6 +55,7 @@ export class HeaderComponent implements OnInit {
         }
       }
     }, 500);
+
     this.checkNotify();
     setInterval(() => {
       this.checkNotify();
@@ -103,15 +108,62 @@ export class HeaderComponent implements OnInit {
     this.notifyNum = 0;
     this.householdService.findHouseHoldComeToDay().subscribe(h => {
       h.forEach(v => {
-        this.households.push(v);
         this.notifyNum++;
+        this.households.push(v);
       });
+      this.saveHouseholdCome();
     });
     this.userService.leaveToday().subscribe(u => {
       u.forEach(v => {
         this.userLeave.push(v);
         this.notifyNum++;
       });
+      this.saveUserLeave();
+    });
+  }
+
+  saveHouseholdCome() {
+    const size = this.households.length;
+    if (size === 0) {
+      return;
+    }
+
+    this.households.forEach(household => {
+      if (!household.status) {
+        household.status = true;
+        this.householdService.save(household).subscribe(s => console.log(s), e => console.log(e));
+      }
+      this.roomService.getRoomById(household.room.id).subscribe(r => {
+        const status = household.hire ? '1' : '2';
+        if (r.status !== status) {
+          r.status = status;
+          this.roomService.update(r).subscribe(success => console.log(success), error => console.log(error));
+        }
+      });
+    });
+  }
+
+  saveUserLeave() {
+    if (this.userLeave.length === 0) {
+      return;
+    }
+
+    this.userLeave.forEach(user => {
+        if (!user.leave) {
+          user.leave = true;
+          this.userService.save(user).subscribe(s => console.log(s), e => console.log(e) );
+        }
+        this.householdService.findById(user.household.id).subscribe(h => {
+          const check = h.users.filter(u => u.leaveDate === null);
+          if (check.length === 0) {
+            this.roomService.getRoomById(h.room.id).subscribe(r => {
+              if (r.status !== '0') {
+                r.status = '0';
+                this.roomService.update(r).subscribe(success => console.log(success), error => console.log(error));
+              }
+            });
+          }
+        });
     });
   }
 
@@ -158,11 +210,23 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
-  openMenuApartment() {
-    this.trigger.openMenu();
+  openMenu(i) {
+    if (i === 0) {
+      this.trigger.first.openMenu();
+    } else if (i === 1) {
+      this.trigger.find((v, k) => k === i).openMenu();
+    } else {
+      // this.trigger.last.openMenu();
+    }
   }
 
-  closeMenuApartment() {
-    this.trigger.closeMenu();
+  closeMenu(i) {
+    if (i === 0) {
+      this.trigger.first.closeMenu();
+    } else if (i === 1) {
+      this.trigger.find((v, k) => k === i).closeMenu();
+    } else {
+      // this.trigger.last.closeMenu();
+    }
   }
 }

@@ -85,7 +85,11 @@ public class UserService {
 
   public boolean save(User u) {
     try {
-      repository.save(u);
+      if (u.getId() != 0) {
+        User origin = repository.findById(u.getId()).get();
+        u.setHousehold(origin.getHousehold());
+      }
+      u = repository.save(u);
       return true;
     } catch (Exception e) {
       return false;

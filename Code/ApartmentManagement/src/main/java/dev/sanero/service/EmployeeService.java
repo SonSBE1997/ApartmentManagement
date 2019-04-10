@@ -61,7 +61,11 @@ public class EmployeeService {
           if (op.get() != null)
             return 2;
         }
+      } else {
+        Employee origin = findById(emp.getId());
+        emp.setDept(origin.getDept());
       }
+      
       if ("".equals(emp.getPassword())) {
         String password = GenerateRandomString
             .givenUsingPlainJava_whenGeneratingRandomStringBounded_thenCorrect();

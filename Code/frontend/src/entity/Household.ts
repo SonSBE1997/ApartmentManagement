@@ -17,6 +17,6 @@ export interface Household {
   status: boolean;
   employee: Employee;
   disable: boolean;
-  user: User[];
+  users: User[];
   room: Room;
 }

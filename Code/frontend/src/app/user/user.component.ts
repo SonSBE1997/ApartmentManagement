@@ -24,6 +24,7 @@ import { CardService } from '../service/card.service';
 import { VehicleService } from '../service/vehicle.service';
 import { DeletePopUpComponent } from '../common/delete-pop-up/delete-pop-up.component';
 import { RegisterCardComponent } from './register-card/register-card.component';
+import { HouseholdService } from '../service/household.service';
 
 @Component({
   selector: 'app-user',
@@ -60,7 +61,8 @@ export class UserComponent implements OnInit {
     private dateService: DateService,
     private commonService: CommonServiceService,
     private cardService: CardService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private  householdService: HouseholdService
   ) {}
 
   ngOnInit() {
@@ -313,7 +315,7 @@ export class UserComponent implements OnInit {
   }
 
   leave(u: User) {
-    if (u.disable && new Date(u.leaveDate).getTime() <= new Date().getTime()) {
+    if (u.disable && new Date(u.leaveDate).getTime() <= new Date().getTime() && u.leave) {
       return;
     }
     const dialogRef = this.dialog.open(RegisterLeaveComponent, {
@@ -336,7 +338,7 @@ export class UserComponent implements OnInit {
   }
 
   selectedUserChange(user: User) {
-    if (user.disable && new Date(user.leaveDate).getTime() <= new Date().getTime()) {
+    if (user.disable && new Date(user.leaveDate).getTime() <= new Date().getTime() && user.leave) {
       this.selectedUser = -1;
       return;
     }

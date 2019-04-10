@@ -17,6 +17,9 @@ import { DateService } from 'src/app/service/date.servce';
 import { SaveHouseholdComponent } from './save-household/save-household.component';
 import { EmployeeService } from 'src/app/service/employee.service';
 import { Employee } from 'src/entity/Employee';
+import { HouseholdService } from 'src/app/service/household.service';
+import { CancelComeComponent } from './cancel-come/cancel-come.component';
+import { LeaveComponent } from './leave/leave.component';
 
 @Component({
   selector: 'app-room-detail',
@@ -58,7 +61,8 @@ export class RoomDetailComponent implements OnInit {
     private notifierService: NotifierService,
     private dateService: DateService,
     private dialog: MatDialog,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private householdService: HouseholdService
   ) {}
 
   ngOnInit() {
@@ -77,10 +81,10 @@ export class RoomDetailComponent implements OnInit {
         })
       )
       .subscribe(r => {
-        this.room = r;
-        this.room.households.sort((a, b) => {
-          return b.id - a.id;
+        r.households.sort((a, b) => {
+          return new Date(b.comeDate).getTime() - new Date(a.comeDate).getTime();
         });
+        this.room = r;
         this.dataSource = new MatTableDataSource(this.room.households);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -163,6 +167,13 @@ export class RoomDetailComponent implements OnInit {
   }
 
   addNew() {
+    if (this.room.households.length > 0) {
+      const hh = this.room.households[0];
+      if (hh.leaveDate === null || new Date(hh.leaveDate).getTime() > new Date().getTime()) {
+        this.notifierService.notify('info', 'Căn hộ đang có người ở, không thể thêm mới');
+        return;
+      }
+    }
     const dialogRef = this.dialog.open(SaveHouseholdComponent, {
       width: '400px',
       data: {
@@ -180,5 +191,68 @@ export class RoomDetailComponent implements OnInit {
       }
       this.loadData();
     });
+  }
+
+  cancelCome() {
+    const size = this.room.households.length;
+    if  (size === 0) {
+      return;
+    }
+    const h = this.room.households[0];
+
+    if (h.leaveDate !== null) {
+      if (new Date(h.leaveDate).getTime() > new Date().getTime()) {
+        this.notifierService.notify('info', 'Đã đăng ký chuyển đi');
+      } else {
+        this.notifierService.notify('info', 'Căn hộ đang không có người đăng ký chuyển đến / đang ở');
+      }
+      return;
+    }
+    h.room = this.room;
+    const dt: Household = {
+      ...h
+    };
+    if (h.status && new Date(h.comeDate).getDate() !== new Date().getDate()) {
+      const leaveDialog = this.dialog.open(LeaveComponent, {
+        width: '400px',
+        data: {
+          household: dt
+        },
+        position: { top: '50px' },
+        disableClose: true,
+        role: 'alertdialog'
+      });
+
+      leaveDialog.afterClosed().subscribe(result => {
+        if (result !== true) {
+          return;
+        }
+        this.loadData();
+      });
+    } else {
+      const dialogRef = this.dialog.open(CancelComeComponent, {
+        width: '400px',
+        data: '',
+        position: { top: '50px' }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== 'ok') {
+          return;
+        }
+        this.householdService.cancelCome(dt.id).subscribe(
+          s => {
+            if (s === 'Ok') {
+              this.notifierService.notify('success', 'Huỷ thành công');
+              this.loadData();
+            } else {
+              this.notifierService.notify('error', 'Huỷ không thành công');
+            }
+          },
+          e => {
+            console.log(e);
+          });
+      });
+    }
   }
 }

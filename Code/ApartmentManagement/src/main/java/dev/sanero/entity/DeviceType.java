@@ -10,11 +10,16 @@
 package dev.sanero.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /*
@@ -41,6 +46,31 @@ public class DeviceType implements Serializable {
   public void setDisable(boolean disable) {
     this.disable = disable;
   }
+  
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "device_type")
+//  @JsonIgnoreProperties(value="deviceType")
+  private Set<Spec> deviceSpec;
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:30:12 PM
+   * @return the deviceSpec
+   */
+  public Set<Spec> getDeviceSpec() {
+    return deviceSpec;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:30:12 PM
+   * @param deviceSpec the deviceSpec to set
+   */
+  public void setDeviceSpec(Set<Spec> deviceSpec) {
+    this.deviceSpec = deviceSpec;
+  }
 
   /**
    * Author: Sanero.
@@ -55,6 +85,7 @@ public class DeviceType implements Serializable {
     this.id = id;
     this.name = name;
   }
+
 
   /**
    * Author: Sanero.

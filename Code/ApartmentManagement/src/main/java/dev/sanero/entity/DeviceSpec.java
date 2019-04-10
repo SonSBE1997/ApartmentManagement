@@ -11,6 +11,7 @@ package dev.sanero.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,61 +33,20 @@ public class DeviceSpec implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private String name;
-
-  @ManyToOne
-  @JoinColumn(name = "spec_id")
-  private Spec spec;
 
   @ManyToOne
   @JoinColumn(name = "device_id")
   private Device device;
+  
+  @Column(name = "spec_name")
+  private String specName;
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:23:54 PM
-   */
-  @Override
-  public String toString() {
-    return "DeviceSpec [id=" + id + ", name=" + name + ", spec=" + spec
-        + ", device=" + device + "]";
-  }
-
-  /**
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:23:56 PM
-   * Description: - .
-   * @param id
-   * @param name
-   * @param spec
-   * @param device
-   */
-  public DeviceSpec(int id, String name, Spec spec, Device device) {
-    super();
-    this.id = id;
-    this.name = name;
-    this.spec = spec;
-    this.device = device;
-  }
-
-  /**
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:23:58 PM
-   * Description: - .
-   */
-  public DeviceSpec() {
-    super();
-    // TODO Auto-generated constructor stub
-  }
+  private String val;
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
    * @return the id
    */
   public int getId() {
@@ -95,8 +55,8 @@ public class DeviceSpec implements Serializable {
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
    * @param id the id to set
    */
   public void setId(int id) {
@@ -105,48 +65,8 @@ public class DeviceSpec implements Serializable {
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
-   * @return the spec
-   */
-  public Spec getSpec() {
-    return spec;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
-   * @param spec the spec to set
-   */
-  public void setSpec(Spec spec) {
-    this.spec = spec;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
    * @return the device
    */
   public Device getDevice() {
@@ -155,12 +75,92 @@ public class DeviceSpec implements Serializable {
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:24:05 PM
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
    * @param device the device to set
    */
   public void setDevice(Device device) {
     this.device = device;
   }
 
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
+   * @return the specName
+   */
+  public String getSpecName() {
+    return specName;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
+   * @param specName the specName to set
+   */
+  public void setSpecName(String specName) {
+    this.specName = specName;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
+   * @return the val
+   */
+  public String getVal() {
+    return val;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:06 PM
+   * @param val the val to set
+   */
+  public void setVal(String val) {
+    this.val = val;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:10 PM
+   */
+  @Override
+  public String toString() {
+    return "DeviceSpec [id=" + id + ", device=" + device + ", specName="
+        + specName + ", val=" + val + "]";
+  }
+
+  /**
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:12 PM
+   * Description: - .
+   * @param id
+   * @param device
+   * @param specName
+   * @param val
+   */
+  public DeviceSpec(int id, Device device, String specName, String val) {
+    super();
+    this.id = id;
+    this.device = device;
+    this.specName = specName;
+    this.val = val;
+  }
+
+  /**
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:33:14 PM
+   * Description: - .
+   */
+  public DeviceSpec() {
+    super();
+    // TODO Auto-generated constructor stub
+  }
 }

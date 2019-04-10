@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,9 +59,36 @@ public class HouseholdController {
     return new ResponseEntity<String>("Not ok", HttpStatus.OK);
   }
   
+  @PutMapping("/update")
+  public ResponseEntity<String> update(@RequestBody HouseHold h) {
+    if (householdService.update(h))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
+  }
+  
   @GetMapping(value = "/come-today")
   public ResponseEntity<List<HouseHold>> findHouseHoldComeToDay() {
     return new ResponseEntity<List<HouseHold>>(
         householdService.findHouseHoldComeToDay(), HttpStatus.OK);
+  }
+  
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<HouseHold> findById(@PathVariable int id) {
+    return new ResponseEntity<HouseHold>(
+        householdService.findById(id), HttpStatus.OK);
+  }
+  
+  @PostMapping("/cancel")
+  public ResponseEntity<String> cancelCome(@RequestBody HouseHold h) {
+    if (householdService.cancel(h.getId()))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
+  }
+  
+  @PostMapping("/register-leave")
+  public ResponseEntity<String> registerLeave(@RequestBody HouseHold h) {
+    if (householdService.registerLeave(h.getId(), h.getLeaveDate()))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
   }
 }

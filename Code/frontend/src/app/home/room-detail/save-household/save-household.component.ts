@@ -41,7 +41,7 @@ export class SaveHouseholdComponent implements OnInit {
       status: false,
       room: this.data.room,
       employee: this.data.employee,
-      user: [],
+      users: [],
       leaveDate: null,
       ...this.frm.value
     };

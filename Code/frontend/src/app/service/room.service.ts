@@ -64,6 +64,12 @@ export class RoomService {
     });
   }
 
+  update(data: Room) {
+    return this.http.put(this.url + '/api/room/update', data, {
+      headers: new HttpHeaders().set('Authorization', this.token)
+    });
+  }
+
   deleteRoom(id: number): Observable<any> {
     return this.http.delete(this.url + `/api/room/delete/${id}`, {
       headers: new HttpHeaders().set('Authorization', this.token)

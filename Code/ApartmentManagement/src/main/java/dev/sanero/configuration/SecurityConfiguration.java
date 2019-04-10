@@ -62,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
         .authorizeRequests()
         .antMatchers("**/building/**", "**/floor/**", "**/room/**",
             "**/household/**", "**/user/**", "**/employee/**", "**/dept/**",
-            "**/card/**", "**/vehicle/**")
+            "**/card/**", "**/vehicle/**", "**/device/**")
         .access("hasRole('Manager')").and().exceptionHandling()
         .authenticationEntryPoint(entrypoint).accessDeniedHandler(denied).and()
         .cors().and().sessionManagement()

@@ -57,6 +57,10 @@ public class CardService {
   
   public Card save(Card c) {
     try {
+      if (!"".equals(c.getCardNumber())) {
+        Card origin = findById(c.getCardNumber());
+        c.setCardType(origin.getCardType());
+      }
       return repository.save(c);
     } catch (Exception e) {
       return null;

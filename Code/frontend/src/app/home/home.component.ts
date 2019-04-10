@@ -6,6 +6,24 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Room } from 'src/entity/Room';
 
 @Component({
+  selector: 'app-apt-pop-up',
+  templateUrl: 'apt-pop-up.html',
+  styleUrls: ['apt-pop-up.scss']
+})
+export class AptPopUpComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<AptPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Room
+  ) { }
+
+  ngOnInit() { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -66,23 +84,5 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
-  }
-}
-
-@Component({
-  selector: 'app-apt-pop-up',
-  templateUrl: 'apt-pop-up.html',
-  styleUrls: ['apt-pop-up.scss']
-})
-export class AptPopUpComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<AptPopUpComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Room
-  ) {}
-
-  ngOnInit() {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

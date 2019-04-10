@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { Md5 } from 'ts-md5/dist/md5';
 import { NotifierService } from 'angular-notifier';
+import { MatDialog } from '@angular/material';
+import { ChangePhotoComponent } from './change-photo/change-photo.component';
 
 export function comparePassword(c: AbstractControl) {
   const rePass = c.value;
@@ -67,14 +69,18 @@ export class ProfileComponent implements OnInit {
   constructor(
     private empService: EmployeeService,
     private fb: FormBuilder,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
     const md5 = new Md5();
     this.passFrm = this.fb.group({
       curPass: [''],
-      inPass: ['', [Validators.required, Validators.minLength(8), comparePasswordOldNew]],
+      inPass: [
+        '',
+        [Validators.required, Validators.minLength(8), comparePasswordOldNew]
+      ],
       rePass: ['', [Validators.required, comparePassword]]
     });
     const id = parseInt(localStorage.getItem('userId'), 10);
@@ -108,5 +114,15 @@ export class ProfileComponent implements OnInit {
         }
       }
     );
+  }
+
+  changePhoto() {
+    const dialogRef = this.dialog.open(ChangePhotoComponent, {
+      width: '600px',
+      data: '',
+      position: { top: '50px' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => { });
   }
 }

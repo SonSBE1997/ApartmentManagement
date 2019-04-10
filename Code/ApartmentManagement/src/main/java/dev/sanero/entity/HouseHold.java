@@ -11,7 +11,7 @@ package dev.sanero.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -42,14 +42,14 @@ public class HouseHold implements Serializable {
   private int id;
   @Column(name = "fullname")
   private String fullName;
-  @Column(name = "id_card")
+  @Column(name = "id_card", nullable = true)
   private String idCard;
   private String address;
-  @Column(name = "phone_number")
+  @Column(name = "phone_number", nullable = true)
   private String phoneNumber;
   @Column(name = "come_date")
   private Date comeDate;
-  @Column(name = "leave_date")
+  @Column(name = "leave_date", nullable = true)
   private Date leaveDate;
   @Column(name = "is_hire")
   private boolean isHire;
@@ -61,7 +61,7 @@ public class HouseHold implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "room_id")
-  @JsonIgnoreProperties("households")
+  @JsonIgnoreProperties(value = "households", allowSetters = true)
   private Room room;
 
   @ManyToOne
@@ -71,8 +71,8 @@ public class HouseHold implements Serializable {
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "household_id")
-  @JsonIgnoreProperties("household")
-  private List<User> users;
+  @JsonIgnoreProperties( value = "household", allowSetters = true)
+  private Set<User> users;
   private boolean disable;
 
   public boolean isDisable() {
@@ -130,7 +130,7 @@ public class HouseHold implements Serializable {
    * Created time: 10:18:07 PM
    * @return the users
    */
-  public List<User> getUsers() {
+  public Set<User> getUsers() {
     return users;
   }
 
@@ -140,7 +140,7 @@ public class HouseHold implements Serializable {
    * Created time: 10:18:07 PM
    * @param users the users to set
    */
-  public void setUsers(List<User> users) {
+  public void setUsers(Set<User> users) {
     this.users = users;
   }
 

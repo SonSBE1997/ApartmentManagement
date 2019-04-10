@@ -11,15 +11,21 @@ package dev.sanero.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
  * @author Sanero.
@@ -54,6 +60,55 @@ public class Device implements Serializable {
   @ManyToOne
   @JoinColumn(name = "device_group")
   private DeviceGroup deviceGroup;
+
+  @ManyToOne
+  @JoinColumn(name = "room_id")
+  private Room room;
+
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "device_id")
+  @JsonIgnoreProperties(value="device")
+  private Set<DeviceSpec> deviceSpec;
+  
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:21:33 PM
+   * @return the deviceSpec
+   */
+  public Set<DeviceSpec> getDeviceSpec() {
+    return deviceSpec;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 10:21:33 PM
+   * @param deviceSpec the deviceSpec to set
+   */
+  public void setDeviceSpec(Set<DeviceSpec> deviceSpec) {
+    this.deviceSpec = deviceSpec;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 9:56:07 PM
+   * @return the room
+   */
+  public Room getRoom() {
+    return room;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 10, 2019
+   * Created time: 9:56:07 PM
+   * @param room the room to set
+   */
+  public void setRoom(Room room) {
+    this.room = room;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

@@ -205,7 +205,7 @@ export class DetailComponent implements OnInit {
       } else if (col === 'area') {
         data[row].area = value;
       }
-      this.fCheck[row] = true;
+      this.rCheck[row] = true;
       this.dataSource3.data = data;
     }
     e.target.innerText = value;
@@ -226,11 +226,14 @@ export class DetailComponent implements OnInit {
             dataChange.push(data[i]);
           }
         }
+        if (dataChange.length === 0) {
+          return;
+        }
         this.aptService.saveBuilding(dataChange).subscribe(
           success => console.log(success),
           error => {
             // console.log(error);
-            this.loadBuilding();
+            this.loadData();
             this.notifierService.notify('success', 'Lưu thành công');
             this.saveBuilding = false;
           }
@@ -251,11 +254,14 @@ export class DetailComponent implements OnInit {
             dataChange.push(data[i]);
           }
         }
+        if (dataChange.length === 0) {
+          return;
+        }
         this.floorService.saveFloors(dataChange).subscribe(
           success => console.log(success),
           error => {
             // console.log(error);
-            this.loadFloor();
+            this.loadData();
             this.notifierService.notify('success', 'Lưu thành công');
             this.fSave = false;
           }
@@ -270,19 +276,26 @@ export class DetailComponent implements OnInit {
         const data = this.dataSource3.data;
         const dataChange: Room[] = [];
         const rCheckSize = this.rCheck.length;
-        // console.log(fCheckSize);
         for (let i = 0; i < rCheckSize; i++) {
           if (this.rCheck[i]) {
             dataChange.push(data[i]);
           }
         }
+        if (dataChange.length === 0) {
+          return;
+        }
         this.roomService.saveRoom(dataChange).subscribe(
           success => console.log(success),
           error => {
-            // console.log(error);
-            this.loadRoom();
-            this.notifierService.notify('success', 'Lưu thành công');
-            this.rSave = false;
+            console.log(error);
+            if (error.error.text === 'Ok') {
+              this.loadRoom();
+              this.notifierService.notify('success', 'Lưu thành công');
+              this.rSave = false;
+            } else {
+              this.notifierService.notify('error', 'Lưu không thành công');
+            }
+
           }
         );
       }
@@ -293,7 +306,7 @@ export class DetailComponent implements OnInit {
   checkValidBuilding(): boolean {
     const data = this.dataSource1.data;
     const size = data.length;
-    const isChange = this.bCheck.filter(v => v === false);
+    const isChange = this.bCheck.filter(v => v === true);
     if (isChange.length === 0) {
       return;
     }
@@ -484,7 +497,7 @@ export class DetailComponent implements OnInit {
   checkValidFloor(): boolean {
     const data = this.dataSource2.data;
     const size = data.length;
-    const isChange = this.fCheck.filter(v => v === false);
+    const isChange = this.fCheck.filter(v => v === true);
     if (isChange.length === 0) {
       return;
     }
@@ -623,7 +636,7 @@ export class DetailComponent implements OnInit {
   checkValidRoom(): boolean {
     const data = this.dataSource3.data;
     const size = data.length;
-    const isChange = this.rCheck.filter(v => v === false);
+    const isChange = this.rCheck.filter(v => v === true);
     if (isChange.length === 0) {
       return;
     }

@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NotifierService } from 'angular-notifier';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/entity/User';
+import { HouseholdService } from 'src/app/service/household.service';
 
 export function validateLeaveDate(date: Date) {
   return (c: AbstractControl) => {
@@ -31,7 +32,8 @@ export class RegisterLeaveComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private notifierService: NotifierService,
-    private userService: UserService
+    private userService: UserService,
+    private householdService: HouseholdService
   ) {}
 
   ngOnInit() {
@@ -48,8 +50,8 @@ export class RegisterLeaveComponent implements OnInit {
     const data: User = {
       ...this.data.user
     };
-
-    data.leaveDate = new Date(this.frm.get('leaveDate').value);
+    const lDate = new Date(this.frm.get('leaveDate').value);
+    data.leaveDate = lDate;
     data.disable = true;
     const action = this.data.change ? 'Đổi ngày' : 'Đăng ký';
     this.userService.save(data).subscribe(
@@ -60,6 +62,21 @@ export class RegisterLeaveComponent implements OnInit {
             'success',
             `${action} chuyển đi thành công`
           );
+          this.householdService.findById(this.data.user.household.id).subscribe (h => {
+            if (h !== null) {
+              let check = false;
+              console.log(h);
+              h.users.forEach(user => {
+                if (user.leaveDate === null) {
+                  check = true;
+                }
+              });
+              if (!check) {
+                h.leaveDate = lDate;
+                this.householdService.save(h).subscribe(s => console.log(s), e => console.log(e));
+              }
+            }
+          });
           this.dialogRef.close(true);
         } else {
           this.notifierService.notify('error', `${action} chuyển đi thất bại`);
@@ -83,6 +100,11 @@ export class RegisterLeaveComponent implements OnInit {
             'success',
             `Huỷ chuyển đi thành công`
           );
+          const h = this.data.user.household;
+          if (h.leaveDate !== null) {
+            h.leaveDate = null;
+            this.householdService.save(h).subscribe(s => console.log(s), e => console.log(e));
+          }
           this.dialogRef.close(true);
         } else {
           this.notifierService.notify('error', `Huỷ chuyển đi thất bại`);

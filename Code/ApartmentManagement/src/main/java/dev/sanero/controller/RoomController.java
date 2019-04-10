@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,5 +59,12 @@ public class RoomController {
   public ResponseEntity<String> save(@RequestBody List<Room> r) {
     roomService.save(r);
     return new ResponseEntity<String>("Ok", HttpStatus.OK);
+  }
+  
+  @PutMapping("/update")
+  public ResponseEntity<String> update(@RequestBody Room r) {
+    if (roomService.update(r))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
   }
 }

@@ -12,6 +12,11 @@
             add
           </i>
         </button>
+        <button mat-raised-button (click)="cancelCome()" class="btn-danger ml-2" matTooltip="Huỷ chuyển đi">
+          <i class="material-icons">
+            clear
+          </i>
+        </button>
       </div>
       <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
         <!-- <ol class="breadcrumb float-right">
@@ -125,7 +130,8 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px">Tình trạng</th>
           <td mat-cell *matCellDef="let row" style="width: 100px">
-            {{ row.leaveDate === null ? (row.status === true? 'Đã bàn giao' : 'Chưa bàn giao') : 'Đã chuyển đi'}}
+            {{ row.leaveDate === null ? (row.status === true? 'Đã bàn giao' : 'Chưa bàn giao') :
+              (row.leaveDate === row.comeDate? 'Đã huỷ' : 'Chuyển đi')}}
           </td>
         </ng-container>
 

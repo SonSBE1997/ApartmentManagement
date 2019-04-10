@@ -12,6 +12,9 @@ package dev.sanero.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.ServletContext;
 
@@ -72,4 +75,20 @@ public class FileController {
     String result = roomService.readFileRoom(file, extension);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
+  
+  @PostMapping("/change-photo")
+  public ResponseEntity<String> changePhoto(
+      @RequestParam("file") MultipartFile file) {
+    try {
+      byte[] bytes = file.getBytes();
+      Path path = Paths.get("C:\\Users\\SonSB\\Desktop\\DATN\\Code\\frontend\\src\\assets\\image\\" + file.getOriginalFilename());
+      Files.write(path, bytes);
+      file.getInputStream();
+      return ResponseEntity.ok("upload success");
+    } catch (IOException e) {
+      e.printStackTrace();
+      return new ResponseEntity<String>("failed", HttpStatus.OK);
+    }
+ }
+  
 }

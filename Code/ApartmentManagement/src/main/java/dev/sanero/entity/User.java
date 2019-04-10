@@ -38,17 +38,18 @@ public class User implements Serializable {
   private int id;
   private String name;
   private boolean gender;
-  @Column(name = "phone_number")
+  @Column(name = "phone_number", nullable = true)
   private String phoneNumber;
+  @Column(name = "email", nullable = true)
   private String email;
   private String address;
-  @Column(name = "id_card")
+  @Column(name = "id_card", nullable = true)
   private String idCard;
   @Column(name = "is_head")
   private boolean isHead;
   @Column(name = "is_leave")
   private boolean isLeave;
-  @Column(name = "leave_date")
+  @Column(name = "leave_date", nullable = true)
   private Date leaveDate;
   @Column(name = "is_enable")
   private boolean isEnable;
@@ -59,7 +60,7 @@ public class User implements Serializable {
 
   @ManyToOne()
   @JoinColumn(name = "household_id")
-  @JsonIgnoreProperties("users")
+  @JsonIgnoreProperties(value = "users")
   private HouseHold household;
   private boolean disable;
 

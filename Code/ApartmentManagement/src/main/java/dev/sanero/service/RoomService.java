@@ -88,7 +88,7 @@ public class RoomService {
   public boolean save(List<Room> rooms) {
     try {
       for (Room r : rooms) {
-        repository.save(r);
+        saveRoom(r);
       }
       return true;
     } catch (Exception e) {
@@ -96,7 +96,33 @@ public class RoomService {
     }
   }
   
+  public boolean saveRoom(Room room) {
+    try {
+        if (room.getId() != 0) {
+          Room origin = repository.findById(room.getId()).get();
+          room.setHouseholds(origin.getHouseholds());
+          room.setBuilding(origin.getBuilding());
+          room.setFloor(origin.getFloor());
+        }
+        repository.save(room);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
   
+  public boolean update(Room room) {
+    try {
+        if (room.getId() != 0) {
+          Room origin = repository.findById(room.getId()).get();
+          room.setHouseholds(origin.getHouseholds());
+        }
+        repository.saveAndFlush(room);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
   
  
   @SuppressWarnings("resource")

@@ -17,6 +17,7 @@ create table employee(
     email varchar(50),
     address varchar(100),
     id_card varchar(50),
+    photo varchar(255) default '',
     username varchar(255),
     password varchar(255),
     role enum('Manager','Guardian') default 'Guardian',
@@ -202,16 +203,11 @@ create table device_type (
 create table spec(
 	id int auto_increment primary key,
     name varchar(255),
-    disable bit default 0
+    disable bit default 0,
+    device_type int,
+    foreign key (device_type) references device_type(id)
 );
 
-create table device_type_spec(
-	id int  auto_increment primary key,
-	type_id int,
-    spec_id int,
-    foreign key (spec_id) references spec(id),
-    foreign key (type_id) references device_type(id)
-);
 
 create table device (
 	id int auto_increment primary key,
@@ -228,6 +224,8 @@ create table device (
     status bit,
     device_type int,
     device_group int,
+    room_id int,
+    foreign key (room_id) references room(id),
     foreign key (device_type ) references device_type (id),
     foreign key (device_group) references device_group(id)
 );
@@ -236,9 +234,8 @@ create table device (
 create table device_spec(
 	id int  auto_increment primary key,
 	device_id int,
-    spec_id int,
-    name varchar(255),
-    foreign key (spec_id) references spec(id),
+    spec_name varchar(255),
+    val varchar(255),
     foreign key (device_id) references device(id)
 );
 

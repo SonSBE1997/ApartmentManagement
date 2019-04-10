@@ -59,6 +59,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { SaveUserComponent } from './user/save-user/save-user.component';
 import { RegisterLeaveComponent } from './user/register-leave/register-leave.component';
 import { SaveHouseholdComponent } from './home/room-detail/save-household/save-household.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ChangePhotoComponent } from './profile/change-photo/change-photo.component';
+import { LeaveComponent } from './home/room-detail/leave/leave.component';
+import { CancelComeComponent } from './home/room-detail/cancel-come/cancel-come.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +86,10 @@ import { SaveHouseholdComponent } from './home/room-detail/save-household/save-h
     ProfileComponent,
     SaveUserComponent,
     RegisterLeaveComponent,
-    SaveHouseholdComponent
+    SaveHouseholdComponent,
+    ChangePhotoComponent,
+    LeaveComponent,
+    CancelComeComponent
   ],
   imports: [
     BrowserModule,
@@ -118,6 +125,7 @@ import { SaveHouseholdComponent } from './home/room-detail/save-household/save-h
     MatListModule,
     MatSidenavModule,
     MatAutocompleteModule,
+    ImageCropperModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
@@ -149,7 +157,10 @@ import { SaveHouseholdComponent } from './home/room-detail/save-household/save-h
     SaveUserComponent,
     RegisterLeaveComponent,
     RegisterCardComponent,
-    SaveHouseholdComponent
+    SaveHouseholdComponent,
+    ChangePhotoComponent,
+    LeaveComponent,
+    CancelComeComponent
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

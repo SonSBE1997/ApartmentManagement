@@ -41,6 +41,10 @@ public class DeptService {
   
   public boolean save(Dept dept) {
     try {
+      if(dept.getId() != 0) {
+        Dept origin = repository.findById(dept.getId()).get();
+        dept.setEmployees(origin.getEmployees());
+      }
       repository.save(dept);
       return true;
     } catch (Exception e) {

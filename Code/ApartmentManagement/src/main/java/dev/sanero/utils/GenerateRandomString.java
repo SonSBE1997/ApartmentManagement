@@ -43,7 +43,7 @@ public class GenerateRandomString{
     return builder.toString();
   }
 
-  public static void main(String[] args) {
-//    givenUsingPlainJava_whenGeneratingRandomStringBounded_thenCorrect();
-  }
+//  public static void main(String[] args) {
+////    givenUsingPlainJava_whenGeneratingRandomStringBounded_thenCorrect();
+//  }
 }

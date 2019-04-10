@@ -31,6 +31,8 @@ import dev.sanero.repository.HouseholdRepository;
 public class HouseholdService {
   @Autowired
   HouseholdRepository repository;
+  @Autowired
+  UserService userService;
 
   public List<HouseHold> findAllByRoomIdAndComeDateAndLeaveDate(int roomId,
       String comeDate, String leaveDate) {
@@ -52,9 +54,68 @@ public class HouseholdService {
     }
   }
 
+  public HouseHold findById(int id) {
+    try {
+      return repository.findById(id).get();
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   public boolean save(HouseHold h) {
     try {
+      if(h.getId() != 0) {
+        HouseHold origin = findById(h.getId());
+        h.setRoom(origin.getRoom());
+        h.setUsers(origin.getUsers());
+        h.setEmployee(origin.getEmployee());
+      }
       repository.save(h);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  public boolean update(HouseHold h) {
+    try {
+      if(h.getId() != 0) {
+        HouseHold origin = findById(h.getId());
+        h.setRoom(origin.getRoom());
+        h.setUsers(origin.getUsers());
+        h.setEmployee(origin.getEmployee());
+      }
+      repository.saveAndFlush(h);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  public boolean cancel(int id) {
+    try {
+      HouseHold h = repository.findById(id).get();
+      h.setLeaveDate(h.getComeDate());
+      repository.save(h);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  public boolean registerLeave(int id, Date leave) {
+    try {
+      HouseHold h = repository.findById(id).get();
+      h.setLeaveDate(leave);
+      repository.save(h);
+      
+      h.getUsers().forEach(u -> {
+        if(u.getLeaveDate() == null) {
+          u.setLeaveDate(leave);
+          u.setDisable(true);
+          userService.save(u);
+        }
+      });
       return true;
     } catch (Exception e) {
       return false;

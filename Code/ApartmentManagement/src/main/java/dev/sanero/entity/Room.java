@@ -77,7 +77,7 @@ public class Room implements Serializable {
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "room_id")
-  @JsonIgnoreProperties("room")
+  @JsonIgnoreProperties(value = "room", allowSetters = true)
   private Set<HouseHold> households;
   private boolean disable;
 

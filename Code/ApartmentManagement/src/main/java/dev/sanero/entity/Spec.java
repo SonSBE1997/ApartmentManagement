@@ -41,6 +41,30 @@ public class Spec implements Serializable {
   public void setDisable(boolean disable) {
     this.disable = disable;
   }
+  
+//  @ManyToOne
+//  @JoinColumn(name = "device_type")
+//  private DeviceType deviceType;
+//
+//  /*
+//   * Author: Sanero.
+//   * Created date: Apr 10, 2019
+//   * Created time: 10:30:43 PM
+//   * @return the deviceType
+//   */
+//  public DeviceType getDeviceType() {
+//    return deviceType;
+//  }
+//
+//  /*
+//   * Author: Sanero.
+//   * Created date: Apr 10, 2019
+//   * Created time: 10:30:43 PM
+//   * @param deviceType the deviceType to set
+//   */
+//  public void setDeviceType(DeviceType deviceType) {
+//    this.deviceType = deviceType;
+//  }
 
   /*
    * Author: Sanero.

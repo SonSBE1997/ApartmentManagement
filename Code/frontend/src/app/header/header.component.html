@@ -1,12 +1,12 @@
 <div class="header col-xl-12">
   <div class="float-right nav">
     <button mat-button [matMenuTriggerFor]="apt" [ngClass]="{'active': url === 'apartment'}"
-      (mouseenter)="openMenuApartment()">
+      (mouseenter)="openMenu(0)">
       Căn hộ
     </button>
-    <mat-menu #apt="matMenu" overlapTrigger="false">
+    <mat-menu #apt="matMenu" overlapTrigger="false" yPosition="below" xPosition="before">
       <ng-template matMenuContent>
-        <span (mouseleave)="closeMenuApartment()">
+        <span (mouseleave)="closeMenu(0)">
           <button mat-menu-item class="sub-menu" (click)="changePage('apartment', '/apartment')">
                   Tổng quan
           </button>
@@ -16,10 +16,21 @@
     </mat-menu>
     <button mat-button (click)="changePage('user', '/user')"          [ngClass]="{'active': url === 'user'}">Cư dân</button>
     <button mat-button (click)="changePage('service', '/service')"    [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
-    <button mat-button (click)="changePage('infrastructure', '/infrastructure')"
-            [ngClass]="{'active': url === 'infrastructure'}">
+    <button mat-button (click)="changePage('infrastructure', '/infrastructure')"  (mouseenter)="openMenu(1)"
+            [ngClass]="{'active': url === 'infrastructure'}"  [matMenuTriggerFor]="infra">
             Kỹ thuật
     </button>
+    <mat-menu #infra="matMenu" overlapTrigger="false">
+      <ng-template matMenuContent>
+        <span (mouseleave)="closeMenu(1)">
+          <button mat-menu-item class="sub-menu" (click)="changePage('apartment', '/apartment')">
+            Tổng quan
+          </button>
+          <button mat-menu-item class="sub-menu" (click)="changePage('apartment', '/apartment/detail')">Cập nhật thông
+            tin</button>
+        </span>
+      </ng-template>
+    </mat-menu>
     <button mat-button  (click)="changePage('employee', '/employee')" [ngClass]="{'active': url === 'employee'}">
             Nhân viên
     </button>
@@ -33,16 +44,17 @@
     <button mat-button class="text-info" (click)="changePage('profile', '/profile')" [ngClass]="{'active': url === 'profile'}">
             <mat-icon>person</mat-icon>  {{ employee?.name }}
     </button>
-    <mat-icon class="m-2 pointer" [matBadge]="notifyNum" matBadgeColor="warn" [matMenuTriggerFor]="notify">
+    <mat-icon class="m-2 pointer" [matBadge]="notifyNum" matBadgeColor="warn" [matMenuTriggerFor]="notify"
+    (mouseenter)="openMenu(2)">
       notifications_active
     </mat-icon>
-    <mat-menu #notify="matMenu" xPosition="after" yPosition="below">
+    <mat-menu #notify="matMenu" xPosition="after" yPosition="below" (mouseleave)="closeMenu(2)">
       <div class="notification">Thông báo</div>
       <div class="notification bt">Chuyển đến (căn hộ - ngày)</div>
       <ng-container  *ngIf="households.length != 0">
         <ng-container *ngFor="let h of households">
           <div mat-menu-item>
-            {{h.room.name}} - {{h.comeDate | date: 'dd/MM/yyyy'}}
+            {{h?.room?.name}} - {{h?.comeDate | date: 'dd/MM/yyyy'}}
           </div>
         </ng-container>
       </ng-container>
