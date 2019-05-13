@@ -44,6 +44,14 @@ public class EmployeeService {
       return null;
     }
   }
+  
+  public List<Employee> findByDept(int deptId) {
+    try {
+      return repository.findByDept(deptId);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
   public Employee findById(int id) {
     try {
@@ -70,7 +78,7 @@ public class EmployeeService {
         String password = GenerateRandomString
             .givenUsingPlainJava_whenGeneratingRandomStringBounded_thenCorrect();
         mailService.sendMail("sonvuongso@gmail.com", mailService
-            .genContentMail(emp.getName(), emp.getUsername(), password));
+            .genContentMail(emp.getName(), emp.getUsername(), password), "Đăng ký tài khoản quản lý chung cư thành công");
         emp.setPassword(Md5Encryptor.encrypt(password));
       }
       repository.save(emp);

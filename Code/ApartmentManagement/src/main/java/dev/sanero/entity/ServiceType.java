@@ -10,13 +10,16 @@
 package dev.sanero.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /*
@@ -37,10 +40,53 @@ public class ServiceType implements Serializable {
   private String unit;
   private double price;
 
-  @ManyToOne
-  @JoinColumn(name = "partner_company")
-  private PartnerCompany partnerCompany;
+  private String supplier;
   private boolean disable;
+  
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "service_type")
+  private Set<Service> services;
+  
+  
+  /*
+   * Author: Sanero.
+   * Created date: May 11, 2019
+   * Created time: 2:54:05 PM
+   * @return the services
+   */
+  public Set<Service> getServices() {
+    return services;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 11, 2019
+   * Created time: 2:54:05 PM
+   * @param services the services to set
+   */
+  public void setServices(Set<Service> services) {
+    this.services = services;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 11, 2019
+   * Created time: 1:22:17 PM
+   * @return the supplier
+   */
+  public String getSupplier() {
+    return supplier;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 11, 2019
+   * Created time: 1:22:17 PM
+   * @param supplier the supplier to set
+   */
+  public void setSupplier(String supplier) {
+    this.supplier = supplier;
+  }
 
   public boolean isDisable() {
     return disable;
@@ -59,7 +105,7 @@ public class ServiceType implements Serializable {
   @Override
   public String toString() {
     return "ServiceType [id=" + id + ", name=" + name + ", unit=" + unit
-        + ", price=" + price + ", partnerCompany=" + partnerCompany + "]";
+        + ", price=" + price + "]";
   }
 
   /*
@@ -142,26 +188,6 @@ public class ServiceType implements Serializable {
     this.price = price;
   }
 
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:53:26 PM
-   * @return the partnerCompany
-   */
-  public PartnerCompany getPartnerCompany() {
-    return partnerCompany;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:53:26 PM
-   * @param partnerCompany the partnerCompany to set
-   */
-  public void setPartnerCompany(PartnerCompany partnerCompany) {
-    this.partnerCompany = partnerCompany;
-  }
-
   /**
    * Author: Sanero.
    * Created date: Mar 10, 2019
@@ -184,14 +210,12 @@ public class ServiceType implements Serializable {
    * @param price
    * @param partnerCompany
    */
-  public ServiceType(int id, String name, String unit, double price,
-      PartnerCompany partnerCompany) {
+  public ServiceType(int id, String name, String unit, double price) {
     super();
     this.id = id;
     this.name = name;
     this.unit = unit;
     this.price = price;
-    this.partnerCompany = partnerCompany;
   }
 
 }

@@ -347,10 +347,11 @@ export class UserComponent implements OnInit {
 
   loadCard(user: User) {
     const id = user.id;
-    this.selectedUser = id;
+    this.selectedUser = -1;
     this.cards = [];
     this.cardService.findAllByUserId(id).subscribe(cards => {
       if (cards != null) {
+        this.selectedUser = id;
         cards.forEach(v => {
           this.cards.push(v);
           this.cardDataSource = new MatTableDataSource(this.cards);

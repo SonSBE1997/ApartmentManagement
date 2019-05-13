@@ -16,8 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /*
@@ -34,14 +32,35 @@ public class DeviceSpec implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @ManyToOne
-  @JoinColumn(name = "device_id")
-  private Device device;
+  @Column(name="device_id")
+  private int deviceId;
   
   @Column(name = "spec_name")
   private String specName;
 
+
   private String val;
+
+
+  /*
+   * Author: Sanero.
+   * Created date: May 6, 2019
+   * Created time: 1:24:04 AM
+   * @return the deviceId
+   */
+  public int getDeviceId() {
+    return deviceId;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 6, 2019
+   * Created time: 1:24:04 AM
+   * @param deviceId the deviceId to set
+   */
+  public void setDeviceId(int deviceId) {
+    this.deviceId = deviceId;
+  }
 
   /*
    * Author: Sanero.
@@ -63,25 +82,25 @@ public class DeviceSpec implements Serializable {
     this.id = id;
   }
 
-  /*
-   * Author: Sanero.
-   * Created date: Apr 10, 2019
-   * Created time: 10:33:06 PM
-   * @return the device
-   */
-  public Device getDevice() {
-    return device;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Apr 10, 2019
-   * Created time: 10:33:06 PM
-   * @param device the device to set
-   */
-  public void setDevice(Device device) {
-    this.device = device;
-  }
+//  /*
+//   * Author: Sanero.
+//   * Created date: Apr 10, 2019
+//   * Created time: 10:33:06 PM
+//   * @return the device
+//   */
+//  public Device getDevice() {
+//    return device;
+//  }
+//
+//  /*
+//   * Author: Sanero.
+//   * Created date: Apr 10, 2019
+//   * Created time: 10:33:06 PM
+//   * @param device the device to set
+//   */
+//  public void setDevice(Device device) {
+//    this.device = device;
+//  }
 
   /*
    * Author: Sanero.
@@ -131,7 +150,7 @@ public class DeviceSpec implements Serializable {
    */
   @Override
   public String toString() {
-    return "DeviceSpec [id=" + id + ", device=" + device + ", specName="
+    return "DeviceSpec [id=" + id + ", specName="
         + specName + ", val=" + val + "]";
   }
 
@@ -145,10 +164,9 @@ public class DeviceSpec implements Serializable {
    * @param specName
    * @param val
    */
-  public DeviceSpec(int id, Device device, String specName, String val) {
+  public DeviceSpec(int id, String specName, String val) {
     super();
     this.id = id;
-    this.device = device;
     this.specName = specName;
     this.val = val;
   }

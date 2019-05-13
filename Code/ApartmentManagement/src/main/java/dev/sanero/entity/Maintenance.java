@@ -11,14 +11,18 @@ package dev.sanero.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /*
@@ -49,6 +53,55 @@ public class Maintenance implements Serializable {
   @ManyToOne
   @JoinColumn(name = "device_group")
   private DeviceGroup deviceGroup;
+
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "maintenance_id")
+  private Set<MaintenancePersonal> persons;
+
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "maintenance_id")
+  private Set<MaintenanceDetail> details;
+  
+  
+  /*
+   * Author: Sanero.
+   * Created date: Apr 30, 2019
+   * Created time: 7:29:45 PM
+   * @return the persons
+   */
+  public Set<MaintenancePersonal> getPersons() {
+    return persons;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 30, 2019
+   * Created time: 7:29:45 PM
+   * @param persons the persons to set
+   */
+  public void setPersons(Set<MaintenancePersonal> persons) {
+    this.persons = persons;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 30, 2019
+   * Created time: 7:29:45 PM
+   * @return the details
+   */
+  public Set<MaintenanceDetail> getDetails() {
+    return details;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: Apr 30, 2019
+   * Created time: 7:29:45 PM
+   * @param details the details to set
+   */
+  public void setDetails(Set<MaintenanceDetail> details) {
+    this.details = details;
+  }
 
   /*
    * Author: Sanero.

@@ -40,7 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
   @Override
   public void addCorsMappings(CorsRegistry registry) {
 
-    registry.addMapping("/**").allowedOrigins("http://localhost:4200")
+    registry.addMapping("/**")
+        .allowedOrigins("http://localhost:4200", "http://localhost",
+            "http://apartment.test", "http://apartment.com")
         .allowedHeaders("*").allowedMethods("*")
         .exposedHeaders("token", "Content-Type").allowCredentials(false)
         .maxAge(3600);
@@ -62,7 +64,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
         .authorizeRequests()
         .antMatchers("**/building/**", "**/floor/**", "**/room/**",
             "**/household/**", "**/user/**", "**/employee/**", "**/dept/**",
-            "**/card/**", "**/vehicle/**", "**/device/**")
+            "**/card/**", "**/vehicle/**", "**/device/**", "**/maintenance/**",
+            "**/service/**")
         .access("hasRole('Manager')").and().exceptionHandling()
         .authenticationEntryPoint(entrypoint).accessDeniedHandler(denied).and()
         .cors().and().sessionManagement()

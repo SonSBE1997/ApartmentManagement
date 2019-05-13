@@ -10,6 +10,7 @@
 package dev.sanero.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -74,6 +75,14 @@ public class DeviceService {
       return null;
     }
   }
+  
+  public DeviceType findTypeById(int typeId) {
+    try {
+      return typeRepository.findById(typeId).get();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 
   public Device saveDevice(Device d) {
     try {
@@ -82,7 +91,6 @@ public class DeviceService {
         d.setDeviceGroup(origin.getDeviceGroup());
         d.setDeviceType(origin.getDeviceType());
         d.setDeviceSpec(origin.getDeviceSpec());
-        d.setRoom(origin.getRoom());
       }
       return repository.save(d);
     } catch (Exception e) {
@@ -92,26 +100,26 @@ public class DeviceService {
   
   public boolean save(Device d) {
      try {
+       Set<DeviceSpec> deviceSpecs = d.getDeviceSpec();
+       if (d.getId() > 0) {
+         d.setDeviceType(d.getDeviceType());
+         d.setDeviceSpec(deviceSpecs);
+         d.setDeviceGroup(d.getDeviceGroup());
+       } else {
+         d.setDeviceType(typeRepository.findById(d.getDeviceType().getId()).get());
+         d.setDeviceSpec(null);
+         d.setDeviceGroup(groupRepository.findById(d.getDeviceGroup().getId()).get());
+       }
+       
        d = saveDevice(d);
-       if (d == null) 
+       if (d.getId() == 0) 
          return false;
-       d.getDeviceSpec().forEach(spec -> {
-         saveDeviceSpec(spec);
-       });
+       
+       for (DeviceSpec spec : deviceSpecs) {
+         spec.setDeviceId(d.getId());
+         specRepository.save(spec);
+       }
        return true;
-    } catch (Exception e) {
-      return false;
-    }
-  }
-  
-  public boolean saveDeviceSpec(DeviceSpec spec) {
-    try {
-      if (spec.getId() != 0) {
-        DeviceSpec origin = specRepository.findById(spec.getId()).get();
-        spec.setDevice(origin.getDevice());
-      }
-      specRepository.save(spec);
-      return true;
     } catch (Exception e) {
       return false;
     }

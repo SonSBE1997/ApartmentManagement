@@ -92,6 +92,14 @@ table.table td a.delete {
   color: #E34724 !important;
 }
 
+table.table td a.active {
+  color: #0ac30a !important;
+}
+
+table.table td a.active:hover{
+  cursor: pointer;
+}
+
 table.table td a.edit:hover{
   cursor: pointer;
 }

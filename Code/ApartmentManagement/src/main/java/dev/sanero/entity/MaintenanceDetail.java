@@ -39,9 +39,28 @@ public class MaintenanceDetail implements Serializable {
   @JoinColumn(name = "device_id")
   private Device device;
 
-  @ManyToOne
-  @JoinColumn(name = "maintenance_id")
-  private Maintenance maintenance;
+  private String location;
+  
+  
+  /*
+   * Author: Sanero.
+   * Created date: May 5, 2019
+   * Created time: 9:08:05 PM
+   * @return the location
+   */
+  public String getLocation() {
+    return location;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 5, 2019
+   * Created time: 9:08:05 PM
+   * @param location the location to set
+   */
+  public void setLocation(String location) {
+    this.location = location;
+  }
 
   /**
    * Author: Sanero.
@@ -55,13 +74,12 @@ public class MaintenanceDetail implements Serializable {
    * @param maintenance
    */
   public MaintenanceDetail(int id, double price, String description,
-      Device device, Maintenance maintenance) {
+      Device device) {
     super();
     this.id = id;
     this.price = price;
     this.description = description;
     this.device = device;
-    this.maintenance = maintenance;
   }
 
   /**
@@ -84,8 +102,7 @@ public class MaintenanceDetail implements Serializable {
   @Override
   public String toString() {
     return "MaintenanceDetail [id=" + id + ", price=" + price + ", description="
-        + description + ", device=" + device + ", maintenance=" + maintenance
-        + "]";
+        + description + ", device=" + device + "]";
   }
 
   /*
@@ -96,7 +113,7 @@ public class MaintenanceDetail implements Serializable {
    */
   public int getId() {
     return id;
-  }
+  } 
 
   /*
    * Author: Sanero.
@@ -166,25 +183,5 @@ public class MaintenanceDetail implements Serializable {
    */
   public void setDevice(Device device) {
     this.device = device;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:36:14 PM
-   * @return the maintenance
-   */
-  public Maintenance getMaintenance() {
-    return maintenance;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 11:36:14 PM
-   * @param maintenance the maintenance to set
-   */
-  public void setMaintenance(Maintenance maintenance) {
-    this.maintenance = maintenance;
   }
 }

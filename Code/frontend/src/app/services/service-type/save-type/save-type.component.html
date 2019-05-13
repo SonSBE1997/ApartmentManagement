@@ -1,0 +1,41 @@
+<h1 mat-dialog-title class="font-weight-bold">{{data === null? 'Thêm mới' : 'Cập nhật thông tin'}}</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('name')" matInput placeholder="Tên loại dịch vụ" #name required>
+      <mat-hint align="end">{{name.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('name').hasError('required')">
+        Bạn phải nhập tên loại dịch vụ
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('price')" matInput placeholder="Đơn giá" required>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('unit')" matInput placeholder="Đơn vị tính" #unit required>
+      <mat-hint align="end">{{unit.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('unit').hasError('required')">
+        Bạn phải nhập đơn vị tính
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('supplier')" matInput placeholder="Nhà cung cấp" #supplier required>
+      <mat-hint align="end">{{supplier.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('supplier').hasError('required')">
+        Bạn phải nhập nhà cung cấp
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
+    {{data === null? 'Thêm' : 'Cập nhật'}}
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

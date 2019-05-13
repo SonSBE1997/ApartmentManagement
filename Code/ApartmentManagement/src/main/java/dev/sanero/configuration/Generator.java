@@ -26,7 +26,7 @@ public class Generator {
   }
 
   private Date createExpirationDate() {
-    return new Date(System.currentTimeMillis() + 8600000);
+    return new Date(System.currentTimeMillis() + 86000000);
   }
 
   private byte[] generateShareSecret() {

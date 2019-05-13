@@ -21,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /*
  * @author Sanero.
  * Created date: Mar 10, 2019
@@ -34,10 +36,10 @@ public class Service implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column(name = "start_date")
-  private Date startDate;
-  @Column(name = "end_date")
-  private Date endDate;
+  @Column(name = "collect_month")
+  private String collectMonth;
+  @Column(name = "payment_date")
+  private Date paymentDate;
   private String detail;
   private double price;
   private String description;
@@ -46,8 +48,8 @@ public class Service implements Serializable {
   private Date createdDate;
 
   @ManyToOne()
-  @JoinColumn(name = "household_id")
-  private HouseHold household;
+  @JoinColumn(name = "room_id")
+  private Room room;
 
   @ManyToOne()
   @JoinColumn(name = "created_by")
@@ -55,7 +57,29 @@ public class Service implements Serializable {
 
   @ManyToOne()
   @JoinColumn(name = "service_type")
+  @JsonIgnoreProperties("services")
   private ServiceType serviceType;
+
+  
+  /*
+   * Author: Sanero.
+   * Created date: May 11, 2019
+   * Created time: 1:29:46 PM
+   * @return the room
+   */
+  public Room getRoom() {
+    return room;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 11, 2019
+   * Created time: 1:29:46 PM
+   * @param room the room to set
+   */
+  public void setRoom(Room room) {
+    this.room = room;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
@@ -65,10 +89,9 @@ public class Service implements Serializable {
    */
   @Override
   public String toString() {
-    return "Service [id=" + id + ", startDate=" + startDate + ", endDate="
-        + endDate + ", detail=" + detail + ", price=" + price + ", description="
+    return "Service [id=" + id  + ", detail=" + detail + ", price=" + price + ", description="
         + description + ", paid=" + paid + ", createdDate=" + createdDate
-        + ", household=" + household + ", employee=" + employee
+        +  ", employee=" + employee
         + ", serviceType=" + serviceType + "]";
   }
 
@@ -92,44 +115,46 @@ public class Service implements Serializable {
     this.id = id;
   }
 
+
+  
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:22 PM
-   * @return the startDate
+   * Created date: May 11, 2019
+   * Created time: 1:27:28 PM
+   * @return the collectMonth
    */
-  public Date getStartDate() {
-    return startDate;
+  public String getCollectMonth() {
+    return collectMonth;
   }
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:22 PM
-   * @param startDate the startDate to set
+   * Created date: May 11, 2019
+   * Created time: 1:27:28 PM
+   * @param collectMonth the collectMonth to set
    */
-  public void setStartDate(Date startDate) {
-    this.startDate = startDate;
+  public void setCollectMonth(String collectMonth) {
+    this.collectMonth = collectMonth;
   }
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:22 PM
-   * @return the endDate
+   * Created date: May 11, 2019
+   * Created time: 1:27:28 PM
+   * @return the paymentDate
    */
-  public Date getEndDate() {
-    return endDate;
+  public Date getPaymentDate() {
+    return paymentDate;
   }
 
   /*
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:22 PM
-   * @param endDate the endDate to set
+   * Created date: May 11, 2019
+   * Created time: 1:27:28 PM
+   * @param paymentDate the paymentDate to set
    */
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
+  public void setPaymentDate(Date paymentDate) {
+    this.paymentDate = paymentDate;
   }
 
   /*
@@ -236,26 +261,6 @@ public class Service implements Serializable {
    * Author: Sanero.
    * Created date: Mar 10, 2019
    * Created time: 10:58:22 PM
-   * @return the household
-   */
-  public HouseHold getHousehold() {
-    return household;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:22 PM
-   * @param household the household to set
-   */
-  public void setHousehold(HouseHold household) {
-    this.household = household;
-  }
-
-  /*
-   * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:22 PM
    * @return the employee
    */
   public Employee getEmployee() {
@@ -305,12 +310,12 @@ public class Service implements Serializable {
 
   /**
    * Author: Sanero.
-   * Created date: Mar 10, 2019
-   * Created time: 10:58:26 PM
+   * Created date: May 11, 2019
+   * Created time: 1:27:55 PM
    * Description: - .
    * @param id
-   * @param startDate
-   * @param endDate
+   * @param collectMonth
+   * @param paymentDate
    * @param detail
    * @param price
    * @param description
@@ -320,21 +325,18 @@ public class Service implements Serializable {
    * @param employee
    * @param serviceType
    */
-  public Service(int id, Date startDate, Date endDate, String detail,
-      double price, String description, boolean paid, Date createdDate,
-      HouseHold household, Employee employee, ServiceType serviceType) {
+  public Service(int id, String collectMonth, Date paymentDate, String detail,
+      double price, String description, boolean paid, Date createdDate, Employee employee, ServiceType serviceType) {
     super();
     this.id = id;
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.collectMonth = collectMonth;
+    this.paymentDate = paymentDate;
     this.detail = detail;
     this.price = price;
     this.description = description;
     this.paid = paid;
     this.createdDate = createdDate;
-    this.household = household;
     this.employee = employee;
     this.serviceType = serviceType;
   }
-
 }

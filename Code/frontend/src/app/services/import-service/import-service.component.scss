@@ -1,0 +1,49 @@
+
+.btn-custom {
+  margin-left: 11em;
+  margin-right: 11em;
+}
+
+.inf__drop-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 65px;
+    width: 450px;
+    max-width: 100%;
+    border: 1px dashed #c4c4c4;
+    border-radius: 3px;
+    padding: 0 20px;
+    transition: 0.2s;
+}
+
+.inf__btn {
+    display: inline-block;
+    border: 1px solid #c4c4c4;
+    border-radius: 3px;
+    padding: 5px 12px;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.inf__btn:hover {
+    background-color: #0b5174;
+}
+
+.inf__hint {
+    flex: 1;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}

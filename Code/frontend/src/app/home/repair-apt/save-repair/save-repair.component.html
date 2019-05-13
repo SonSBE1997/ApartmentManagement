@@ -1,0 +1,84 @@
+<notifier-container></notifier-container>
+<h1 mat-dialog-title class="font-weight-bold">Thông tin kiểm tra</h1>
+<div mat-dialog-content>
+  <mat-label class="font-weight-bold">Ngày kiểm tra</mat-label>
+  <br />
+  <input type="date" (change)="changeDate($event.target.value)" class="form-control font-12" [value]="maintenanceDate"
+    placeholder="Ngày kiểm tra">
+  <br />
+
+  <mat-label class="font-weight-bold">Căn hộ</mat-label>
+  <br />
+  <br />
+  <div class="row water-type">
+    <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+      <mat-label>Toà nhà</mat-label>
+      <mat-select class="text-left" (selectionChange)="selectBuildingChange($event)">
+        <mat-option *ngFor="let b of buildings" [value]="b.id">
+          {{b.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+      <mat-label>Tầng</mat-label>
+      <mat-select class="text-left" (selectionChange)="selectFloorChange($event)">
+        <mat-option *ngFor="let f of floors" [value]="f.id">
+          {{f.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+      <mat-label>Căn hộ</mat-label>
+      <mat-select class="text-left" (selectionChange)="selectedRoomChange($event)">
+        <mat-option *ngFor="let r of rooms" [value]="r.id">
+          {{r.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <br />
+
+  <div class="row">
+    <div class="col-xl-12 font-weight-bold" style="padding-top: 10px;">Người giám sát</div>
+  </div>
+  <br />
+  <ng-container *ngIf="emps.length > 0">
+    <ng-container *ngFor="let e of emps;index as i">
+      <div class="row mt-1">
+        <div class="col-xl-12">
+          <select class="form-control font-12" [value]="e.id" (change)="selectEmpChange($event, i)">
+            <option value="0">Bỏ chọn</option>
+            <option *ngFor="let emp of employees" [value]="emp.id">{{emp.name}}</option>
+          </select>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <br />
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold" style="padding-top: 10px;">Thông tin sửa chữa</div>
+    <div class="col-xl-6 float-right">
+      <button mat-raised-button class="float-right" (click)="addDevice()">Thêm</button>
+    </div>
+  </div>
+  <br />
+  <ng-container *ngIf="devis.length > 0">
+    <div class="row text-center">
+      <div class="col-xl-2">Số thứ tự</div>
+      <div class="col-xl-10">Mô tả</div>
+    </div>
+    <ng-container *ngFor="let d of devis;index as i">
+      <div class="row mt-1">
+        <div class="col-xl-2 text-center">{{i + 1}}</div>
+        <div class="col-xl-10">
+          <textarea class="form-control font-12" (change)="changeDescription($event, i)"></textarea>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="btn-primary" (click)="save()">Lưu</button>
+  <button mat-raised-button class="btn-default" (click)="onNoClick()">Đóng</button>
+</div>
+<br />

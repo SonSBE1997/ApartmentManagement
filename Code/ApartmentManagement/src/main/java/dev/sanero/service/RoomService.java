@@ -98,7 +98,7 @@ public class RoomService {
   
   public boolean saveRoom(Room room) {
     try {
-        if (room.getId() != 0) {
+        if (room.getId() > 0) {
           Room origin = repository.findById(room.getId()).get();
           room.setHouseholds(origin.getHouseholds());
           room.setBuilding(origin.getBuilding());

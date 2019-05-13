@@ -32,7 +32,9 @@ import {
   MatAutocompleteModule,
   MatSliderModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatExpansionModule,
+  MatPaginatorIntl
 } from '@angular/material';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -63,6 +65,32 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ChangePhotoComponent } from './profile/change-photo/change-photo.component';
 import { LeaveComponent } from './home/room-detail/leave/leave.component';
 import { CancelComeComponent } from './home/room-detail/cancel-come/cancel-come.component';
+import { StaircaseComponent } from './system/staircase/staircase.component';
+import { WaterComponent } from './system/water/water.component';
+import { ElectricComponent } from './system/electric/electric.component';
+import { FireComponent } from './system/fire/fire.component';
+import { SDeviceComponent } from './system/staircase/s-device/s-device.component';
+import { SDetailComponent } from './system/staircase/s-detail/s-detail.component';
+import { SaveSDetailComponent } from './system/staircase/save-s-detail/save-s-detail.component';
+import { SaveSDeviceComponent } from './system/staircase/s-device/save-s-device/save-s-device.component';
+import { EDetailComponent } from './system/electric/e-detail/e-detail.component';
+import { SaveEDetailComponent } from './system/electric/save-e-detail/save-e-detail.component';
+import { FDetailComponent } from './system/fire/f-detail/f-detail.component';
+import { SaveFDetailComponent } from './system/fire/save-f-detail/save-f-detail.component';
+import { WDetailComponent } from './system/water/w-detail/w-detail.component';
+import { SaveWDetailComponent } from './system/water/save-w-detail/save-w-detail.component';
+import { RepairAptComponent } from './home/repair-apt/repair-apt.component';
+import { SaveRepairComponent } from './home/repair-apt/save-repair/save-repair.component';
+import { ADetailComponent } from './home/repair-apt/a-detail/a-detail.component';
+import { ServicesComponent } from './services/services.component';
+import { ImportServiceComponent } from './services/import-service/import-service.component';
+import { ServiceTypeComponent } from './services/service-type/service-type.component';
+import { SaveTypeComponent } from './services/service-type/save-type/save-type.component';
+import { SaveServiceComponent } from './services/save-service/save-service.component';
+import { getDutchPaginatorIntl } from './customPaginator';
+import { ConfirmPaymentComponent } from './services/confirm-payment/confirm-payment.component';
+import { DetailServiceComponent } from './services/detail-service/detail-service.component';
+import { RepairDtlComponent } from './home/room-detail/repair-dtl/repair-dtl.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +117,32 @@ import { CancelComeComponent } from './home/room-detail/cancel-come/cancel-come.
     SaveHouseholdComponent,
     ChangePhotoComponent,
     LeaveComponent,
-    CancelComeComponent
+    CancelComeComponent,
+    StaircaseComponent,
+    WaterComponent,
+    ElectricComponent,
+    FireComponent,
+    SDeviceComponent,
+    SDetailComponent,
+    SaveSDetailComponent,
+    SaveSDeviceComponent,
+    EDetailComponent,
+    SaveEDetailComponent,
+    FDetailComponent,
+    SaveFDetailComponent,
+    WDetailComponent,
+    SaveWDetailComponent,
+    RepairAptComponent,
+    SaveRepairComponent,
+    ADetailComponent,
+    ServicesComponent,
+    ImportServiceComponent,
+    ServiceTypeComponent,
+    SaveTypeComponent,
+    SaveServiceComponent,
+    ConfirmPaymentComponent,
+    DetailServiceComponent,
+    RepairDtlComponent
   ],
   imports: [
     BrowserModule,
@@ -126,6 +179,7 @@ import { CancelComeComponent } from './home/room-detail/cancel-come/cancel-come.
     MatSidenavModule,
     MatAutocompleteModule,
     ImageCropperModule,
+    MatExpansionModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
@@ -160,22 +214,40 @@ import { CancelComeComponent } from './home/room-detail/cancel-come/cancel-come.
     SaveHouseholdComponent,
     ChangePhotoComponent,
     LeaveComponent,
-    CancelComeComponent
+    CancelComeComponent,
+    SDetailComponent,
+    SaveSDetailComponent,
+    SaveSDeviceComponent,
+    EDetailComponent,
+    SaveEDetailComponent,
+    FDetailComponent,
+    SaveFDetailComponent,
+    WDetailComponent,
+    SaveWDetailComponent,
+    SaveRepairComponent,
+    ADetailComponent,
+    ImportServiceComponent,
+    SaveTypeComponent,
+    SaveServiceComponent,
+    ConfirmPaymentComponent,
+    DetailServiceComponent,
+    RepairDtlComponent
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpErrorInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
     { provide: MAT_DATE_LOCALE, useValue: 'vi-VI' },
     {
       provide: ErrorHandler,
       useClass: ErrorsHandler
     },
     CookieService,
-    PushNotificationService
+    PushNotificationService,
+    { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() }
   ],
   bootstrap: [AppComponent]
 })

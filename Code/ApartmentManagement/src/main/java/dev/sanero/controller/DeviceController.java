@@ -43,6 +43,11 @@ public class DeviceController {
     return new ResponseEntity<List<DeviceType>>(service.findAllType(), HttpStatus.OK);
   }
   
+  @GetMapping("/type/{id}")
+  public ResponseEntity<DeviceType> findTypeById(@PathVariable int id){
+    return new ResponseEntity<DeviceType>(service.findTypeById(id), HttpStatus.OK);
+  }
+  
   @GetMapping("/group")
   public ResponseEntity<List<DeviceGroup>> findAllGroup(){
     return new ResponseEntity<List<DeviceGroup>>(service.findAllGroup(), HttpStatus.OK);

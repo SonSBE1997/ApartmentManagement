@@ -50,26 +50,27 @@ public class DeviceType implements Serializable {
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "device_type")
 //  @JsonIgnoreProperties(value="deviceType")
-  private Set<Spec> deviceSpec;
+  private Set<Spec> specs;
+
 
   /*
    * Author: Sanero.
-   * Created date: Apr 10, 2019
-   * Created time: 10:30:12 PM
-   * @return the deviceSpec
+   * Created date: Apr 30, 2019
+   * Created time: 7:22:08 PM
+   * @return the specs
    */
-  public Set<Spec> getDeviceSpec() {
-    return deviceSpec;
+  public Set<Spec> getSpecs() {
+    return specs;
   }
 
   /*
    * Author: Sanero.
-   * Created date: Apr 10, 2019
-   * Created time: 10:30:12 PM
-   * @param deviceSpec the deviceSpec to set
+   * Created date: Apr 30, 2019
+   * Created time: 7:22:08 PM
+   * @param specs the specs to set
    */
-  public void setDeviceSpec(Set<Spec> deviceSpec) {
-    this.deviceSpec = deviceSpec;
+  public void setSpecs(Set<Spec> specs) {
+    this.specs = specs;
   }
 
   /**

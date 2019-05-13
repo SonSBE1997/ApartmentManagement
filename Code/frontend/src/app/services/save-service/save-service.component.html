@@ -1,0 +1,85 @@
+<h1 mat-dialog-title class="font-weight-bold">Thêm thông tin thu phí dịch vụ</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <mat-label>Loại dịch vụ</mat-label>
+      <mat-select class="text-left" [value]="selectedType.id" (selectionChange)="selectTypeChange($event)">
+        <mat-option *ngFor="let t of types" [value]="t.id">
+          {{t.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <br>
+
+    <mat-label>Căn hộ</mat-label>
+    <div class="row water-type">
+      <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+        <mat-label>Toà nhà</mat-label>
+        <mat-select class="text-left" (selectionChange)="selectBuildingChange($event)">
+          <mat-option *ngFor="let b of buildings" [value]="b.id">
+            {{b.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+        <mat-label>Tầng</mat-label>
+        <mat-select class="text-left" (selectionChange)="selectFloorChange($event)">
+          <mat-option *ngFor="let f of floors" [value]="f.id">
+            {{f.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+        <mat-label>Căn hộ</mat-label>
+        <mat-select class="text-left" (selectionChange)="selectedRoomChange($event)">
+          <mat-option *ngFor="let r of rooms" [value]="r.id">
+            {{r.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <br />
+    <mat-form-field class="full-width">
+      <input type="month" [formControl]="frm.get('collectMonth')" matInput placeholder="Tháng" required>
+      <mat-error *ngIf="frm.get('collectMonth').hasError('required')">
+        Bạn phải nhập tháng thu tiền
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <ng-container *ngIf="isShow === true">
+      <mat-form-field class="full-width">
+        <input type="number" [formControl]="frm.get('oldIndex')" matInput placeholder="Chỉ số cũ" required
+          (change)="changeIndex()">
+      </mat-form-field>
+      <br>
+      <br>
+      <mat-form-field class="full-width">
+        <input type="number" [formControl]="frm.get('newIndex')" matInput placeholder="Chỉ số mới" required
+          (change)="changeIndex()">
+      </mat-form-field>
+      <br>
+      <br>
+    </ng-container>
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('price')" matInput placeholder="Thành tiền">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('description')" matInput placeholder="Mô tả">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="date" [formControl]="frm.get('paymentDate')" matInput placeholder="Ngày thu tiền">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
+    Thêm
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

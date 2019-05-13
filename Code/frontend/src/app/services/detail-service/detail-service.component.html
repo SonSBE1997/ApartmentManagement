@@ -1,0 +1,74 @@
+<h1 mat-dialog-title class="font-weight-bold text-uppercase text-center" align="center">Hoá đơn {{data.serviceType.name}}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-xl-5 font-weight-bold">Kể từ ngày: </div>
+    <div class="col-xl-7">20-{{lastmonth}} đến 20-{{data.collectMonth}}</div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xl-5 font-weight-bold" >Nhà cung cấp</div>
+    <div class="col-xl-7">{{data.serviceType.supplier}}</div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-xl-5 font-weight-bold">Khách hàng</div>
+    <div class="col-xl-7">{{data.fullName}}</div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xl-5 font-weight-bold">Địa chỉ</div>
+    <div class="col-xl-7">{{data.room.name}} - {{data.room.floor.name}} - {{data.room.building.name}}</div>
+  </div>
+  <br />
+  <ng-container *ngIf="isShow === true">
+    <table class="table table-bordered table-hover w-100 text-center">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Chỉ số cũ</th>
+          <th style="width: 20%;">Chỉ số mới</th>
+          <th style="width: 20%;">{{ data.serviceType.id === 1? 'ĐN tiêu thụ' : 'Nước tiêu thụ'}}</th>
+          <th style="width: 20%;">Đơn giá</th>
+          <th style="width: 20%;">Thành tiền</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{index[0]}}</td>
+          <td>{{index[1]}}</td>
+          <td>{{index[1] - index[0]}}</td>
+          <td>{{data.serviceType.price}}</td>
+          <td>{{data.serviceType.price * (index[1] - index[0])}}</td>
+        </tr>
+        <tr>
+          <td colspan="4">Thuế GTGT 10%</td>
+          <td>{{data.serviceType.price * (index[1] - index[0]) * 0.1}}</td>
+        </tr>
+        <tr>
+          <td colspan="4">Tổng cộng tiền thanh toán</td>
+          <td>{{ data.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+  </ng-container>
+  <ng-container *ngIf="isShow === false">
+    <div class="row">
+      <div class="col-xl-5 font-weight-bold">Tổng tiền thanh toán</div>
+      <div class="col-xl-7">{{data.price}} VNĐ</div>
+    </div>
+    <br />
+  </ng-container>
+
+  <div class="row">
+    <div class="col-xl-5 font-weight-bold"></div>
+    <div class="col-xl-7 font-weight-bold text-right">Người lập hoá đơn</div>
+  </div>
+  <div class="row">
+    <div class="col-xl-5 font-weight-bold"></div>
+    <div class="col-xl-7 font-weight-bold text-right pr-2" style="padding-right: 50px !important">{{data.employee.name}}</div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="'ok'" class="btn-success">OK</button>
+  <button *ngIf="isShow === true" (click)="exportPdf()" mat-raised-button class="btn-info">Xuất PDF</button>
+</div>

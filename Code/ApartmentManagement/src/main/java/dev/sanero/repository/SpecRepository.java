@@ -22,5 +22,4 @@ import dev.sanero.entity.Spec;
  */
 @Repository
 public interface SpecRepository extends JpaRepository<Spec, Integer>{
-
 }

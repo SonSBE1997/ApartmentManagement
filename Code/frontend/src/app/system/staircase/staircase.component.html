@@ -1,0 +1,92 @@
+<div class="container">
+  <notifier-container></notifier-container>
+  <div class="page-header mt-2 text-center text-uppercase">Hệ thống thang máy</div>
+</div>
+
+<mat-card>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+        <button mat-raised-button class="btn-success" matTooltip="Thêm mới" (click)="save()">
+          <i class="material-icons">
+            add
+          </i>
+        </button>
+        <button mat-raised-button class="btn-info ml-2" matTooltip="Thiết bị" [routerLink]="['/system/staircase/device']">
+          <i class="material-icons">
+            build
+          </i>
+        </button>
+      </div>
+      <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <div class="row">
+      <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
+        <input matInput (keyup)="search($event)" placeholder="Tìm kiếm">
+      </mat-form-field>
+      <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
+      <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
+        <input matInput [matDatepicker]="comeDate" placeholder="Từ ngày" [formControl]="come" [min]="minDate"
+          [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="comeDate"></mat-datepicker-toggle>
+        <mat-datepicker #comeDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
+        <input matInput [matDatepicker]="leaveDate" placeholder="Đến ngày" [formControl]="leave" [min]="minDate"
+          [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="leaveDate"></mat-datepicker-toggle>
+        <mat-datepicker #leaveDate></mat-datepicker>
+      </mat-form-field>
+      <div class="col-xl-1 col-md-1 col-sm-1 col-lg-1">
+        <button *ngIf="isFilter===false" mat-raised-button style="margin-top: 10px;" (click)="filter()">
+          Lọc <i class="fa fa-filter"></i>
+        </button>
+        <button *ngIf="isFilter===true" mat-raised-button style="margin-top: 10px;" (click)="cancelFilter()">
+          Huỷ lọc
+        </button>
+      </div>
+    </div>
+
+    <div class="mat-elevation-z8">
+      <table class="table-responsive table table-bordered table-hover table-sm" mat-table [dataSource]="dataSource"
+        matSort>
+        <ng-container matColumnDef="maintenanceDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%">Ngày kiểm tra</th>
+          <td mat-cell *matCellDef="let row"> {{row?.maintenanceDate | date: 'dd-MM-yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="numberPersonnel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%">Số lượng nhân sự</th>
+          <td mat-cell *matCellDef="let row"> {{row?.numberPersonnel}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supervisor">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%">Kỹ thuật trưởng</th>
+          <td mat-cell *matCellDef="let row"> {{row?.supervisor}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 5%">Loại kiểm tra</th>
+          <td mat-cell *matCellDef="let row"> {{row?.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%"></th>
+          <td class="last-col" mat-cell *matCellDef="let row">
+            <a class="active" (click)="showDetail(row)"><i class="material-icons" matTooltip="Chi tiết">play_arrow</i></a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+      </table>
+
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</mat-card>
+

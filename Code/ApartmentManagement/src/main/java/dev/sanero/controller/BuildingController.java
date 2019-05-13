@@ -50,11 +50,9 @@ public class BuildingController {
   }
   
   @PostMapping("/save")
-  public ResponseEntity<String> save(@RequestBody List<Building> building){
-    System.out.println("save");
-    System.out.println(building.size());
+  public ResponseEntity<String> save(@RequestBody List<Building> building) {
     if(buildingService.save(building))
-      return new ResponseEntity<String>("OK",HttpStatus.OK);
+      return new ResponseEntity<String>("Ok",HttpStatus.OK);
     return new ResponseEntity<String>("Not ok",HttpStatus.OK);
   }
 }

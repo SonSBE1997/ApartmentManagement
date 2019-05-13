@@ -20,6 +20,9 @@ import { Employee } from 'src/entity/Employee';
 import { HouseholdService } from 'src/app/service/household.service';
 import { CancelComeComponent } from './cancel-come/cancel-come.component';
 import { LeaveComponent } from './leave/leave.component';
+import { Maintenance } from 'src/entity/Maintenance';
+import { MaintenanceService } from 'src/app/service/maintenance.service';
+import { RepairDtlComponent } from './repair-dtl/repair-dtl.component';
 
 @Component({
   selector: 'app-room-detail',
@@ -29,6 +32,7 @@ import { LeaveComponent } from './leave/leave.component';
 })
 export class RoomDetailComponent implements OnInit {
   room: Room;
+  maintenances: Maintenance[] = [];
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   come = new FormControl();
@@ -36,6 +40,7 @@ export class RoomDetailComponent implements OnInit {
   isFilter = false;
   searchData = '';
   employee: Employee = null;
+  checked = false;
   displayedColumns: string[] = [
     'fullName',
     'idCard',
@@ -62,13 +67,16 @@ export class RoomDetailComponent implements OnInit {
     private dateService: DateService,
     private dialog: MatDialog,
     private employeeService: EmployeeService,
-    private householdService: HouseholdService
+    private householdService: HouseholdService,
+    private maintenanceService: MaintenanceService
   ) {}
 
   ngOnInit() {
     this.loadData();
     const userLogin = localStorage.getItem('userId');
-    this.employeeService.findById(parseInt(userLogin, 10)).subscribe(e => this.employee = e);
+    this.employeeService
+      .findById(parseInt(userLogin, 10))
+      .subscribe(e => (this.employee = e));
   }
 
   loadData() {
@@ -77,12 +85,23 @@ export class RoomDetailComponent implements OnInit {
       .pipe(
         mergeMap(params => {
           const id = +params.get('id');
+          if (this.checked === false) {
+            this.maintenanceService.findByRoom(id).subscribe(v => {
+              this.checked = true;
+              v.forEach(m => {
+                m.supervisor = m.persons[0].employee.name;
+                this.maintenances.push(m);
+              });
+            });
+          }
           return this.roomService.getRoomById(id);
         })
       )
       .subscribe(r => {
         r.households.sort((a, b) => {
-          return new Date(b.comeDate).getTime() - new Date(a.comeDate).getTime();
+          return (
+            new Date(b.comeDate).getTime() - new Date(a.comeDate).getTime()
+          );
         });
         this.room = r;
         this.dataSource = new MatTableDataSource(this.room.households);
@@ -97,12 +116,21 @@ export class RoomDetailComponent implements OnInit {
 
   customFilter() {
     this.dataSource.filterPredicate = (data, filter) => {
-      let dataStr = data.fullName +
-        data.deposit + data.idCard +
-        data.phoneNumber + data.price +
-        data.address + data.employee.name;
+      let dataStr =
+        data.fullName +
+        data.deposit +
+        data.idCard +
+        data.phoneNumber +
+        data.price +
+        data.address +
+        data.employee.name;
       dataStr += data.hire === true ? 'Thuê' : 'Mua';
-      dataStr += data.leaveDate === null ? (data.status === true ? 'Đã bàn giao' : 'Chưa bàn giao') : 'Đã chuyển đi';
+      dataStr +=
+        data.leaveDate === null
+          ? data.status === true
+            ? 'Đã bàn giao'
+            : 'Chưa bàn giao'
+          : 'Đã chuyển đi';
       dataStr += this.dateService.toDateString(data.comeDate, '-');
       dataStr += this.dateService.toDateString(data.leaveDate, '-');
       dataStr += this.dateService.toDateString(data.depositDate, '-');
@@ -169,8 +197,14 @@ export class RoomDetailComponent implements OnInit {
   addNew() {
     if (this.room.households.length > 0) {
       const hh = this.room.households[0];
-      if (hh.leaveDate === null || new Date(hh.leaveDate).getTime() > new Date().getTime()) {
-        this.notifierService.notify('info', 'Căn hộ đang có người ở, không thể thêm mới');
+      if (
+        hh.leaveDate === null ||
+        new Date(hh.leaveDate).getTime() > new Date().getTime()
+      ) {
+        this.notifierService.notify(
+          'info',
+          'Căn hộ đang có người ở, không thể thêm mới'
+        );
         return;
       }
     }
@@ -195,7 +229,7 @@ export class RoomDetailComponent implements OnInit {
 
   cancelCome() {
     const size = this.room.households.length;
-    if  (size === 0) {
+    if (size === 0) {
       return;
     }
     const h = this.room.households[0];
@@ -204,7 +238,10 @@ export class RoomDetailComponent implements OnInit {
       if (new Date(h.leaveDate).getTime() > new Date().getTime()) {
         this.notifierService.notify('info', 'Đã đăng ký chuyển đi');
       } else {
-        this.notifierService.notify('info', 'Căn hộ đang không có người đăng ký chuyển đến / đang ở');
+        this.notifierService.notify(
+          'info',
+          'Căn hộ đang không có người đăng ký chuyển đến / đang ở'
+        );
       }
       return;
     }
@@ -251,8 +288,21 @@ export class RoomDetailComponent implements OnInit {
           },
           e => {
             console.log(e);
-          });
+          }
+        );
       });
     }
+  }
+
+  clickShowDetailRepair() {
+    if (this.maintenances.length === 0) {
+      this.notifierService.notify('info', 'Căn hộ chưa sửa chữa lần nào');
+      return;
+    }
+    this.dialog.open(RepairDtlComponent, {
+      width: '700px',
+      data: this.maintenances,
+      position: { top: '50px' }
+    });
   }
 }

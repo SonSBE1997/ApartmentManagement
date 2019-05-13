@@ -59,7 +59,7 @@ public class BuildingService {
   public boolean save(List<Building> building) {
     try {
       for (Building b : building) {
-        save(b);
+        b = save(b);
       }
       return true;
     } catch (Exception e) {
@@ -69,7 +69,7 @@ public class BuildingService {
   
   public Building save(Building b) {
     try {
-      if(b.getId() != 0) {
+      if(b.getId() > 0) {
         Building origin = repository.findById(b.getId()).get();
         b.setFloors(origin.getFloors());
       }

@@ -27,6 +27,17 @@ export class EmployeeService {
       );
   }
 
+  findByDeptId(deptId: number): Observable<Employee[]> {
+    return this.http
+      .get<Employee[]>(this.url + `/dept/${deptId}`, {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      })
+      .pipe(
+        tap(),
+        catchError(err => of(null))
+      );
+  }
+
   findById(id: number): Observable<Employee> {
     return this.http
       .get<Employee>(this.url + `/${id}`, {

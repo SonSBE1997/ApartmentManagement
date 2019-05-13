@@ -1,0 +1,49 @@
+<h1 mat-dialog-title class="font-weight-bold">Chi tiết kiểm tra</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Ngày kiểm tra</div>
+    <div class="col-xl-6">{{data.maintenanceDate | date: 'dd-MM-yyyy'}}</div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Căn hộ</div>
+    <div class="col-xl-6">{{data?.description}}</div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xl-6 font-weight-bold">Người kiểm tra</div>
+    <div class="col-xl-6">{{ data?.persons[0]?.employee?.name }}</div>
+  </div>
+  <br />
+  <ng-container *ngIf="data.details.length > 0">
+    <div class="row">
+      <div class="col-xl-12 font-weight-bold">Thông tin sửa chữa</div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-xl-12">
+        <table class="table table-bordered table-hover w-100">
+          <thead>
+            <tr>
+              <th style="width: 10%;">Số thứ tư</th>
+              <th style="width: 60%;">Mô tả</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let d of data.details;index as i">
+              <tr>
+                <td>{{ i+1 }}</td>
+                <td>{{ d.description }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br />
+  </ng-container>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="btn-primary" (click)="onNoClick()">Đóng</button>
+</div>
+<br />

@@ -1,0 +1,29 @@
+<h1 mat-dialog-title class="font-weight-bold">Thông tin sửa chữa căn hộ</h1>
+<div mat-dialog-content>
+    <table class="table table-bordered w-100">
+      <thead>
+        <tr>
+          <th style="width: 15%;">Ngày kiểm tra</th>
+          <th style="width: 20%;">Người giám sát</th>
+          <th style="width: 5%;">STT</th>
+          <th style="width: 60%;">Mô tả</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let d of data">
+          <ng-container *ngFor="let dtl of d.details; index as i">
+            <tr>
+              <td *ngIf="i === 0" [rowSpan]="d.details.length">{{ d.maintenanceDate | date: 'dd-MM-yyyy' }}</td>
+              <td *ngIf="i === 0" [rowSpan]="d.details.length">{{ d.persons[0].employee.name }}</td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ dtl.description }}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="btn-primary" (click)="onNoClick()">Đóng</button>
+</div>
+<br />

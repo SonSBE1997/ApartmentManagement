@@ -42,8 +42,14 @@ hr{
 
 .pointer {cursor: pointer;}
 
-.mat-menu-item {
+.notification_item {
   width: 270px !important;
+  text-align: center;
+  font-size: 13px !important;
+  height: 35px !important;
+  vertical-align: middle !important;
+}
+.mat-menu-item {
   text-align: center;
   font-size: 13px !important;
   height: 35px !important;

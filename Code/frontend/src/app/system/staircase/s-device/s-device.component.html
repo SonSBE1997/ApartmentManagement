@@ -1,0 +1,158 @@
+<div class="container">
+  <div class="page-header mt-2 text-center text-uppercase">Thông tin thang máy</div>
+</div>
+<notifier-container></notifier-container>
+<mat-card>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-9 col-md-9 col-lg-9 col-sm-9">
+        <button mat-raised-button [routerLink]="['/system/staircase']">Quay lại</button>
+        <button mat-raised-button class="btn-success ml-2" matTooltip="Thêm mới" (click)="save()">
+          <i class="material-icons">
+            add
+          </i>
+        </button>
+        <button mat-raised-button class="btn-warning ml-2 text-white" matTooltip="Sửa" (click)="edit()">
+          <i class="material-icons">
+            edit
+          </i>
+        </button>
+      </div>
+      <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+      </div>
+    </div>
+
+    <div class="row mt-4 mb-5">
+      <div class="col-xl-8 float-right">
+        <span class="font-weight-bold">Thang máy: </span>
+        <span class="text-center">
+          <mat-select placeholder="Chọn thang máy" class="w-15" (valueChange)="selectionChange($event)" [value]="selectedValue">
+            <mat-option value="0">Chọn thang máy</mat-option>
+            <mat-option *ngFor="let d of devices; index as i" [value]="d.id">
+              {{ d.name }}
+            </mat-option>
+          </mat-select>
+        </span>
+      </div>
+      <div class="col-xl-4">
+      </div>
+    </div>
+    <ng-container *ngIf="isSelected === true">
+      <div class="mt-2 text-center font-weight-bold text-uppercase text-danger">
+          {{ selected.name }}
+      </div>
+      <div class="row mt-4">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold">
+          Số hiệu
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+          {{ selected.sign }}
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold text-right">
+          Nhà cung cấp
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 text-right">
+          {{ selected.provider }}
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold">
+          Ngày lắp đặt
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+          {{ selected.installedDate | date: 'dd-MM-yyyy' }}
+        </div>
+
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold text-right">
+          Ngày bắt đầu vận hành
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 text-right">
+          {{ selected.operationDate | date: 'dd-MM-yyyy' }}
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold">
+          Ngày lắp đặt
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+          {{ selected.installedDate | date: 'dd-MM-yyyy' }}
+        </div>
+
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold text-right">
+          Ngày bắt đầu vận hành
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 text-right">
+          {{ selected.operationDate | date: 'dd-MM-yyyy' }}
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold">
+          Số lượng
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+          {{ selected.quantity }}
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold text-right">
+          Đơn vị tính
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 text-right">
+          {{ selected.unit }}
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold">
+          Đơn giá
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+          {{ selected.price }}
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold text-right">
+          Mô tả
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 text-right">
+          {{ selected.description }}
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold">
+          Chu kỳ bảo trì
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
+          {{ selected.maintenanceCycle }} tháng
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 font-weight-bold text-right">
+          Trạng thái
+        </div>
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3 text-right">
+          {{ selected.status == true? 'Đang hoạt động' : 'Chưa hoạt động' }}
+        </div>
+      </div>
+
+      <div class="mt-4 text-left font-weight-bold text-uppercase text-danger">
+        Thông số kỹ thuật
+      </div>
+
+      <table class="table table-hover table-striped mt-2">
+        <thead>
+          <tr>
+            <th *ngFor="let spec of selected.deviceSpec">
+              {{spec.specName}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let spec of selected.deviceSpec">
+              {{spec.val}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+</mat-card>

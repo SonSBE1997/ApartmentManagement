@@ -232,9 +232,13 @@ export class DetailComponent implements OnInit {
         this.aptService.saveBuilding(dataChange).subscribe(
           success => console.log(success),
           error => {
-            // console.log(error);
-            this.loadData();
-            this.notifierService.notify('success', 'Lưu thành công');
+            if (error.status === 200) {
+              this.loadData();
+              this.notifierService.notify('success', 'Lưu thành công');
+            } else {
+              this.notifierService.notify('error', 'Lưu không thành công');
+            }
+
             this.saveBuilding = false;
           }
         );

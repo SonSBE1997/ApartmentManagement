@@ -1,0 +1,14 @@
+<notifier-container></notifier-container>
+<div mat-dialog-content>
+  <p class="text-center text-danger">{{message}}</p>
+  <div class="inf__drop-area mt-3 mb-4">
+    <span class="inf__btn">Chọn tệp</span>
+    <span class="inf__hint">{{ file === undefined? 'hoặc kéo thả tệp excel vào đây' : file.name}}</span>
+    <input type="file" (change)="changeFile($event)">
+  </div>
+  <button mat-button class="btn-success btn-custom" (click)="submit()">Tải lên tệp</button>
+  <ng-container *ngIf="uploading">
+    <p class="text-center mt-3"> Uploading...</p>
+    <mat-progress-bar class="mb-3" mode="determinate" [value]="progress"></mat-progress-bar>
+  </ng-container>
+</div>

@@ -94,25 +94,6 @@ create  table user(
     foreign key(household_id) references household(id)
 );
 
-create table guess 
-(
-	id int auto_increment primary key,
-    name varchar(255),
-    gender bit,
-    phone_number varchar(50),
-    id_card varchar(50),
-    come_time datetime,
-    leave_time datetime
-);
-
-create table entLeaApt (
-	id int auto_increment primary key,
-    user_id int,
-    times datetime,
-    type enum('Enter', 'Leave'), 
-    foreign key (user_id) references user(id)
-);
-
 create table card_type(
 	id int auto_increment primary key,
     name varchar(50),
@@ -148,40 +129,29 @@ create  table verhicle(
     disable bit default 0
 );
 
-
-create table partner_company(
-	id int  auto_increment primary key,
-    name varchar(255),
-	phone_number varchar(50),
-    email varchar(50),
-    address varchar(100),
-    disable bit default 0
-);
-
 create  table service_type (
 	id int auto_increment primary key,
     name varchar(50),
     price  double,
     unit varchar(50),
-    partner_company int,
-    disable bit default 0,
-    foreign key (partner_company) references partner_company(id)
+    supplier varchar(255),
+    disable bit default 0
 );
 
 
 create table service (
 	id int auto_increment primary key,
-    household_id int,
+    room_id int,
     service_type int,
-    start_date date,
-    end_date  date,
+    collect_month varchar(20),
+    payment_date date,
     detail text,
     price double,
     description varchar(255),
     paid bit,
     created_by int,
     created_date datetime default CURRENT_TIMESTAMP,
-    foreign key (household_id) references household(id),
+    foreign key (room_id) references room(id),
     foreign key (service_type) references service_type(id),
     foreign key (created_by) references employee(id)
 );
@@ -224,8 +194,6 @@ create table device (
     status bit,
     device_type int,
     device_group int,
-    room_id int,
-    foreign key (room_id) references room(id),
     foreign key (device_type ) references device_type (id),
     foreign key (device_group) references device_group(id)
 );
@@ -266,6 +234,7 @@ create table maintenance_detail (
     device_id int,
     price double,
     description varchar(255),
+    location varchar(100),
     foreign key (maintenance_id) references maintenance(id),
     foreign key (device_id) references device(id)
 );

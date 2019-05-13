@@ -1,0 +1,124 @@
+<notifier-container></notifier-container>
+<h1 mat-dialog-title class="font-weight-bold">{{data.type == 'new'? 'Thêm' : 'Sửa thông tin'}} thang máy</h1>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('name')" matInput placeholder="Thang máy" #name required>
+      <mat-hint align="end">{{name.value.length}}</mat-hint>
+      <mat-error *ngIf="frm.get('name').hasError('required')">
+        Bạn phải nhập tên thang máy
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('sign')" matInput placeholder="Số hiệu" #sign required>
+      <mat-hint align="end">{{sign.value.length}}</mat-hint>
+      <mat-error *ngIf="frm.get('sign').hasError('required')">
+        Bạn phải nhập số hiệu thang máy
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('provider')" matInput placeholder="Nhà cung cấp" #provider required>
+      <mat-hint align="end">{{provider.value.length}}</mat-hint>
+      <mat-error *ngIf="frm.get('provider').hasError('required')">
+        Bạn phải nhập nhà cung cấp
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="date" [formControl]="frm.get('installedDate')" matInput placeholder="Ngày lắp đặt" required>
+      <mat-error *ngIf="frm.get('installedDate').hasError('required')">
+        Bạn phải nhập ngày lắp đặt
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="date" [formControl]="frm.get('operationDate')" matInput placeholder="Ngày vận hành" required>
+      <mat-error *ngIf="frm.get('operationDate').hasError('required')">
+        Bạn phải nhập ngày vận hành
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('unit')" matInput placeholder="Đơn vị tính" #unit required>
+      <mat-hint align="end">{{unit.value.length}}</mat-hint>
+      <mat-error *ngIf="frm.get('unit').hasError('required')">
+        Bạn phải nhập đơn vị tính
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('quantity')" matInput placeholder="Số lượng" required>
+      <mat-error *ngIf="frm.get('quantity').hasError('required')">
+        Bạn phải nhập số lượng
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('price')" matInput placeholder="Đơn giá" required>
+      <mat-error *ngIf="frm.get('price').hasError('required')">
+        Bạn phải nhập đơn giá
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('description')" matInput placeholder="Mô tả" #description required>
+      <mat-hint align="end">{{description.value.length}}</mat-hint>
+      <mat-error *ngIf="frm.get('description').hasError('required')">
+        Bạn phải nhập mô tả
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('maintenanceCycle')" matInput placeholder="Chu kỳ bảo trì (tháng)" required>
+      <mat-error *ngIf="frm.get('maintenanceCycle').hasError('required')">
+        Bạn phải nhập chu kỳ bảo trì
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-label>Trạng thái</mat-label>
+    <mat-radio-group class="ml-3" [formControl]="frm.get('status')">
+      <mat-radio-button [value]="true">Đang hoạt động</mat-radio-button>
+      <mat-radio-button class="ml-2" [value]="false">Chưa hoạt động</mat-radio-button>
+    </mat-radio-group>
+
+    <ng-container *ngIf="deviceType?.specs.length > 0">
+      <ng-container *ngFor="let s of deviceType?.specs">
+        <br />
+        <br />
+        <mat-form-field class="full-width">
+          <input type="text" [formControlName]="s.name" matInput [placeholder]="s.name">
+          <mat-error *ngIf="frm.get(s.name).hasError('required')">
+            Bạn phải nhập {{s.name}}
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="btn-primary" [disabled]="frm.invalid" (click)="save()">Lưu</button>
+  <button mat-raised-button class="btn-default" (click)="onNoClick()">Đóng</button>
+</div>
+<br />

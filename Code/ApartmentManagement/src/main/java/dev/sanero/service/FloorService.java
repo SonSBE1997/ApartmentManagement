@@ -68,7 +68,7 @@ public class FloorService {
   
   public Floor save(Floor f) {
     try {
-      if (f.getId() != 0) {
+      if (f.getId() > 0) {
         Floor origin = repository.findById(f.getId()).get();
         f.setRooms(origin.getRooms());
         f.setBuilding(origin.getBuilding());

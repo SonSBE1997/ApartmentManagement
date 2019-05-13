@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   employee: Employee = null;
   households: Household[] = [];
   notifyNum = 0;
+  noti = 0;
   userLeave: User[] = [];
   constructor(
     private router: Router,
@@ -41,20 +42,21 @@ export class HeaderComponent implements OnInit {
     });
     const url = localStorage.getItem('url');
     if (url !== null) {
-      this.url = url;
-      this.sharedService.changePage(url);
+      this.url = url.split('/')[1];
+      this.sharedService.changePage(this.url);
+      this.router.navigateByUrl(url);
     }
-    setInterval(() => {
-      const token = localStorage.getItem('token');
-      if (token !== null) {
-        const data = jwt_decode(token);
-        if (data.exp * 1000 <= new Date().getTime()) {
-          alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
-          localStorage.clear();
-          window.location.href = '/';
-        }
-      }
-    }, 500);
+    // setInterval(() => {
+    //   const token = localStorage.getItem('token');
+    //   if (token !== null) {
+    //     const data = jwt_decode(token);
+    //     if (data.exp * 1000 <= new Date().getTime()) {
+    //       alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
+    //       localStorage.clear();
+    //       window.location.href = '/';
+    //     }
+    //   }
+    // }, 500);
 
     this.checkNotify();
     setInterval(() => {
@@ -105,10 +107,11 @@ export class HeaderComponent implements OnInit {
   checkNotify() {
     this.households = [];
     this.userLeave = [];
-    this.notifyNum = 0;
+    this.notifyNum = this.noti;
+    this.noti = 0;
     this.householdService.findHouseHoldComeToDay().subscribe(h => {
       h.forEach(v => {
-        this.notifyNum++;
+        this.noti++;
         this.households.push(v);
       });
       this.saveHouseholdCome();
@@ -116,10 +119,13 @@ export class HeaderComponent implements OnInit {
     this.userService.leaveToday().subscribe(u => {
       u.forEach(v => {
         this.userLeave.push(v);
-        this.notifyNum++;
+        this.noti++;
       });
       this.saveUserLeave();
     });
+    // this.notifyNum = this.noti;
+    // console.log(this.noti);
+    // console.log(this.notifyNum);
   }
 
   saveHouseholdCome() {
@@ -204,7 +210,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changePage(activeUrl, url) {
-    localStorage.setItem('url', activeUrl);
+    localStorage.setItem('url', url);
     this.url = activeUrl;
     this.sharedService.changePage(activeUrl);
     this.router.navigateByUrl(url);

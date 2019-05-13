@@ -1,0 +1,84 @@
+/**
+ * Project name: ApartmentManagement
+ * Package name: dev.sanero.controller
+ * File name: ServiceControlle.java
+ * Author: Sanero.
+ * Created date: May 11, 2019
+ * Created time: 2:08:42 PM
+ */
+
+package dev.sanero.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import dev.sanero.entity.Service;
+import dev.sanero.entity.ServiceType;
+import dev.sanero.service.ServiceService;
+
+/*
+ * @author Sanero.
+ * Created date: May 11, 2019
+ * Created time: 2:08:42 PM
+ * Description: TODO - 
+ */
+@RestController
+@RequestMapping("/api/service")
+public class ServiceController {
+  @Autowired
+  ServiceService serviceService;
+
+  @GetMapping("/type")
+  public ResponseEntity<List<ServiceType>> findAllType() {
+    return new ResponseEntity<List<ServiceType>>(serviceService.findAllType(),
+        HttpStatus.OK);
+  }
+
+  @GetMapping()
+  public ResponseEntity<List<Service>> findAll() {
+    return new ResponseEntity<List<Service>>(serviceService.findAll(),
+        HttpStatus.OK);
+  }
+  
+  @PostMapping("/save")
+  public ResponseEntity<String> save(@RequestBody Service s) {
+    boolean  result = serviceService.save(s);
+    if(result)
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
+  }
+  
+  @PostMapping("/save-type")
+  public ResponseEntity<String> saveType(@RequestBody ServiceType t) {
+    boolean  result = serviceService.saveType(t);
+    if(result)
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
+  }
+  
+  @DeleteMapping("/delete-type/{id}")
+  public ResponseEntity<String> deleteType(@PathVariable int id) {
+    boolean  result = serviceService.deleteType(id);
+    if(result)
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
+  }
+  
+  @GetMapping("/remind/{id}")
+  public ResponseEntity<String> remind(@PathVariable int id) {
+    Service s = serviceService.findById(id);
+    if(serviceService.remind(s))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
+  }
+}

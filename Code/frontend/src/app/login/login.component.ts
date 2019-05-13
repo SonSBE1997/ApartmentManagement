@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         }
         if (res.body != null) {
           this.sharedService.authentic(true);
-          this.sharedService.changePage('apartment');
+          this.sharedService.changePage('/apartment');
           localStorage.setItem('isAuthen', 'true');
           this.router.navigateByUrl('/apartment');
         } else {

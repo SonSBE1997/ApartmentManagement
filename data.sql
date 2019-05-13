@@ -8,7 +8,9 @@ INSERT INTO `apartment`.`employee` (`name`, `gender`, `date_of_birth`,
     ('Sanero', 1, '1997-03-14', '0989889812', 'sanero@gmail.com', 'Hà Nội', '123456789', 'sanero', 
 			'202cb962ac59075b964b07152d234b70', 'Manager', 3, 1), 
     ('SBE', 1, '1997-1-1', '0898998989', 'sbe@gmailcom', 'Hà Tây', '12345612', 'SBE', '202cb962ac59075b964b07152d234b70', 'Guardian', 1, 1),
-    ('Son', 1, '1997-1-1', '0987681273', 'son@gmail.com', 'Hà Nội', '123456789', 'son', '202cb962ac59075b964b07152d234b70', 'Manager', 3, 0);
+    ('Son', 1, '1997-1-1', '0987681273', 'son@gmail.com', 'Hà Nội', '123456789', 'son', '202cb962ac59075b964b07152d234b70', 'Manager', 3, 0),
+    ('Nguyen Tuan Anh', 1, '1985-1-1', '0987681233', 'tuananh@gmail.com', 'Hà Nội', '123456789', 'tuananh', 									'202cb962ac59075b964b07152d234b70', 'Guardian', 2, 0),
+    ('Do Xuan Tung', 1, '1987-1-1', '0986121233', 'tung@gmail.com', 'Hà Nội', '123456789', 'tung', 											'202cb962ac59075b964b07152d234b70', 'Guardian', 2, 0);
     
 INSERT INTO `apartment`.`building` (`name`) VALUES ('A1');
 
@@ -325,3 +327,81 @@ values ('1234567', 1, 4, 1),
 insert into verhicle(plate_numb, card_numb, user_id, verhicle_type) 
 values ('29A536689', '12345673', 4, 1),
 	   ('29V636499', '12345674', 4, 2);
+       
+
+insert into device_group (name) values ('Thang máy'), ('Điện'), ('Phòng cháy chữa cháy'), ('Cấp thoát nước'), ('Căn hộ');
+
+INSERT INTO `apartment`.`device_type` (`name`) VALUES ('Thang máy'), ('Điện'), ('Phòng cháy chữa cháy'), ('Cấp thoát nước'), ('Căn hộ');
+
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Loại thang', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Tốc độ (M/P)', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Tải trọng (KG)', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Số người', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Cửa thang (WD)', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Phòng thang (AA x BB)', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Hố thang (WH x DM)', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Hố PIT', 1);
+INSERT INTO `apartment`.`spec` (`name`, `device_type`) VALUES ('Overhead', 1);
+        
+INSERT INTO `apartment`.`device` 
+(`name`, `sign`, `provider`, `installed_date`, `operation_date`, `unit`, `quantity`, `price`, `description`, `maintenance_cycle`,
+ `status`, `device_type`, `device_group`) VALUES 
+('Thang máy 750', 'TM1', 'Mitsubishi', '2009-02-02', '2010-01-01', 'Cái', 
+	4, '300000000', 'Thang máy 750KG', '6', 1, 1, 1),
+('Thang máy 900', 'TM2', 'Mitsubishi', '2009-02-02', '2010-01-01', 'Cái', 
+	2, '0', 'Thang máy 900KG', '6', 1, 1, 1),
+('Điện lạnh', 'ĐL', 'Mitsubishi', '2009-02-02', '2010-01-01', 'HT', 
+	2, '0', 'HT điện lạnh', '6', 1, 2, 2),
+('PCCC', 'ĐL', 'Mitsubishi', '2009-02-02', '2010-01-01', 'HT', 
+	2, '0', 'HT PCCC', '6', 1, 3, 3),
+('Cấp thoát nước', 'ĐL', 'Mitsubishi', '2009-02-02', '2010-01-01', 'HT', 
+	2, '0', 'HT Cấp thoát nước', '6', 1, 4, 4),
+('Căn hộ', 'ĐL', 'Mitsubishi', '2009-02-02', '2010-01-01', 'HT', 
+	2, '0', 'Sửa chữa căn hô', '6', 1, 5, 5);
+
+
+INSERT INTO `apartment`.`device_spec` (`device_id`, `spec_name`, `val`) 
+VALUES 	  (1, 'Loại thang', 'P11-CO')
+        , (1, 'Tốc độ (M/P)', '60')
+        , (1, 'Tải trọng (KG)', '750')
+        , (1, 'Số người', '12')
+        , (1, 'Cửa thang (WD)', '800')
+        , (1, 'Phòng thang (AA x BB)', '1400 x 1300')
+        , (1, 'Hố thang (WH x DM)', '1800 x 1900')
+        , (1, 'Hố PIT', '1400')
+        , (1, 'Overhead', '4200')
+        
+        , (2, 'Loại thang', 'P13-CO')
+        , (2, 'Tốc độ (M/P)', '90')
+        , (2, 'Tải trọng (KG)', '900')
+        , (2, 'Số người', '15')
+        , (2, 'Cửa thang (WD)', '900')
+        , (2, 'Phòng thang (AA x BB)', '2000 x 2000')
+        , (2, 'Hố thang (WH x DM)', '2000 x 2500')
+        , (2, 'Hố PIT', '1500')
+        , (2, 'Overhead', '4500');
+        
+        
+INSERT INTO `apartment`.`maintenance` (`device_group`, `maintenance_date`, `description`, `maintenance_price`, `is_excuted`, `number_personnel`, `paid`) 
+VALUES ('1', '2019-04-20', 'Kiểm tra vận hành thang máy', 0, 1, 2,1),
+		('1', '2019-04-19', 'Kiểm tra vận hành thang máy', 0, 1, 2, 1),
+        ('1', '2019-04-21', 'Kiểm tra vận hành thang máy', 0, 1, 2, 1),
+        ('1', '2019-04-22', 'Khắc phục sự cố thang máy', 0, 1, 2, 1);
+        
+INSERT INTO `apartment`.`maintenance_personnel` (`maintenance_id`, `employee_id`, `is_supervisor`) 
+VALUES (1, 4, 1), (1, 5, 0), (2, 4, 1), (2, 5, 0), (3, 4, 0), (3, 5, 1), (4, 4, 0), (4, 5, 1);
+
+
+INSERT INTO `apartment`.`maintenance_detail` (`maintenance_id`, `device_id`, `price`, `description`, `location`) 
+VALUES ('1', '1', '0', 'Thang máy hoạt động bình thường', null), 
+	   ('1', '2', '0', 'Thang máy hoạt động bình thường', null),
+		('2', '1', '0', 'Thang máy hoạt động bình thường', null),
+        ('2', '2', '0', 'Thang máy hoạt động bình thường', null),
+        ('3', '1', '0', 'Thang máy hoạt động bình thường', null),
+        ('3', '2', '0', 'Thang máy hoạt động bình thường', null),
+        ('4', '1', '0', 'Kẹt cửa thang máy số 1', 'Thang máy số 1 khu A');
+	
+INSERT INTO `apartment`.`service_type` (`name`, `price`, `unit`, `supplier`) 
+VALUES ('Điện', '2300', 'đồng/Kwh', 'Tổng công ty Điện lực  Việt Nam'),
+	   ('Nước', '9969', 'đồng/m3', 'Công ty nước sạch Hà Nội'),
+       ('Quản lý chung cư', '8000', 'đồng/m2', 'Ban quản lý chung cư');

@@ -32,8 +32,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import dev.sanero.entity.Service;
+import dev.sanero.service.FileService;
 import dev.sanero.service.RoomService;
+import dev.sanero.service.ServiceService;
+import dev.sanero.utils.ExportInvoicePdf;
 import dev.sanero.utils.FileManager;
 
 /*
@@ -49,6 +54,11 @@ public class FileController {
   ServletContext servletContext;
   @Autowired
   RoomService roomService;
+  @Autowired
+  FileService fileService;
+  
+  @Autowired
+  ServiceService serviceService;
 
   @GetMapping("/download-sample/{fileName}")
   public ResponseEntity<InputStreamResource> download(
@@ -65,7 +75,7 @@ public class FileController {
   }
 
   @PostMapping("/upload-room")
-  public ResponseEntity<String> readExcelFile(
+  public ResponseEntity<String> uploadRoom(
       @RequestParam("file") MultipartFile file) {
     String extension = FilenameUtils.getExtension(file.getOriginalFilename());
     if (!(("xlsx".equals(extension)) || ("xls".equals(extension)))) {
@@ -75,13 +85,15 @@ public class FileController {
     String result = roomService.readFileRoom(file, extension);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
-  
+
   @PostMapping("/change-photo")
   public ResponseEntity<String> changePhoto(
       @RequestParam("file") MultipartFile file) {
     try {
       byte[] bytes = file.getBytes();
-      Path path = Paths.get("C:\\Users\\SonSB\\Desktop\\DATN\\Code\\frontend\\src\\assets\\image\\" + file.getOriginalFilename());
+      Path path = Paths.get(
+          "C:\\Users\\SonSB\\Desktop\\DATN\\Code\\frontend\\src\\assets\\image\\"
+              + file.getOriginalFilename());
       Files.write(path, bytes);
       file.getInputStream();
       return ResponseEntity.ok("upload success");
@@ -89,6 +101,22 @@ public class FileController {
       e.printStackTrace();
       return new ResponseEntity<String>("failed", HttpStatus.OK);
     }
- }
+  }
+
+  @GetMapping("/gen-service-excel")
+  public ResponseEntity<String> genServiceExcel() {
+    if (fileService.genServiceExcel())
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
+  }
   
+  @GetMapping("/export-invoice-pdf/{id}")
+  public ModelAndView handlereport(@PathVariable int id) {
+    try {
+      Service s = serviceService.findById(id);
+      return new ModelAndView(new ExportInvoicePdf(), "invoice", s);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }
