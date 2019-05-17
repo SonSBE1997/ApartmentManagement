@@ -135,6 +135,7 @@ create  table service_type (
     price  double,
     unit varchar(50),
     supplier varchar(255),
+    increase varchar(255),
     disable bit default 0
 );
 
@@ -148,6 +149,7 @@ create table service (
     detail text,
     price double,
     description varchar(255),
+	increase varchar(255),
     paid bit,
     created_by int,
     created_date datetime default CURRENT_TIMESTAMP,

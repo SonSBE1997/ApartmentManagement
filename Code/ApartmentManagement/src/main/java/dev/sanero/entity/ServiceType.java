@@ -43,11 +43,33 @@ public class ServiceType implements Serializable {
   private String supplier;
   private boolean disable;
   
+  private String increase;
+  
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "service_type")
   private Set<Service> services;
   
   
+  /*
+   * Author: Sanero.
+   * Created date: May 15, 2019
+   * Created time: 9:21:43 PM
+   * @return the increase
+   */
+  public String getIncrease() {
+    return increase;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 15, 2019
+   * Created time: 9:21:43 PM
+   * @param increase the increase to set
+   */
+  public void setIncrease(String increase) {
+    this.increase = increase;
+  }
+
   /*
    * Author: Sanero.
    * Created date: May 11, 2019

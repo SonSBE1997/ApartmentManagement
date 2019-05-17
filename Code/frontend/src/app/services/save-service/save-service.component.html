@@ -48,20 +48,18 @@
     </mat-form-field>
     <br>
     <br>
-    <ng-container *ngIf="isShow === true">
-      <mat-form-field class="full-width">
-        <input type="number" [formControl]="frm.get('oldIndex')" matInput placeholder="Chỉ số cũ" required
-          (change)="changeIndex()">
-      </mat-form-field>
-      <br>
-      <br>
-      <mat-form-field class="full-width">
-        <input type="number" [formControl]="frm.get('newIndex')" matInput placeholder="Chỉ số mới" required
-          (change)="changeIndex()">
-      </mat-form-field>
-      <br>
-      <br>
-    </ng-container>
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('oldIndex')" matInput placeholder="Chỉ số cũ"
+        (change)="changeIndex()">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('newIndex')" matInput placeholder="Chỉ số mới"
+        (change)="changeIndex()">
+    </mat-form-field>
+    <br>
+    <br>
     <mat-form-field class="full-width">
       <input type="number" [formControl]="frm.get('price')" matInput placeholder="Thành tiền">
     </mat-form-field>

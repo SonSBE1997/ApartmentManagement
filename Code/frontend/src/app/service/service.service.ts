@@ -65,4 +65,36 @@ export class ServiceService {
       responseType: 'text'
     });
   }
+
+  paidByMonth(month, paid): Observable<[]> {
+    return this.http.get<[]>(this.url + `/paid-by-month/${month}/${paid}`, {
+      headers: new HttpHeaders().set('Authorization', this.token)
+    });
+  }
+
+  pricePaidByMonth(month, paid): Observable<[]> {
+    return this.http.get<[]>(
+      this.url + `/price-paid-by-month/${month}/${paid}`,
+      {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      }
+    );
+  }
+  paidByMonthAndType(month, type): Observable<[]> {
+    return this.http.get<[]>(
+      this.url + `/paid-by-month-type/${month}/${type}`,
+      {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      }
+    );
+  }
+
+  pricePaidByMonthAndType(month, type): Observable<[]> {
+    return this.http.get<[]>(
+      this.url + `/price-paid-by-month-type/${month}/${type}`,
+      {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      }
+    );
+  }
 }

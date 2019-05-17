@@ -23,6 +23,8 @@ import { LeaveComponent } from './leave/leave.component';
 import { Maintenance } from 'src/entity/Maintenance';
 import { MaintenanceService } from 'src/app/service/maintenance.service';
 import { RepairDtlComponent } from './repair-dtl/repair-dtl.component';
+import { User } from 'src/entity/User';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-room-detail',
@@ -41,6 +43,7 @@ export class RoomDetailComponent implements OnInit {
   searchData = '';
   employee: Employee = null;
   checked = false;
+  selectedHousehold = -1;
   displayedColumns: string[] = [
     'fullName',
     'idCard',
@@ -56,6 +59,7 @@ export class RoomDetailComponent implements OnInit {
     'employee'
   ];
   dataSource: MatTableDataSource<Household>;
+  userDataSource: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -304,5 +308,22 @@ export class RoomDetailComponent implements OnInit {
       data: this.maintenances,
       position: { top: '50px' }
     });
+  }
+
+  selectHouseholdChange(row: Household) {
+    if ((row.leaveDate === null && row.status === false) || row.leaveDate === row.comeDate) {
+      this.selectedHousehold = -1;
+      return;
+    }
+    this.selectedHousehold = row.id;
+    const users = row.users;
+    this.userDataSource = new MatTableDataSource(users);
+    setTimeout(() => {
+      window.scrollTo({
+        top: 1000,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }, 1000);
   }
 }

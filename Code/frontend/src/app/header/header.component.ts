@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   notifyNum = 0;
   noti = 0;
   userLeave: User[] = [];
+  deptName = 'QL';
   constructor(
     private router: Router,
     private sharedService: SharedService,
@@ -100,6 +101,7 @@ export class HeaderComponent implements OnInit {
         address: '',
         dept: null
       };
+      this.deptName = data.dept;
     }
     this.pushNotificationService.requestPermission();
   }

@@ -11,6 +11,8 @@ package dev.sanero.service;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 
@@ -21,6 +23,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import dev.sanero.entity.Room;
+import dev.sanero.entity.ServiceType;
 
 @Service
 public class MailService {
@@ -80,39 +83,102 @@ public class MailService {
     Room r = s.getRoom();
     String add = r.getName() + " - " + r.getFloor().getName() + " - " + r.getBuilding().getName();
     builder.append("<div><b>Địa chỉ:</b> " + add + "</>");
-    int type = s.getServiceType().getId();
     NumberFormat formatter = new DecimalFormat("#0.00");  
-    if (type == 1 || type == 2) {
+    if (!"".equals(s.getDetail())) {
+      String index[] = s.getDetail().split("-");
+      double use = Double.parseDouble(index[1]) - Double.parseDouble(index[0]);
+      
+      List<Double> m = new ArrayList<>();
+      List<Double> p = new ArrayList<>();
+      List<Double> arr = new ArrayList<>();
+      List<Double> arr1 = new ArrayList<>();
+      String increase = s.getIncrease();
+      double price = 0;
+      
+      ServiceType type = s.getServiceType();
+      if (!"".equals(increase)) {
+        for (String str : increase.split(";")) {
+           String temp[] = str.split(" - ");
+           m.add(Double.parseDouble(temp[0]));
+           p.add(Double.parseDouble(temp[1]));
+        }
+        
+        double tempo = use;
+        int size = m.size();
+        for (int i = 0; i < size; i++) {
+          if (use > m.get(i)) {
+            double t = m.get(i);
+            if (i > 0) {
+              t -= m.get(i-1);
+            }
+            double pp = 0;
+            if (i < size - 1) {
+              tempo -= t;
+              pp += t * p.get(i);
+              arr.add(t);
+            } else {
+              pp += tempo * p.get(i);
+              arr.add(tempo);
+            }
+            price += pp;
+            arr1.add(pp);
+          } else {
+            double pp = 0;
+            pp += tempo * p.get(i);
+            price += pp;
+            arr.add(tempo);
+            arr1.add(pp);
+            break;
+          }
+        }
+      } else {
+        price = use * type.getPrice();
+      }
+      
       builder.append("<table style=\"text-align: center; border-collapse: collapse;margin-top: 50px;\">");
       builder.append("<thead>");
       builder.append("<tr>");
       builder.append("<th style=\"width: 20%;border: 1px solid #000000\">Chỉ số cũ</th>");
       builder.append("<th style=\"width: 20%;border: 1px solid #000000\">Chỉ số mới</th>");
-      String typeStr = type == 1? "ĐL tiêu thụ" : "Nước tiêu thụ";
-      builder.append("<th style=\"width: 20%;border: 1px solid #000000\">" + typeStr + "</th>");
+      builder.append("<th style=\"width: 20%;border: 1px solid #000000\">Chỉ số tiêu thụ</th>");
       builder.append("<th style=\"width: 20%;border: 1px solid #000000\">Đơn giá</th>");
       builder.append("<th style=\"width: 20%;border: 1px solid #000000\">Thành tiền</th>");
       builder.append(" </tr>");
       builder.append(" </thead>");
       builder.append("<tbody>");
       builder.append("<tr>");
-      String index[] = s.getDetail().split("-");
       builder.append(" <td style=\"border: 1px solid #000000\"> " + index [0] + " </td>");
       builder.append(" <td style=\"border: 1px solid #000000\">" + index [1] + "</td>");
-     
-      double use = Double.parseDouble(index[1]) - Double.parseDouble(index[0]);
+      if(arr.size() == 0) {
+        builder.append("<td style=\"border: 1px solid #000000\">" +  formatter.format(type.getPrice()) + "</td>");
+        builder.append(" <td style=\"border: 1px solid #000000\"> " + formatter.format(price)  + "</td>");
+      } else {
+        builder.append("<td style=\"border: 1px solid #000000\"></td>");
+        builder.append("<td style=\"border: 1px solid #000000\"></td>");
+      }
       builder.append("<td style=\"border: 1px solid #000000\">" + formatter.format(use) + "</td>");
-      double price = s.getServiceType().getPrice();
-      builder.append("<td style=\"border: 1px solid #000000\">" + price + "</td>");
-      builder.append(" <td style=\"border: 1px solid #000000\"> " + formatter.format((use * price))  + "</td>");
       builder.append(" </tr>");
+      
+      if (arr.size() > 0) {
+        for (int i = 0; i < arr.size(); i++) {
+          builder.append("<tr>");
+          builder.append("<td style=\"border: 1px solid #000000\"></td>");
+          builder.append("<td style=\"border: 1px solid #000000\"></td>");
+          
+          builder.append(" <td style=\"border: 1px solid #000000\"> " + formatter.format(arr.get(i))  + "</td>");
+          builder.append(" <td style=\"border: 1px solid #000000\"> " + formatter.format(p.get(i))  + "</td>");
+          builder.append(" <td style=\"border: 1px solid #000000\"> " + formatter.format(arr1.get(i))  + "</td>");
+          builder.append(" </tr>");
+        }
+      }
+      
       builder.append("<tr>");
       builder.append("  <td colspan=\"4\" style=\"border: 1px solid #000000\">Thuế GTGT 10%</td>");
-      builder.append(" <td style=\"border: 1px solid #000000\">" + formatter.format((use * price * 0.1)) + "</td>");
+      builder.append(" <td style=\"border: 1px solid #000000\">" + formatter.format((price * 0.1)) + "</td>");
       builder.append("</tr>");
       builder.append(" <tr>");
       builder.append("   <td colspan=\"4\" style=\"border: 1px solid #000000\">Tổng cộng tiền thanh toán</td>");
-      builder.append("<td style=\"border: 1px solid #000000\">" + formatter.format((use * price * 1.1)) + "</td>");
+      builder.append("<td style=\"border: 1px solid #000000\">" + formatter.format((price * 1.1)) + "</td>");
       builder.append("</tr>");
       builder.append("</tbody>");
       builder.append("</table>");

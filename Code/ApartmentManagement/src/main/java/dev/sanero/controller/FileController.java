@@ -119,4 +119,17 @@ public class FileController {
       return null;
     }
   }
+  
+  @PostMapping("/upload-service")
+  public ResponseEntity<String> uploadService(
+      @RequestParam("file") MultipartFile file) {
+    String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+    if (!(("xlsx".equals(extension)) || ("xls".equals(extension)))) {
+      return new ResponseEntity<String>("Extension not matching",
+          HttpStatus.OK);
+    }
+    String result = serviceService.readServiceFromFile(file, extension);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
 }

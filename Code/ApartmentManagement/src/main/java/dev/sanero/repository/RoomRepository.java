@@ -10,6 +10,7 @@
 package dev.sanero.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import dev.sanero.entity.Room;
@@ -23,4 +24,6 @@ import dev.sanero.entity.Room;
 @Repository
 public interface RoomRepository  extends JpaRepository<Room, Integer>{
 //  public List<Room> findAllRoomsByDisable(boolean disable);
+  @Query("select r from room r where r.name like ?1 and r.floor.name like ?2 and r.building.name like ?3")
+  public Room findRoomByName(String name, String floor, String building);
 }

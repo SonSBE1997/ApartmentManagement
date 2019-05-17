@@ -81,4 +81,25 @@ public class ServiceController {
       return new ResponseEntity<String>("Ok", HttpStatus.OK);
     return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
   }
+  
+  @GetMapping("/paid-by-month-type/{month}/{type}")
+  public ResponseEntity<List<Object>> paid(@PathVariable String month, @PathVariable int type) {
+    return new ResponseEntity<List<Object>>(serviceService.paidByMonthAndType(month, type), HttpStatus.OK);
+  }
+  
+
+  @GetMapping("/price-paid-by-month-type/{month}/{type}")
+  public ResponseEntity<List<Object>> paid2(@PathVariable String month, @PathVariable int type) {
+    return new ResponseEntity<List<Object>>(serviceService.pricePaidByMonthAndType(month, type), HttpStatus.OK);
+  }
+  
+  @GetMapping("/paid-by-month/{month}/{paid}")
+  public ResponseEntity<List<Object>> paid1(@PathVariable String month, @PathVariable int paid) {
+    return new ResponseEntity<List<Object>>(serviceService.paidByMonth(month, paid), HttpStatus.OK);
+  }
+  
+  @GetMapping("/price-paid-by-month/{month}/{paid}")
+  public ResponseEntity<List<Object>> paid3(@PathVariable String month, @PathVariable int paid) {
+    return new ResponseEntity<List<Object>>(serviceService.pricePaidByMonth(month, paid), HttpStatus.OK);
+  }
 }

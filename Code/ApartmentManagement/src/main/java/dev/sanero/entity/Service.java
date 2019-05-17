@@ -60,7 +60,28 @@ public class Service implements Serializable {
   @JsonIgnoreProperties("services")
   private ServiceType serviceType;
 
+  private String increase;
   
+  /*
+   * Author: Sanero.
+   * Created date: May 17, 2019
+   * Created time: 6:51:26 AM
+   * @return the increase
+   */
+  public String getIncrease() {
+    return increase;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 17, 2019
+   * Created time: 6:51:27 AM
+   * @param increase the increase to set
+   */
+  public void setIncrease(String increase) {
+    this.increase = increase;
+  }
+
   /*
    * Author: Sanero.
    * Created date: May 11, 2019

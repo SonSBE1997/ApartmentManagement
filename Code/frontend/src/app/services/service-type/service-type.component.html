@@ -31,9 +31,19 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 20%">Loại dịch vụ</th>
         <td mat-cell *matCellDef="let row"> {{row.name}} </td>
       </ng-container>
+
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 20%">Đơn giá</th>
-        <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+          <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="row.increase === '' || row.increase === null"> {{row.price}}
+              </ng-container>
+              <ng-container *ngIf="row.increase !== '' && row.increase !== null">
+                <select class="w-100 form-control"
+                  style="border: none !important; padding-left: 0px !important; padding-right: 0px !important; text-align-last: center">
+                  <option *ngFor="let p of row.priceList">{{p}}</option>
+                </select>
+              </ng-container>
+         </td>
       </ng-container>
 
       <ng-container matColumnDef="unit">

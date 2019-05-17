@@ -5,6 +5,8 @@ import { NotifierService } from 'angular-notifier';
 import { HouseholdService } from 'src/app/service/household.service';
 import { validateIdCard, validatePhoneNumber } from 'src/app/employee/save-emp/save-emp.component';
 import { Household } from 'src/entity/Household';
+import { UserService } from 'src/app/service/user.service';
+import { User } from 'src/entity/User';
 
 @Component({
   selector: 'app-save-household',
@@ -18,7 +20,8 @@ export class SaveHouseholdComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private notifierService: NotifierService,
-    private householdService: HouseholdService
+    private householdService: HouseholdService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -46,7 +49,24 @@ export class SaveHouseholdComponent implements OnInit {
       ...this.frm.value
     };
 
-    console.log(data);
+    const user: User = {
+      id: 0,
+      name: this.frm.get('fullName').value,
+      gender: true,
+      idCard: this.frm.get('idCard').value,
+      phoneNumber: this.frm.get('phoneNumber').value,
+      address: this.frm.get('address').value,
+      email: '',
+      head: true,
+      leave: false,
+      leaveDate: null,
+      dateOfBirth: null,
+      disable: false,
+      household: null
+    };
+
+    data.users.push(user);
+
     this.householdService.save(data).subscribe(
       success => console.log(success),
       error => {

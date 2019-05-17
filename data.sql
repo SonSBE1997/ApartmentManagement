@@ -401,7 +401,10 @@ VALUES ('1', '1', '0', 'Thang máy hoạt động bình thường', null),
         ('3', '2', '0', 'Thang máy hoạt động bình thường', null),
         ('4', '1', '0', 'Kẹt cửa thang máy số 1', 'Thang máy số 1 khu A');
 	
+
+INSERT INTO `apartment`.`service_type` (`name`, `price`, `unit`, `supplier`, `increase`) 
+Values  ('Điện', '2300', 'đồng/Kwh', 'Tổng công ty Điện lực  Việt Nam', '10 - 1360;20 - 1680; 50 - 2300'),
+	   ('Nước', '9969', 'đồng/m3', 'Công ty nước sạch Hà Nội', '10 - 7890;20 - 8568; 50 - 9969');
+       
 INSERT INTO `apartment`.`service_type` (`name`, `price`, `unit`, `supplier`) 
-VALUES ('Điện', '2300', 'đồng/Kwh', 'Tổng công ty Điện lực  Việt Nam'),
-	   ('Nước', '9969', 'đồng/m3', 'Công ty nước sạch Hà Nội'),
-       ('Quản lý chung cư', '8000', 'đồng/m2', 'Ban quản lý chung cư');
+VALUES  ('Quản lý chung cư', '8000', 'đồng/m2', 'Ban quản lý chung cư');

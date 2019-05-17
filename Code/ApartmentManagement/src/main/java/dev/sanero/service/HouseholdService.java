@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.sanero.entity.HouseHold;
+import dev.sanero.entity.User;
 import dev.sanero.repository.HouseholdRepository;
 
 /*
@@ -64,13 +65,20 @@ public class HouseholdService {
 
   public boolean save(HouseHold h) {
     try {
+      boolean checkExist = false;
       if(h.getId() != 0) {
         HouseHold origin = findById(h.getId());
         h.setRoom(origin.getRoom());
         h.setUsers(origin.getUsers());
         h.setEmployee(origin.getEmployee());
+        checkExist = true;
       }
-      repository.save(h);
+      h = repository.save(h);
+      if (!checkExist) {
+        for(User u : h.getUsers()) {
+          userService.save(u);
+        }
+      }
       return true;
     } catch (Exception e) {
       return false;

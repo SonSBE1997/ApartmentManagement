@@ -15,4 +15,5 @@ export interface Service {
   employee: Employee;
   serviceType: ServiceType;
   fullName: string;
+  increase: string;
 }

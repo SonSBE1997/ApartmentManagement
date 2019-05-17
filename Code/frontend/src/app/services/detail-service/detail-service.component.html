@@ -16,7 +16,7 @@
   </div>
   <br />
   <div class="row">
-    <div class="col-xl-5 font-weight-bold">Địa chỉ</div>
+    <div class="col-xl-5 font-weight-bold">Căn hộ</div>
     <div class="col-xl-7">{{data.room.name}} - {{data.room.floor.name}} - {{data.room.building.name}}</div>
   </div>
   <br />
@@ -26,7 +26,7 @@
         <tr>
           <th style="width: 20%;">Chỉ số cũ</th>
           <th style="width: 20%;">Chỉ số mới</th>
-          <th style="width: 20%;">{{ data.serviceType.id === 1? 'ĐN tiêu thụ' : 'Nước tiêu thụ'}}</th>
+          <th style="width: 20%;">Chỉ số tiêu thụ</th>
           <th style="width: 20%;">Đơn giá</th>
           <th style="width: 20%;">Thành tiền</th>
         </tr>
@@ -36,16 +36,31 @@
           <td>{{index[0]}}</td>
           <td>{{index[1]}}</td>
           <td>{{index[1] - index[0]}}</td>
-          <td>{{data.serviceType.price}}</td>
-          <td>{{data.serviceType.price * (index[1] - index[0])}}</td>
+          <ng-container *ngIf="arr.length > 0">
+            <td></td>
+            <td></td>
+          </ng-container>
+          <ng-container *ngIf="arr.length === 0">
+            <td>{{data.serviceType.price}}</td>
+            <td>{{this.price | number : '1.0-2' }}</td>
+          </ng-container>
         </tr>
+        <ng-container *ngIf="arr.length > 0">
+          <tr *ngFor="let v of arr; index as i">
+            <td></td>
+            <td></td>
+            <td>{{v | number: '1.0-2'}}</td>
+            <td>{{p[i]}}</td>
+            <td>{{arr1[i]}}</td>
+          </tr>
+        </ng-container>
         <tr>
           <td colspan="4">Thuế GTGT 10%</td>
-          <td>{{data.serviceType.price * (index[1] - index[0]) * 0.1}}</td>
+          <td>{{this.price * 0.1 | number : '1.0-2'}}</td>
         </tr>
         <tr>
           <td colspan="4">Tổng cộng tiền thanh toán</td>
-          <td>{{ data.price }}</td>
+          <td>{{ this.price * 1.1 | number : '1.0-2'}}</td>
         </tr>
       </tbody>
     </table>
@@ -54,7 +69,7 @@
   <ng-container *ngIf="isShow === false">
     <div class="row">
       <div class="col-xl-5 font-weight-bold">Tổng tiền thanh toán</div>
-      <div class="col-xl-7">{{data.price}} VNĐ</div>
+      <div class="col-xl-7">{{data.price | number : '1.0-2'}} VNĐ</div>
     </div>
     <br />
   </ng-container>
@@ -70,5 +85,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button [mat-dialog-close]="'ok'" class="btn-success">OK</button>
-  <button *ngIf="isShow === true" (click)="exportPdf()" mat-raised-button class="btn-info">Xuất PDF</button>
+  <button (click)="exportPdf()" mat-raised-button class="btn-info">Xuất PDF</button>
 </div>

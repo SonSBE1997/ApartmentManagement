@@ -69,11 +69,14 @@ export class ImportServiceComponent implements OnInit {
         },
         error => {
           console.log(error);
-          const result = error.error.text;
+          let result = error.error.text;
           if (result === 'Import thành công') {
             this.notifierService.notify('success', result);
             this.dialogRef.close(true);
           } else {
+            if (result === '') {
+              result = 'Import thất bại';
+            }
             this.notifierService.notify('error', result);
           }
           setTimeout(() => {

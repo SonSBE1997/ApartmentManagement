@@ -26,7 +26,6 @@ export class SaveServiceComponent implements OnInit {
   rooms: Room[] = [];
   selectedRoom: Room;
   selectedType: ServiceType;
-  isShow = true;
   households: Household[];
   size = 0;
   constructor(
@@ -72,7 +71,7 @@ export class SaveServiceComponent implements OnInit {
       return;
     }
     let dtl = '';
-    if (this.selectedType.id === 1 || this.selectedType.id === 2) {
+    if (this.frm.get('newIndex').value !== 0) {
       dtl =
         this.frm.get('oldIndex').value + '-' + this.frm.get('newIndex').value;
     }
@@ -103,7 +102,8 @@ export class SaveServiceComponent implements OnInit {
         dept: null
       },
       serviceType: this.selectedType,
-      fullName: ''
+      fullName: '',
+      increase: this.selectedType.increase
     };
     const pmDate = this.frm.get('paymentDate').value;
     if (pmDate !== '') {
@@ -156,7 +156,6 @@ export class SaveServiceComponent implements OnInit {
           this.rooms.push(h.room);
         }
       }
-      // this.rooms = f.rooms;
     }
   }
 
@@ -166,25 +165,50 @@ export class SaveServiceComponent implements OnInit {
 
   selectTypeChange(e) {
     this.selectedType = this.types.find(v => v.id === e.value);
-    if (e.value === 1 || e.value === 2) {
-      this.isShow = true;
-    } else {
-      this.isShow = false;
-      this.frm.get('price').setValue(this.selectedType.price.toFixed(2));
-    }
+    this.frm.get('price').setValue(this.selectedType.price.toFixed(2));
   }
 
   changeIndex() {
     const oldIndex = this.frm.get('oldIndex').value;
     const newIndex = this.frm.get('newIndex').value;
-    if (oldIndex !== 0 && newIndex !== 0) {
-        // if (this.selectedType.id === 1)  {
-          const price = ((newIndex - oldIndex) * 1.1 * this.selectedType.price).toFixed(2);
-          this.frm.get('price').setValue(price);
-        // } else if ( this.selectedType.id === 2 ) {
-        //   const price =  ((newIndex - oldIndex) * 1.15 * this.selectedType.price).toFixed(2);
-        //   this.frm.get('price').setValue(price);
-        // }
+    if (newIndex !== 0) {
+      if (this.selectedType.increase !== null && this.selectedType.increase !== '') {
+        const m = [];
+        const p = [];
+        this.selectedType.priceList.forEach(v => {
+          const arr = v.split(' - ');
+          m.push(parseInt(arr[0], 10));
+          p.push(parseInt(arr[1], 10));
+        });
+        console.log(m);
+        const index = newIndex - oldIndex;
+        let price = 0;
+        let temp = index;
+        const size = m.length;
+        for (let i = 0; i < size; i++) {
+          if (index > m[i]) {
+            let t = m[i];
+            if (i > 0) {
+              t -= m[i - 1];
+            }
+            let pp = 0;
+            if (i < size - 1) {
+              temp -= t;
+              pp += t * p[i];
+            } else {
+              pp += temp * p[i];
+            }
+            price += pp;
+          } else {
+            price += temp * p[i];
+            break;
+          }
+        }
+        this.frm.get('price').setValue((price * 1.1).toFixed(2));
+      } else {
+        const price = ((newIndex - oldIndex) * 1.1 * this.selectedType.price).toFixed(2);
+        this.frm.get('price').setValue(price);
+      }
     }
   }
 }

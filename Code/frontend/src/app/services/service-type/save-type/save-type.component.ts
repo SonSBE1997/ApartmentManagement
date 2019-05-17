@@ -12,6 +12,8 @@ import { ServiceType } from 'src/entity/ServiceType';
 })
 export class SaveTypeComponent implements OnInit {
   frm: FormGroup;
+  type = '0';
+  prices = [];
   constructor(
     public dialogRef: MatDialogRef<SaveTypeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -34,32 +36,55 @@ export class SaveTypeComponent implements OnInit {
         price: this.data.price,
         supplier: this.data.supplier
       });
+
+      if (this.data.increase !== '' && this.data.increase !== null) {
+        this.type = '1';
+        this.data.priceList.forEach(v => {
+          const arr = v.split(' - ');
+          this.prices.push({
+            m: parseInt(arr[0], 10),
+            p: parseInt(arr[1], 10)
+          });
+        });
+      }
     }
   }
 
   save() {
+    if (this.type === '1') {
+      this.prices = this.prices.filter(v => v.m !== 0);
+      if (this.prices.length === 0) {
+        this.notifierService.notify('warning', 'Bạn phải nhập luỹ kế dịch vụ');
+        return;
+      }
+    }
     const s: ServiceType = {
       id: 0,
       name: this.frm.get('name').value,
       unit: this.frm.get('unit').value,
       price: this.frm.get('price').value,
       supplier: this.frm.get('supplier').value,
-      services: null
+      services: null,
+      increase: '',
+      priceList: []
     };
+    const lst: string[] = [];
+    this.prices.forEach(v => {
+      lst.push(v.m + ' - ' + v.p);
+    });
+    s.increase = lst.join(';');
 
-    if (this.data !== null && this.data !== undefined ) {
+    if (this.data !== null && this.data !== undefined) {
       s.services = this.data.services;
       s.id = this.data.id;
     }
 
-    const action = this.data === null || this.data === undefined ? 'Thêm ' : 'Cập nhật';
+    const action =
+      this.data === null || this.data === undefined ? 'Thêm ' : 'Cập nhật';
     this.serviceService.saveType(s).subscribe(
       success => {
         if (success === 'Ok') {
-          this.notifierService.notify(
-            'success',
-            `${action} thành công`
-          );
+          this.notifierService.notify('success', `${action} thành công`);
           this.dialogRef.close(true);
         } else {
           this.notifierService.notify('error', `${action} thất bại`);
@@ -71,5 +96,25 @@ export class SaveTypeComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  typeChange(e) {
+    if (e.value === '0') {
+      this.prices = [];
+    } else {
+      this.prices.push({ m: 0, p: 0 });
+    }
+  }
+
+  addPrice() {
+    this.prices.push({ m: 0, p: 0 });
+  }
+
+  changeM(v, i) {
+    this.prices[i].m = v;
+  }
+
+  changeP(v, i) {
+    this.prices[i].p = v;
   }
 }

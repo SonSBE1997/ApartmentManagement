@@ -52,6 +52,7 @@ export class ServicesComponent implements OnInit {
   types: ServiceType[] = [];
   services: Service[] = [];
   backup: Service[] = [];
+  typeFileter = '-1';
   status = '-1';
   isFilter = false;
   searchStr = '';
@@ -88,6 +89,15 @@ export class ServicesComponent implements OnInit {
     this.serviceService.findAllType().subscribe(t => {
       if (t != null) {
         t.forEach(v => {
+          if (v.increase !== '' && v.increase !== null) {
+            v.priceList = v.increase
+              .split(';')
+              .sort(
+                (a, b) =>
+                  parseInt(a.split(' - ')[0], 10) -
+                  parseInt(b.split(' - ')[0], 10)
+              );
+          }
           this.types.push(v);
         });
       }
@@ -238,7 +248,7 @@ export class ServicesComponent implements OnInit {
       str = date.month() + 1 + '-' + date.year();
     }
 
-    if (this.status === '-1' && str === '') {
+    if (this.status === '-1' && str === '' && this.typeFileter === '-1') {
       return;
     }
 
@@ -246,6 +256,10 @@ export class ServicesComponent implements OnInit {
     if (this.status !== '-1') {
       const sttus = this.status === '0' ? true : false;
       data = data.filter(v => v.paid === sttus);
+    }
+    if (this.typeFileter !== '-1') {
+      const type = this.types.find(v => v.id === parseInt(this.typeFileter, 10));
+      data = data.filter(v => v.serviceType.id === type.id);
     }
     if (str !== '') {
       console.log(str);

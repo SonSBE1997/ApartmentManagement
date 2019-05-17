@@ -11,10 +11,48 @@
     <br>
     <br>
     <mat-form-field class="full-width">
-      <input type="number" [formControl]="frm.get('price')" matInput placeholder="Đơn giá" required>
+      <mat-select [(value)]="type" (selectionChange)="typeChange($event)">
+        <mat-option value="0">Đơn giá</mat-option>
+        <mat-option value="1">Luỹ tiến</mat-option>
+      </mat-select>
+      <mat-label>
+        Loại
+      </mat-label>
     </mat-form-field>
-    <br>
-    <br>
+    <br/>
+    <ng-container *ngIf="type === '0'">
+      <mat-form-field class="full-width">
+        <input type="number" [formControl]="frm.get('price')" matInput placeholder="Đơn giá" required>
+      </mat-form-field>
+      <br>
+      <br>
+    </ng-container>
+    <ng-container *ngIf="type === '1'">
+      <div class="float-right">
+        <a mat-raised-button class="btn float-right" (click)="addPrice()">Thêm</a>
+      </div>
+      <br>
+      <ng-container *ngIf="prices.length > 0">
+        <div class="row text-center">
+          <div class="col-xl-6">Mốc</div>
+          <div class="col-xl-6">Đơn giá</div>
+        </div>
+        <ng-container *ngFor="let p of prices;index as i">
+          <div class="row mt-1">
+            <div class="col-xl-6">
+                <mat-form-field class="full-width">
+                  <input type="number" matInput [value]="p.m" (change)="changeM($event.target.value, i)">
+                </mat-form-field>
+            </div>
+            <div class="col-xl-6">
+              <mat-form-field class="full-width">
+                <input type="number" [value]="p.p" matInput (change)="changeP($event.target.value, i)">
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
     <mat-form-field class="full-width">
       <input type="text" [formControl]="frm.get('unit')" matInput placeholder="Đơn vị tính" #unit required>
       <mat-hint align="end">{{unit.value.length}} / 100</mat-hint>

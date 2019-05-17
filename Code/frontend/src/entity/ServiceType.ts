@@ -7,4 +7,6 @@ export interface ServiceType {
   price: number;
   supplier: string;
   services: Service[];
+  increase: string;
+  priceList: string[];
 }

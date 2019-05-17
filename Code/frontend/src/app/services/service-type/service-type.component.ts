@@ -40,8 +40,12 @@ export class ServiceTypeComponent implements OnInit {
       this.serviceService.findAllType().subscribe(v => {
         if (v != null) {
           v.forEach(t => {
+            if (t.increase !== '' && t.increase !== null) {
+              t.priceList = t.increase.split(';');
+            }
             this.types.push(t);
           });
+          console.log(this.types);
           this.dataSource = new MatTableDataSource(this.types);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -95,9 +99,9 @@ export class ServiceTypeComponent implements OnInit {
 
   edit(type) {
     const dialogRef = this.dialog.open(SaveTypeComponent, {
-      width: '400px',
+      width: '500px',
       data: type,
-      position: { top: '150px' },
+      position: { top: '50px' },
       disableClose: true,
       role: 'alertdialog'
     });
@@ -112,9 +116,9 @@ export class ServiceTypeComponent implements OnInit {
 
   add() {
     const dialogRef = this.dialog.open(SaveTypeComponent, {
-      width: '400px',
+      width: '500px',
       data: null,
-      position: { top: '150px' },
+      position: { top: '50px' },
       disableClose: true,
       role: 'alertdialog'
     });

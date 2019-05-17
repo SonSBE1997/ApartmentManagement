@@ -17,52 +17,60 @@
       </ng-template>
     </mat-menu>
     <button mat-button (click)="changePage('user', '/user')"          [ngClass]="{'active': url === 'user'}">Cư dân</button>
-    <button mat-button [matMenuTriggerFor]="service"  [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
-    <mat-menu #service="matMenu" overlapTrigger="false">
-      <ng-template matMenuContent>
-        <span>
-          <button mat-menu-item class="sub-menu" (click)="changePage('service', '/service')">
-            Tra cứu thông tin
-          </button>
-          <button mat-menu-item class="sub-menu" (click)="changePage('service', '/service/service-type')">
-            Loại dịch vụ
-          </button>
-        </span>
-      </ng-template>
-    </mat-menu>
-    <button mat-button [ngClass]="{'active': url === 'system'}"  [matMenuTriggerFor]="infra">
-      <!-- (mouseenter)="openMenu(1)" -->
-            Hệ thống chung
-    </button>
-    <mat-menu #infra="matMenu" overlapTrigger="false">
-      <ng-template matMenuContent>
-        <!-- <span (mouseleave)="closeMenu(1)"> -->
-        <span>
-          <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/staircase')">
-            Hệ thống thang máy
-          </button>
-          <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/electric')">
-            Hệ thống điện
-          </button>
-          <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/fire-protection')">
-            Hệ thống phòng cháy chữa cháy
-          </button>
-          <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/water-supplier')">
-            Hệ thống cấp thoát nước
-          </button>
-        </span>
-      </ng-template>
-    </mat-menu>
-    <button mat-button  (click)="changePage('employee', '/employee')" [ngClass]="{'active': url === 'employee'}">
-            Nhân viên
-    </button>
-    <button mat-button (click)="changePage('dept', '/dept')"   [ngClass]="{'active': url === 'dept'}">
-            Phòng ban
-    </button>
-    <!-- <mat-icon>insert_chart_outlined</mat-icon> -->
-    <!-- <button mat-button (click)="changePage('statistic', '/statistic')" [ngClass]="{'active': url === 'statistic'}">
-      Thống kê
-    </button> -->
+    <ng-container *ngIf="deptName == 'Lễ tân' || deptName == 'Quản lý'">
+      <button mat-button [matMenuTriggerFor]="service" [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
+      <mat-menu #service="matMenu" overlapTrigger="false">
+        <ng-template matMenuContent>
+          <span>
+            <button mat-menu-item class="sub-menu" (click)="changePage('service', '/service')">
+              Tra cứu thông tin
+            </button>
+            <button mat-menu-item class="sub-menu" (click)="changePage('service', '/service/service-type')">
+              Loại dịch vụ
+            </button>
+          </span>
+        </ng-template>
+      </mat-menu>
+    </ng-container>
+
+    <ng-container *ngIf="deptName == 'Kỹ thuật' || deptName == 'Quản lý'">
+      <button mat-button [ngClass]="{'active': url === 'system'}" [matMenuTriggerFor]="infra">
+        <!-- (mouseenter)="openMenu(1)" -->
+        Hệ thống chung
+      </button>
+      <mat-menu #infra="matMenu" overlapTrigger="false">
+        <ng-template matMenuContent>
+          <!-- <span (mouseleave)="closeMenu(1)"> -->
+          <span>
+            <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/staircase')">
+              Hệ thống thang máy
+            </button>
+            <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/electric')">
+              Hệ thống điện
+            </button>
+            <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/fire-protection')">
+              Hệ thống phòng cháy chữa cháy
+            </button>
+            <button mat-menu-item class="sub-menu" (click)="changePage('system', '/system/water-supplier')">
+              Hệ thống cấp thoát nước
+            </button>
+          </span>
+        </ng-template>
+      </mat-menu>
+      <button mat-button (click)="changePage('employee', '/employee')" [ngClass]="{'active': url === 'employee'}">
+        Nhân viên
+      </button>
+      <button mat-button (click)="changePage('dept', '/dept')" [ngClass]="{'active': url === 'dept'}">
+        Phòng ban
+      </button>
+    </ng-container>
+    <ng-container *ngIf="deptName == 'Quản lý'">
+      <!-- <mat-icon>insert_chart_outlined</mat-icon> -->
+      <button mat-button (click)="changePage('statistic', '/statistic')" [ngClass]="{'active': url === 'statistic'}">
+            Thống kê
+      </button>
+    </ng-container>
+
     <button mat-button class="text-info" (click)="changePage('profile', '/profile')" [ngClass]="{'active': url === 'profile'}">
             <mat-icon>person</mat-icon>  {{ employee?.name }}
     </button>

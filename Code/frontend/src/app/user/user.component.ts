@@ -84,6 +84,7 @@ export class UserComponent implements OnInit {
           result.obj.forEach(v => {
             this.users.push(v);
           });
+          console.log(result.obj);
           this.matPaginator.length = result.size;
           this.dataSource = new MatTableDataSource(this.users);
           this.dataSource.sort = this.matSort;
@@ -109,6 +110,7 @@ export class UserComponent implements OnInit {
     this.users = [];
     this.userService.getListUser().subscribe(users => {
       this.users = users;
+      console.log(users);
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.filterPredicate = (data, filter) => {
         let dataStr =

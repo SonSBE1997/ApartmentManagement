@@ -1,0 +1,94 @@
+
+
+<div class="container">
+  <div class="page-header mt-2 text-center text-uppercase">Thống kê thu phí dịch vụ</div>
+</div>
+<mat-card>
+  <div class="row mt-2">
+    <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
+    <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
+      <mat-label>Loại dịch vụ</mat-label>
+      <mat-select class="text-left" (selectionChange)="changeType($event)" [(value)]="selectedType">
+        <mat-option value="-1">-- Bỏ chọn --</mat-option>
+        <mat-option *ngFor="let t of types" [value]="t.id">{{t.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
+      <input matInput [matDatepicker]="cMonthDate" placeholder="Tháng" [formControl]="cMonth">
+      <mat-datepicker-toggle matSuffix [for]="cMonthDate"></mat-datepicker-toggle>
+      <mat-datepicker #cMonthDate #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+        (monthSelected)="chosenMonthHandler($event, dp)"></mat-datepicker>
+    </mat-form-field>
+    <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
+  </div>
+
+  <ng-container *ngIf="selectedType === -1">
+      <div class="row mt-5 ml-3 mr-3">
+        <div class="col-xl-3 col-md-3 col-sm-3 col-lg-3"></div>
+        <div style="display: block" class="col-xl-6 col-md-6 col-sm-6 col-lg-6">
+          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+            [legend]="barChartLegend" [chartType]="barChartType">
+          </canvas>
+        </div>
+        <div class="col-xl-3 col-md-3 col-sm-3 col-lg-3"></div>
+
+      </div>
+
+      <div class="text-center mt-4 font-weight-bold">
+        Biểu đồ tình trạng số hộ đã và chưa thanh toán dịch vụ tháng {{month}}
+      </div>
+
+      <div class="row mt-5 ml-3 mr-3">
+        <div class="col-xl-3 col-md-3 col-sm-3 col-lg-3"></div>
+        <div style="display: block" class="col-xl-6 col-md-6 col-sm-6 col-lg-6">
+          <canvas baseChart [datasets]="barChartData1" [labels]="barChartLabels1" [options]="barChartOptions"
+            [legend]="barChartLegend1" [chartType]="barChartType1">
+          </canvas>
+        </div>
+        <div class="col-xl-3 col-md-3 col-sm-3 col-lg-3"></div>
+
+      </div>
+
+      <div class="text-center mt-4 font-weight-bold">
+        Biểu đồ tình trạng tổng tiền đã và chưa thanh toán dịch vụ tháng {{month}}
+      </div>
+  </ng-container>
+
+  <ng-container *ngIf="selectedType > -1">
+    <ng-container *ngIf="isOk === true">
+      <div class="row mt-5 ml-3 mr-3">
+        <div class="col-xl-3 col-md-3 col-sm-3 col-lg-3"></div>
+        <div style="display: block" class="col-xl-6 col-md-6 col-sm-6 col-lg-6">
+          <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"></canvas>
+        </div>
+        <div class="col-xl-3 col-md-3 col-sm-3 col-lg-3"></div>
+
+      </div>
+
+      <div class="text-center mt-4 font-weight-bold">
+        Biểu đồ tình trạng tổng tiền đã và chưa thanh toán của dịch vụ {{selectedTypeName}} tháng {{month}}
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isOk1 === true">
+        <div class="row mt-5 ml-3 mr-3">
+          <div style="display: block" class="col-xl-6 col-md-6 col-sm-6 col-lg-6">
+            <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels"
+              [chartType]="pieChartType"></canvas>
+          </div>
+          <div style="display: block" class="col-xl-6 col-md-6 col-sm-6 col-lg-6">
+            <canvas baseChart [data]="pieChartData1" [labels]="pieChartLabels1" [chartType]="pieChartType1"></canvas>
+          </div>
+        </div>
+
+        <div class="row text-center mt-4 font-weight-bold">
+          <div class="col-xl-6 col-md-6 col-sm-6 col-lg-6">Số hộ đã thanh toán và chưa thanh toán dịch vụ</div>
+          <div class="col-xl-6 col-md-6 col-sm-6 col-lg-6">Tỉ lệ số hộ đã thanh toán và chưa thanh toán dịch vụ</div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="isOk1 === false">
+      <h3 class="text-center mt-5">Chưa có dịch vụ được khởi tạo của dịch vụ {{selectedTypeName}} tháng {{month}}</h3>
+    </ng-container>
+  </ng-container>
+</mat-card>
+

@@ -248,4 +248,16 @@ public class RoomService {
     }
     return true;
   }
+  
+  public Room findByName(String name) {
+    try {
+      String arr[] = name.split(" - ");
+      name = arr[0].trim();
+      String floor = arr[1].trim();
+      String building = arr[2].trim();
+      return repository.findRoomByName(name, floor, building);
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }

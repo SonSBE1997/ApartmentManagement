@@ -19,6 +19,7 @@ public class Generator {
     claims.put("employeeId", String.valueOf(employee.getId()));
     claims.put("role", employee.getRole());
     claims.put("name", employee.getName());
+    claims.put("dept", employee.getDept().getName());
     return Jwts.builder().setClaims(claims)
         .setExpiration(createExpirationDate())
         .signWith(SignatureAlgorithm.HS512, generateShareSecret()).compact();
@@ -30,7 +31,6 @@ public class Generator {
   }
 
   private byte[] generateShareSecret() {
-    // Generate 256-bit (32-byte) shared secret
     byte[] sharedSecret = new byte[32];
     sharedSecret = secret.getBytes();
     return sharedSecret;

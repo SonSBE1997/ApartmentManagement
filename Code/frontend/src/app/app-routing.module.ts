@@ -18,6 +18,7 @@ import { SDeviceComponent } from './system/staircase/s-device/s-device.component
 import { RepairAptComponent } from './home/repair-apt/repair-apt.component';
 import { ServicesComponent } from './services/services.component';
 import { ServiceTypeComponent } from './services/service-type/service-type.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'system/electric', component: ElectricComponent },
   { path: 'system/fire-protection', component: FireComponent },
   { path: 'system/water-supplier', component: WaterComponent },
+  { path: 'statistic', component: StatisticComponent },
   { path: 'errors/not-found', component: NotFoundComponent },
   { path: 'errors/wrong/:status', component: WrongComponent },
   { path: '**', component: NotFoundComponent }

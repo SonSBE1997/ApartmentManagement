@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PushNotificationService } from 'ngx-push-notifications';
+import { ChartsModule } from 'ng2-charts';
+
 import {
   MatInputModule,
   MatSelectModule,
@@ -36,6 +38,8 @@ import {
   MatExpansionModule,
   MatPaginatorIntl
 } from '@angular/material';
+
+
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -91,6 +95,7 @@ import { getDutchPaginatorIntl } from './customPaginator';
 import { ConfirmPaymentComponent } from './services/confirm-payment/confirm-payment.component';
 import { DetailServiceComponent } from './services/detail-service/detail-service.component';
 import { RepairDtlComponent } from './home/room-detail/repair-dtl/repair-dtl.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 @NgModule({
   declarations: [
@@ -142,7 +147,8 @@ import { RepairDtlComponent } from './home/room-detail/repair-dtl/repair-dtl.com
     SaveServiceComponent,
     ConfirmPaymentComponent,
     DetailServiceComponent,
-    RepairDtlComponent
+    RepairDtlComponent,
+    StatisticComponent
   ],
   imports: [
     BrowserModule,
@@ -180,6 +186,7 @@ import { RepairDtlComponent } from './home/room-detail/repair-dtl/repair-dtl.com
     MatAutocompleteModule,
     ImageCropperModule,
     MatExpansionModule,
+    ChartsModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {
