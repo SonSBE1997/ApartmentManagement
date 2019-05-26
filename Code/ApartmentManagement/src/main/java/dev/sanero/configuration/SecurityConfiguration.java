@@ -89,11 +89,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     props.put("mail.smtp.auth", "true");
     props.put("mail.smtp.starttls.enable", "true");
     props.put("mail.debug", "true");
-//      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
-//      props.put("mail.smtp.socketFactory.port", "465"); 
-//      <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> 
-//      <prop key="mail.smtp.socketFactory.port">465</prop> 
-//      <prop key="mail.smtp.starttls.enable">true</prop> 
     return mailSender;
   }
 }

@@ -373,12 +373,13 @@ public class ServiceService {
       int roomId = 0;
       String mailTo = "";
       double total = 0;
+      mailService.authorization();
       for (Service s : lst) {
         int rId = s.getRoom().getId();
         if (roomId != rId) {
           if (builder.length() > 0) {
             builder.append(mailService.getInvoiceFooter(empName, total));
-            mailService.sendMail(mailTo, builder.toString(), "Thông báo đóng phí");
+            mailService.send(mailTo, builder.toString(), "Thông báo đóng phí");
           } 
           
           roomId = rId;
@@ -398,7 +399,7 @@ public class ServiceService {
       
       if (!("".equals(mailTo)) && builder.length() > 0) {
         builder.append(mailService.getInvoiceFooter(empName, total));
-        mailService.sendMail(mailTo, builder.toString(), "Thông báo đóng phí");
+        mailService.send(mailTo, builder.toString(), "Thông báo đóng phí");
       }
       return true;
     } catch (Exception e) {
