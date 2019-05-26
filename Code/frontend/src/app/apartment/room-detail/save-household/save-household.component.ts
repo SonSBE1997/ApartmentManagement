@@ -30,6 +30,7 @@ export class SaveHouseholdComponent implements OnInit {
       idCard: ['', [validateIdCard]],
       phoneNumber: ['', [validatePhoneNumber]],
       address: ['', [Validators.required, Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
       price: [0, [Validators.required]],
       hire: false,
       deposit: [0, [Validators.required]],
@@ -41,11 +42,13 @@ export class SaveHouseholdComponent implements OnInit {
   save() {
     const data: Household = {
       id: 0,
-      status: false,
+      status: '0',
       room: this.data.room,
       employee: this.data.employee,
       users: [],
       leaveDate: null,
+      userId: 0,
+      statusStr: '',
       ...this.frm.value
     };
 
@@ -56,7 +59,7 @@ export class SaveHouseholdComponent implements OnInit {
       idCard: this.frm.get('idCard').value,
       phoneNumber: this.frm.get('phoneNumber').value,
       address: this.frm.get('address').value,
-      email: '',
+      email: this.frm.get('email').value,
       head: true,
       leave: false,
       leaveDate: null,

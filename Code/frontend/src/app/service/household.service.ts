@@ -29,7 +29,9 @@ export class HouseholdService {
   findById(id: number): Observable<Household> {
     return this.http
       .get<Household>(this.url + `/${id}`, {
-        headers: new HttpHeaders().set('Authorization', this.token)
+        headers: new HttpHeaders()
+          .set('Authorization', this.token)
+          .set('ignoreLoadingBar', '')
       })
       .pipe(
         tap(),
@@ -39,7 +41,9 @@ export class HouseholdService {
 
   save(data: Household) {
     return this.http.post(this.url + '/save', data, {
-      headers: new HttpHeaders().set('Authorization', this.token)
+      headers: new HttpHeaders()
+        .set('Authorization', this.token)
+        .set('ignoreLoadingBar', '')
     });
   }
 
@@ -49,10 +53,12 @@ export class HouseholdService {
     });
   }
 
-  findHouseHoldComeToDay(): Observable <Household[] > {
+  findHouseHoldComeToDay(): Observable<Household[]> {
     return this.http
       .get<Household[]>(this.url + '/come-today', {
-        headers: new HttpHeaders().set('Authorization', this.token)
+        headers: new HttpHeaders()
+          .set('Authorization', this.token)
+          .set('ignoreLoadingBar', '')
       })
       .pipe(
         tap(),
@@ -60,17 +66,26 @@ export class HouseholdService {
       );
   }
 
-  cancelCome(householId) {
-    return this.http.post(this.url + '/cancel', { id: householId}, {
-      headers: new HttpHeaders().set('Authorization', this.token),
-      responseType: 'text'
-    });
+  cancel(householId, type) {
+    const t = type === 'chuyển đến' ? '/cancel' : '/cancel-leave';
+    return this.http.post(
+      this.url + t,
+      { id: householId },
+      {
+        headers: new HttpHeaders().set('Authorization', this.token),
+        responseType: 'text'
+      }
+    );
   }
 
   registerLeave(householId, date) {
-    return this.http.post(this.url + '/register-leave', { id: householId, leaveDate: date }, {
-      headers: new HttpHeaders().set('Authorization', this.token),
-      responseType: 'text'
-    });
+    return this.http.post(
+      this.url + '/register-leave',
+      { id: householId, leaveDate: date },
+      {
+        headers: new HttpHeaders().set('Authorization', this.token),
+        responseType: 'text'
+      }
+    );
   }
 }

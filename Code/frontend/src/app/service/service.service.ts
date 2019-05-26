@@ -27,6 +27,17 @@ export class ServiceService {
       );
   }
 
+  findAllTypeFixed(): Observable<ServiceType[]> {
+    return this.http
+      .get<ServiceType[]>(this.url + '/type-fixed', {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      })
+      .pipe(
+        tap(),
+        catchError(err => of(null))
+      );
+  }
+
   findAll(): Observable<Service[]> {
     return this.http
       .get<Service[]>(this.url, {
@@ -40,6 +51,13 @@ export class ServiceService {
 
   save(data: Service) {
     return this.http.post(this.url + '/save', data, {
+      headers: new HttpHeaders().set('Authorization', this.token),
+      responseType: 'text'
+    });
+  }
+
+  saveMany(data: Service[]) {
+    return this.http.post(this.url + '/save-many', data, {
       headers: new HttpHeaders().set('Authorization', this.token),
       responseType: 'text'
     });
@@ -94,6 +112,28 @@ export class ServiceService {
       this.url + `/price-paid-by-month-type/${month}/${type}`,
       {
         headers: new HttpHeaders().set('Authorization', this.token)
+      }
+    );
+  }
+
+  generate(data) {
+    return this.http.post(
+      this.url + '/generate',
+      { id: data },
+      {
+        headers: new HttpHeaders().set('Authorization', this.token),
+        responseType: 'text'
+      }
+    );
+  }
+
+  notifyAll(data) {
+    return this.http.post(
+      this.url + '/notify-all',
+      { id: data },
+      {
+        headers: new HttpHeaders().set('Authorization', this.token),
+        responseType: 'text'
       }
     );
   }

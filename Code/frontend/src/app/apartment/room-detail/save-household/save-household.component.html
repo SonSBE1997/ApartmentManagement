@@ -1,3 +1,4 @@
+<ngx-loading-bar></ngx-loading-bar>
 <h1 mat-dialog-title class="font-weight-bold">Đăng ký mua / thuê căn hộ</h1>
 <div mat-dialog-content>
   <form novalidate [formGroup]="frm" class="form-horizontal">
@@ -44,7 +45,21 @@
     </mat-form-field>
     <br />
     <br />
-
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('email')" matInput placeholder="Email" #email required>
+      <mat-hint align="end">{{email.value.length}} / 100</mat-hint>
+      <mat-error *ngIf="frm.get('email').hasError('required')">
+        Bạn phải nhập email
+      </mat-error>
+      <mat-error *ngIf="frm.get('email').hasError('maxlength')">
+        Email phải có độ dài nhỏ hơn 100
+      </mat-error>
+      <mat-error *ngIf="frm.get('email').hasError('email')">
+        Bạn phải nhập đúng định dạng email
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <br />
     <mat-form-field class="full-width">
       <input type="number" min="0" [formControl]="frm.get('price')" matInput placeholder="Giá căn hộ" required>
       <mat-error *ngIf="frm.get('price').hasError('required')">

@@ -75,7 +75,7 @@ export class SaveEmpComponent implements OnInit {
       email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
       address: ['', [Validators.required, Validators.maxLength(100)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
-      role: ['Guardian'],
+      role: ['Normal'],
       dept: ['', Validators.required]
     });
     const employee = this.data.employee;

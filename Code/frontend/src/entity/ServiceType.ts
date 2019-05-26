@@ -9,4 +9,5 @@ export interface ServiceType {
   services: Service[];
   increase: string;
   priceList: string[];
+  fixed: boolean;
 }

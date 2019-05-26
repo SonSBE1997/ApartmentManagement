@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { RoomDetailComponent } from './home/room-detail/room-detail.component';
+import { RoomDetailComponent } from './apartment/room-detail/room-detail.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { WrongComponent } from './errors/wrong/wrong.component';
-import { DetailComponent } from './home/detail/detail.component';
+import { DetailComponent } from './apartment/detail/detail.component';
 import { UserComponent } from './user/user.component';
 import { DeptComponent } from './dept/dept.component';
 import { EmployeeComponent } from './employee/employee.component';
@@ -15,18 +14,21 @@ import { ElectricComponent } from './system/electric/electric.component';
 import { FireComponent } from './system/fire/fire.component';
 import { WaterComponent } from './system/water/water.component';
 import { SDeviceComponent } from './system/staircase/s-device/s-device.component';
-import { RepairAptComponent } from './home/repair-apt/repair-apt.component';
+import { RepairAptComponent } from './apartment/repair-apt/repair-apt.component';
 import { ServicesComponent } from './services/services.component';
 import { ServiceTypeComponent } from './services/service-type/service-type.component';
 import { StatisticComponent } from './statistic/statistic.component';
+import { ApartmentComponent } from './apartment/apartment.component';
+import { InfoCardComponent } from './user/info-card/info-card.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'apartment', component: HomeComponent },
+  { path: 'apartment', component: ApartmentComponent },
   { path: 'apartment/detail', component: DetailComponent },
   { path: 'apartment/repair', component: RepairAptComponent },
   { path: 'user', component: UserComponent },
+  { path: 'user/card', component: InfoCardComponent },
   { path: 'apartment/room/:id', component: RoomDetailComponent },
   { path: 'dept', component: DeptComponent },
   { path: 'employee', component: EmployeeComponent },

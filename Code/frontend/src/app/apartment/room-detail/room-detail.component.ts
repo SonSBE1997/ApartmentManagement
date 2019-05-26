@@ -55,7 +55,7 @@ export class RoomDetailComponent implements OnInit {
     'price',
     'deposit',
     'depositDate',
-    'status',
+    'statusStr',
     'employee'
   ];
   dataSource: MatTableDataSource<Household>;
@@ -108,6 +108,27 @@ export class RoomDetailComponent implements OnInit {
           );
         });
         this.room = r;
+        this.room.households.forEach(v => {
+          switch (v.status) {
+            case '0':
+              v.statusStr = 'Chưa bàn giao';
+              break;
+            case '1':
+              v.statusStr = 'Đã bàn giao';
+              break;
+            case '2':
+              v.statusStr = 'Đã chuyển đi';
+              break;
+            case '3':
+              v.statusStr = 'Sẽ chuyển đi';
+              break;
+            case '4':
+              v.statusStr = 'Đã huỷ chuyển đến';
+              break;
+            default:
+              break;
+          }
+        });
         this.dataSource = new MatTableDataSource(this.room.households);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -129,15 +150,7 @@ export class RoomDetailComponent implements OnInit {
         data.address +
         data.employee.name;
       dataStr += data.hire === true ? 'Thuê' : 'Mua';
-      dataStr +=
-        data.leaveDate === null
-          ? data.status === true
-            ? 'Đã bàn giao'
-            : 'Chưa bàn giao'
-          : 'Đã chuyển đi';
-      dataStr += this.dateService.toDateString(data.comeDate, '-');
-      dataStr += this.dateService.toDateString(data.leaveDate, '-');
-      dataStr += this.dateService.toDateString(data.depositDate, '-');
+      dataStr += data.statusStr;
       dataStr = dataStr.toLowerCase();
       return dataStr.indexOf(filter) !== -1;
     };
@@ -201,16 +214,18 @@ export class RoomDetailComponent implements OnInit {
   addNew() {
     if (this.room.households.length > 0) {
       const hh = this.room.households[0];
-      if (
-        hh.leaveDate === null ||
-        new Date(hh.leaveDate).getTime() > new Date().getTime()
-      ) {
+      if (hh.status === '1' || hh.status === '3') {
         this.notifierService.notify(
           'info',
-          'Căn hộ đang có người ở, không thể thêm mới'
+          'Căn hộ đang có người ở, không thể đăng ký mới'
         );
         return;
-      }
+      } else if (hh.status === '0') {
+               this.notifierService.notify(
+                 'info',
+                 'Căn hộ đã được đặt cọc, không thể đăng ký mới'
+               );
+             }
     }
     const dialogRef = this.dialog.open(SaveHouseholdComponent, {
       width: '400px',
@@ -231,33 +246,35 @@ export class RoomDetailComponent implements OnInit {
     });
   }
 
-  cancelCome() {
+  cancel() {
     const size = this.room.households.length;
     if (size === 0) {
       return;
     }
     const h = this.room.households[0];
-
-    if (h.leaveDate !== null) {
-      if (new Date(h.leaveDate).getTime() > new Date().getTime()) {
-        this.notifierService.notify('info', 'Đã đăng ký chuyển đi');
-      } else {
-        this.notifierService.notify(
-          'info',
-          'Căn hộ đang không có người đăng ký chuyển đến / đang ở'
-        );
-      }
+    if (h.status === '2' || h.status === '4') {
+      this.notifierService.notify(
+        'info',
+        'Căn hộ đang không có người đăng ký chuyển đến / đang ở'
+      );
       return;
     }
+
+    // if (h.status === '3') {
+    //   this.notifierService.notify('info', 'Đã đăng ký chuyển đi');
+    //   return;
+    // }
+
     h.room = this.room;
     const dt: Household = {
       ...h
     };
-    if (h.status && new Date(h.comeDate).getDate() !== new Date().getDate()) {
+    if (h.status === '1' || h.status === '3') {
       const leaveDialog = this.dialog.open(LeaveComponent, {
         width: '400px',
         data: {
-          household: dt
+          household: dt,
+          status: h.status
         },
         position: { top: '50px' },
         disableClose: true,
@@ -271,9 +288,10 @@ export class RoomDetailComponent implements OnInit {
         this.loadData();
       });
     } else {
+      const type = h.status === '1' ? 'chuyển đến' : '';
       const dialogRef = this.dialog.open(CancelComeComponent, {
         width: '400px',
-        data: '',
+        data: type,
         position: { top: '50px' }
       });
 
@@ -281,13 +299,17 @@ export class RoomDetailComponent implements OnInit {
         if (result !== 'ok') {
           return;
         }
-        this.householdService.cancelCome(dt.id).subscribe(
+
+        this.householdService.cancel(dt.id, type).subscribe(
           s => {
             if (s === 'Ok') {
               this.notifierService.notify('success', 'Huỷ thành công');
               this.loadData();
             } else {
-              this.notifierService.notify('error', 'Huỷ không thành công');
+              this.notifierService.notify(
+                'error',
+                'Huỷ không thành công'
+              );
             }
           },
           e => {
@@ -311,7 +333,7 @@ export class RoomDetailComponent implements OnInit {
   }
 
   selectHouseholdChange(row: Household) {
-    if ((row.leaveDate === null && row.status === false) || row.leaveDate === row.comeDate) {
+    if (row.statusStr === '0' || row.statusStr === '4') {
       this.selectedHousehold = -1;
       return;
     }

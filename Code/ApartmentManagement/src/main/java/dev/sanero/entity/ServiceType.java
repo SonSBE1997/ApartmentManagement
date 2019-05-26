@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -43,6 +44,9 @@ public class ServiceType implements Serializable {
   private String supplier;
   private boolean disable;
   
+  @Column(name = "is_fixed")
+  private boolean isFixed;
+  
   private String increase;
   
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -50,6 +54,26 @@ public class ServiceType implements Serializable {
   private Set<Service> services;
   
   
+  /*
+   * Author: Sanero.
+   * Created date: May 26, 2019
+   * Created time: 12:00:56 PM
+   * @return the isFixed
+   */
+  public boolean isFixed() {
+    return isFixed;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 26, 2019
+   * Created time: 12:00:56 PM
+   * @param isFixed the isFixed to set
+   */
+  public void setFixed(boolean isFixed) {
+    this.isFixed = isFixed;
+  }
+
   /*
    * Author: Sanero.
    * Created date: May 15, 2019

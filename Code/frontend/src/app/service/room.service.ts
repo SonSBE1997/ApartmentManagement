@@ -20,7 +20,9 @@ export class RoomService {
     const token = localStorage.getItem('token');
     return this.http
       .get<Room>(this.url + `/api/room/${id}`, {
-        headers: new HttpHeaders().set('Authorization', token)
+        headers: new HttpHeaders()
+          .set('Authorization', this.token)
+          .set('ignoreLoadingBar', '')
       })
       .pipe(
         tap(),
@@ -66,7 +68,9 @@ export class RoomService {
 
   update(data: Room) {
     return this.http.put(this.url + '/api/room/update', data, {
-      headers: new HttpHeaders().set('Authorization', this.token)
+      headers: new HttpHeaders()
+        .set('Authorization', this.token)
+        .set('ignoreLoadingBar', '')
     });
   }
 

@@ -16,7 +16,19 @@
         </span>
       </ng-template>
     </mat-menu>
-    <button mat-button (click)="changePage('user', '/user')"          [ngClass]="{'active': url === 'user'}">Cư dân</button>
+    <button mat-button  [matMenuTriggerFor]="user" [ngClass]="{'active': url === 'user'}">Cư dân</button>
+    <mat-menu #user="matMenu" overlapTrigger="false">
+      <ng-template matMenuContent>
+        <span>
+          <button mat-menu-item class="sub-menu"  (click)="changePage('user', '/user')">
+            Danh sách cư dân
+          </button>
+          <button mat-menu-item class="sub-menu"  (click)="changePage('user', '/user/card')">
+            Tra cứu thẻ
+          </button>
+        </span>
+      </ng-template>
+    </mat-menu>
     <ng-container *ngIf="deptName == 'Lễ tân' || deptName == 'Quản lý'">
       <button mat-button [matMenuTriggerFor]="service" [ngClass]="{'active': url === 'service'}">Dịch vụ</button>
       <mat-menu #service="matMenu" overlapTrigger="false">

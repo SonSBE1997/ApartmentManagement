@@ -46,6 +46,12 @@ public class CardController {
     return new ResponseEntity<List<CardType>>(cardTypeService.findAll(),
         HttpStatus.OK);
   }
+  
+  @GetMapping()
+  public ResponseEntity<List<Card>> findAllCard() {
+    return new ResponseEntity<List<Card>>(cardService.findAll(),
+        HttpStatus.OK);
+  }
 
   @GetMapping("/card-user/{userId}")
   public ResponseEntity<List<Card>> findByUserId(@PathVariable int userId) {

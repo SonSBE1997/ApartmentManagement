@@ -10,7 +10,9 @@
 package dev.sanero.service;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,6 +63,12 @@ public class ServiceService {
   @Autowired
   RoomService roomService;
   
+  @Autowired
+  UserService userService;
+  
+  @Autowired 
+  HouseholdService householdService;
+  
   public List<ServiceType> findAllType() {
     try {
       return typeRepository.findAll();
@@ -68,6 +76,15 @@ public class ServiceService {
       return null;
     }
   }
+  
+  public List<ServiceType> findAllTypeFixed() {
+    try {
+      return typeRepository.findListServiceTypeIsFixed();
+    } catch (Exception e) {
+      return null;
+    }
+  }
+  
   
   public List<Service> findAll() {
     try {
@@ -122,20 +139,15 @@ public class ServiceService {
   
   public boolean remind(Service s) {
     try {
-       Room r = s.getRoom();
-       String fullName = "";
-       String mailTo = "";
-       for (HouseHold v : r.getHouseholds()) {
-          if (v.getLeaveDate() == null && v.isStatus() == true) {
-            fullName = v.getFullName();
-            for (User u: v.getUsers()) {
-              if (fullName.equals(u.getName())) {
-                mailTo = u.getEmail();
-              }
-            }
-          }
-       }
-      mailService.sendMail(mailTo, mailService.getInvoiceString(s, fullName).toString(), "Nhắc nhở đóng phí");
+      Room r = s.getRoom();
+      if (r.getHousehold() == 0) return false;
+      HouseHold h = householdService.findById(r.getHousehold());
+      if (h.getUserId() == 0) return false;
+      User u = userService.findById(h.getUserId());
+      String mailTo = u.getEmail();
+      if ("".equals(mailTo)) 
+         return false;
+      mailService.sendMail(mailTo, mailService.getInvoiceString(s, u.getName()).toString(), "Nhắc nhở đóng phí");
       return true;
     } catch (Exception e) {
       return false;
@@ -180,7 +192,7 @@ public class ServiceService {
     }
   }
   
-  private boolean saveService(List<Service> lst) {
+  public boolean saveService(List<Service> lst) {
      try {
        for (int i = 0; i < lst.size(); i++) {
          save(lst.get(i));
@@ -309,5 +321,88 @@ public class ServiceService {
   
   public List<Object> pricePaidByMonth(String month, int paid) {
     return repository.pricePaidByMonth(month, paid);
+  }
+  
+  public String generateServiceFixed(Employee emp) {
+    try {
+      String month = new SimpleDateFormat("MM-yyyy").format(new Date());
+      List<ServiceType> typesFixed = typeRepository.findListServiceTypeIsFixed();
+      int generate = 0;
+      for (int i = 0; i < typesFixed.size(); i++) {
+        ServiceType serviceType = typesFixed.get(i);
+        int typeId = serviceType.getId();
+        long isGenerated = repository.isGeneratedFixedService(month, typeId);
+        if (isGenerated > 0)
+           continue;
+        List<Room> generatedList = repository.listGeneratedFixedService(month, typeId);
+        List<Room> roomsIsLive = roomService.findRoomsIsLive();
+        for (int j = 0; j < generatedList.size(); j++) {
+            Room r = generatedList.get(j);
+            if (roomsIsLive.contains(r)) {
+              roomsIsLive.remove(r);
+            }
+        }
+        
+        for (int j = 0; j < roomsIsLive.size(); j++) {
+           Service service = new Service();
+           service.setEmployee(emp);
+           service.setCollectMonth(month);
+           service.setDescription("Phí cố định tháng " + month);
+           service.setServiceType(serviceType);
+           service.setRoom(roomsIsLive.get(j));
+           service.setPrice(serviceType.getPrice());
+           save(service);
+        }
+        
+        generate++;
+      }
+      if (generate == 0) 
+        return "generated";
+      return "success";
+    } catch (Exception e) {
+      return "error";
+    }
+  }
+  
+  public boolean notifyAllRoom(int empId) {
+    try {
+      String empName = empService.findById(empId).getName();
+      String month = new SimpleDateFormat("MM-yyyy").format(new Date());
+      List<Service> lst = repository.listServiceIsNotPay(month);
+      StringBuilder builder = new StringBuilder();
+      int roomId = 0;
+      String mailTo = "";
+      double total = 0;
+      for (Service s : lst) {
+        int rId = s.getRoom().getId();
+        if (roomId != rId) {
+          if (builder.length() > 0) {
+            builder.append(mailService.getInvoiceFooter(empName, total));
+            mailService.sendMail(mailTo, builder.toString(), "Thông báo đóng phí");
+          } 
+          
+          roomId = rId;
+          Room r = s.getRoom();
+          HouseHold h = householdService.findById(r.getHousehold());
+          User u = userService.findById(h.getUserId());
+          mailTo = u.getEmail();
+          builder = new StringBuilder();
+          builder.append(mailService.getInvoiceHeader(s, u.getName()));
+          total = s.getPrice();
+          
+        } else {
+          total += s.getPrice();
+          builder.append(mailService.getInvoiceBody(s));
+        }
+      }
+      
+      if (!("".equals(mailTo)) && builder.length() > 0) {
+        builder.append(mailService.getInvoiceFooter(empName, total));
+        mailService.sendMail(mailTo, builder.toString(), "Thông báo đóng phí");
+      }
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   }
 }

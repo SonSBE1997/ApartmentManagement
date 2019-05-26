@@ -39,28 +39,37 @@ export class LeaveComponent implements OnInit {
             'success',
             `Đăng ký chuyển đi thành công`
           );
-          // this.data.household.users.forEach(user => {
-          //   if (user.leaveDate === null) {
-          //     user.leaveDate = lDate;
-          //     user.disable = true;
-          //     this.userService
-          //       .save(user)
-          //       .subscribe(sc => console.log(sc), er => console.log(er));
-          //   }
-          // });
           this.dialogRef.close(true);
         } else {
-          this.notifierService.notify(
-            'error',
-            `Đăng ký chuyển đi thất bại`
-          );
+          this.notifierService.notify('error', `Đăng ký chuyển đi thất bại`);
         }
       },
-      error =>  console.log(error)
+      error => console.log(error)
     );
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  cancelLeave() {
+      this.householdService
+        .cancel(this.data.household.id, 'chuyển đi')
+        .subscribe(
+          s => {
+            if (s === 'Ok') {
+              this.notifierService.notify('success', 'Huỷ thành công');
+              this.dialogRef.close(true);
+            } else {
+              this.notifierService.notify(
+                'error',
+                'Huỷ không thành công'
+              );
+            }
+          },
+          e => {
+            console.log(e);
+          }
+        );
   }
 }

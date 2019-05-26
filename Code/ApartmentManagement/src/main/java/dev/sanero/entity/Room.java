@@ -41,9 +41,11 @@ public class Room implements Serializable {
   private int id;
   private String name;
   private double area;
-  private String status;
+  private String status; // 0: Trong, 1: thue, 2: ban , 3: se cho thue, 4: se ban
   @Column(name="room_type")
   private String roomType;
+  
+  private int household;
   
   @ManyToOne()
   @JoinColumn(name = "floor_id")
@@ -80,6 +82,27 @@ public class Room implements Serializable {
   @JsonIgnoreProperties(value = "room", allowSetters = true)
   private Set<HouseHold> households;
   private boolean disable;
+ 
+
+  /*
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 8:04:57 PM
+   * @return the household
+   */
+  public int getHousehold() {
+    return household;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 8:04:57 PM
+   * @param household the household to set
+   */
+  public void setHousehold(int household) {
+    this.household = household;
+  }
 
   public boolean isDisable() {
     return disable;

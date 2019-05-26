@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.sanero.entity.HouseHold;
+import dev.sanero.entity.Room;
 import dev.sanero.entity.User;
 import dev.sanero.repository.HouseholdRepository;
+import dev.sanero.repository.UserRepository;
 
 /*
  * @author Sanero.
@@ -33,7 +35,12 @@ public class HouseholdService {
   @Autowired
   HouseholdRepository repository;
   @Autowired
+  UserRepository userRepository;
+  @Autowired
   UserService userService;
+  @Autowired 
+  RoomService roomService;
+
 
   public List<HouseHold> findAllByRoomIdAndComeDateAndLeaveDate(int roomId,
       String comeDate, String leaveDate) {
@@ -76,8 +83,15 @@ public class HouseholdService {
       h = repository.save(h);
       if (!checkExist) {
         for(User u : h.getUsers()) {
-          userService.save(u);
+          u.setHousehold(h);
+          u = userRepository.save(u);
+          h.setUserId(u.getId());
         }
+        Room r = h.getRoom();
+        r.setHousehold(h.getId());
+        String sttus = h.isHire()? "3" : "4";
+        r.setStatus(sttus);
+        roomService.saveRoom(r);
       }
       return true;
     } catch (Exception e) {
@@ -104,7 +118,11 @@ public class HouseholdService {
     try {
       HouseHold h = repository.findById(id).get();
       h.setLeaveDate(h.getComeDate());
-      repository.save(h);
+      h.setStatus("4");
+      h = repository.save(h);
+      Room r = h.getRoom();
+      r.setHousehold(0);
+      r.setStatus("0");
       return true;
     } catch (Exception e) {
       return false;
@@ -115,7 +133,8 @@ public class HouseholdService {
     try {
       HouseHold h = repository.findById(id).get();
       h.setLeaveDate(leave);
-      repository.save(h);
+      h.setStatus("3");
+      h = repository.save(h);
       
       h.getUsers().forEach(u -> {
         if(u.getLeaveDate() == null) {
@@ -129,6 +148,27 @@ public class HouseholdService {
       return false;
     }
   }
+  
+  public boolean cancelLeave(int id) {
+    try {
+      HouseHold h = repository.findById(id).get();
+      h.setLeaveDate(null);
+      h.setStatus("1");
+      h = repository.save(h);
+      
+      h.getUsers().forEach(u -> {
+        if(u.getLeaveDate() == null) {
+          u.setLeaveDate(null);
+          u.setDisable(false);
+          userService.save(u);
+        }
+      });
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
   
   public List<HouseHold> findHouseHoldComeToDay() {
     try {

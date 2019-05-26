@@ -18,8 +18,10 @@
   </div>
   <div class="row">
     <div class="col-xl-6 font-weight-bold">Trạng thái </div>
-    <div class="col-xl-6" [ngClass]="{'room-rent': data.status === '1', 'room-sale': data.status === '2'}">
-      {{data.status === '0'? 'Trống' : data.status === '1'? 'Đang cho thuê' : 'Đã bán'}}
+    <div class="col-xl-6" [ngClass]="{'room-rent': data.status === '1', 'room-sale': data.status === '2',
+                    'will-rent': data.status === '3', 'will-sale': data.status === '4' }">
+      {{data.status === '0'? 'Trống' : data.status === '1'? 'Đang cho thuê' :
+        data.status === '2' ? 'Đã bán' : data.status === '3'? 'Sẽ cho thuê': 'Sẽ bán'}}
     </div>
   </div>
 </div>

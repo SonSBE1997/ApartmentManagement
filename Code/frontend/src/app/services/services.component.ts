@@ -22,6 +22,7 @@ import { FormControl } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
+import { PrepaymentComponent } from './prepayment/prepayment.component';
 const moment = _moment;
 export const MY_FORMATS = {
   parse: {
@@ -57,6 +58,7 @@ export class ServicesComponent implements OnInit {
   isFilter = false;
   searchStr = '';
   cMonth = new FormControl(moment());
+  isClickGenerate = false;
   displayedColumns: string[] = [
     'serviceType',
     'room',
@@ -111,9 +113,8 @@ export class ServicesComponent implements OnInit {
     this.serviceService.findAll().subscribe(s => {
       if (s != null) {
         s.forEach(v => {
-          const hh = v.room.households.find(
-            h => h.leaveDate === null && h.status === true
-          );
+          const hh = v.room.households.find(h => v.room.household === h.id);
+
           if (hh !== null && hh !== undefined) {
             v.fullName = hh.fullName;
           }
@@ -131,14 +132,14 @@ export class ServicesComponent implements OnInit {
   customSearch() {
     this.dataSource.filterPredicate = (data, filter) => {
       let dataStr =
-        data.collectMonth +
+        // data.collectMonth +
         data.description +
         data.fullName +
-        data.paymentDate +
+        // data.paymentDate +
         data.price;
       dataStr +=
         data.room.name +
-        '' +
+        '-' +
         data.room.floor.name +
         '-' +
         data.room.building.name;
@@ -258,7 +259,9 @@ export class ServicesComponent implements OnInit {
       data = data.filter(v => v.paid === sttus);
     }
     if (this.typeFileter !== '-1') {
-      const type = this.types.find(v => v.id === parseInt(this.typeFileter, 10));
+      const type = this.types.find(
+        v => v.id === parseInt(this.typeFileter, 10)
+      );
       data = data.filter(v => v.serviceType.id === type.id);
     }
     if (str !== '') {
@@ -313,13 +316,81 @@ export class ServicesComponent implements OnInit {
       return;
     }
 
-    this.serviceService.remind(data.id).subscribe(s => {
+    this.serviceService.remind(data.id).subscribe(
+      s => {
         if (s === 'Ok') {
-          this.notifierService.notify('success', 'Đã gửi mail nhắc nhở thành công');
+          this.notifierService.notify(
+            'success',
+            'Đã gửi mail nhắc nhở thành công'
+          );
         } else {
-          this.notifierService.notify('warning', 'Đã gửi mail nhắc nhở thất bại');
+          this.notifierService.notify(
+            'warning',
+            'Đã gửi mail nhắc nhở thất bại'
+          );
         }
       },
-      e => console.log(e));
+      e => console.log(e)
+    );
+  }
+
+  prePayment() {
+    const dialogRef = this.dialog.open(PrepaymentComponent, {
+      width: '500px',
+      data: '',
+      position: { top: '50px' },
+      disableClose: true,
+      role: 'alertdialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== true) {
+        return;
+      }
+      this.loadData();
+    });
+  }
+
+  generate() {
+    if (this.isClickGenerate === true) {
+      return;
+    }
+    const userId = parseInt(localStorage.getItem('userId'), 10);
+    this.serviceService.generate(userId).subscribe(
+      success => {
+        console.log('============= ' + success + ' =============');
+        if (success === 'generated') {
+          this.notifierService.notify('warning', 'Đã khởi tạo phí tháng này');
+          this.loadService();
+        } else if (success === 'success') {
+          this.notifierService.notify('success', 'Khởi tạo phí thành công');
+          this.loadService();
+        } else {
+          this.notifierService.notify('error', 'Khởi tạo phí thất bại');
+        }
+      },
+      error => {
+        console.log(error);
+        this.notifierService.notify('error', 'Khởi tạo phí thất bại');
+      }
+    );
+  }
+
+  notifyAll() {
+    const userId = parseInt(localStorage.getItem('userId'), 10);
+    this.serviceService.notifyAll(userId).subscribe(
+      success => {
+        if (success === 'Ok') {
+          this.notifierService.notify('success', 'Gửi thông báo thành công');
+          this.loadService();
+        } else {
+          this.notifierService.notify('error', 'Gửi thông báo thất bại');
+        }
+      },
+      error => {
+        console.log(error);
+        this.notifierService.notify('error', 'Gửi thông báo thất bại');
+      }
+    );
   }
 }

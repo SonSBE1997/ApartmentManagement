@@ -126,7 +126,8 @@ export class DetailComponent implements OnInit {
         area: 0,
         status: '0',
         households: [],
-        roomType: 'B'
+        roomType: 'B',
+        household: 0
       };
       this.rId--;
       data.unshift(room);

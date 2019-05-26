@@ -74,14 +74,18 @@ export class UserService {
 
   save(data: User) {
     return this.http.post(this.url + '/save', data, {
-      headers: new HttpHeaders().set('Authorization', this.token)
+      headers: new HttpHeaders()
+        .set('Authorization', this.token)
+        .set('ignoreLoadingBar', '')
     });
   }
 
   leaveToday(): Observable<User[]> {
     return this.http
       .get<User[]>(this.url + '/leave', {
-        headers: new HttpHeaders().set('Authorization', this.token)
+        headers: new HttpHeaders()
+          .set('Authorization', this.token)
+          .set('ignoreLoadingBar', '')
       })
       .pipe(
         tap(),

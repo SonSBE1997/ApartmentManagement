@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.sanero.entity.Employee;
 import dev.sanero.entity.Service;
 import dev.sanero.entity.ServiceType;
 import dev.sanero.service.ServiceService;
@@ -43,6 +44,12 @@ public class ServiceController {
     return new ResponseEntity<List<ServiceType>>(serviceService.findAllType(),
         HttpStatus.OK);
   }
+  
+  @GetMapping("/type-fixed")
+  public ResponseEntity<List<ServiceType>> findAllTypeFixed() {
+    return new ResponseEntity<List<ServiceType>>(serviceService.findAllTypeFixed(),
+        HttpStatus.OK);
+  }
 
   @GetMapping()
   public ResponseEntity<List<Service>> findAll() {
@@ -53,6 +60,14 @@ public class ServiceController {
   @PostMapping("/save")
   public ResponseEntity<String> save(@RequestBody Service s) {
     boolean  result = serviceService.save(s);
+    if(result)
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
+  }
+  
+  @PostMapping("/save-many")
+  public ResponseEntity<String> save(@RequestBody List<Service> lst) {
+    boolean  result = serviceService.saveService(lst);
     if(result)
       return new ResponseEntity<String>("Ok", HttpStatus.OK);
     return new ResponseEntity<String>("Not ok", HttpStatus.OK); 
@@ -101,5 +116,18 @@ public class ServiceController {
   @GetMapping("/price-paid-by-month/{month}/{paid}")
   public ResponseEntity<List<Object>> paid3(@PathVariable String month, @PathVariable int paid) {
     return new ResponseEntity<List<Object>>(serviceService.pricePaidByMonth(month, paid), HttpStatus.OK);
+  }
+  
+  @PostMapping("/generate")
+  public ResponseEntity<String> generate(@RequestBody Employee emp) {
+    String result = serviceService.generateServiceFixed(emp);
+    return new ResponseEntity<String>(result, HttpStatus.OK); 
+  }
+  
+  @PostMapping("/notify-all")
+  public ResponseEntity<String> notifyAll(@RequestBody Employee emp) {
+    if(serviceService.notifyAllRoom(emp.getId()))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);  
   }
 }

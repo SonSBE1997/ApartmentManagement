@@ -1,0 +1,71 @@
+<h1 mat-dialog-title class="font-weight-bold">Thanh toán trước phí dịch vụ cố định</h1>
+<ngx-loading-bar></ngx-loading-bar>
+<div mat-dialog-content>
+  <form novalidate [formGroup]="frm" class="form-horizontal">
+    <mat-form-field class="full-width">
+      <mat-label>Loại dịch vụ</mat-label>
+      <mat-select class="text-left" (selectionChange)="selectTypeChange($event)">
+        <mat-option *ngFor="let t of types" [value]="t.id">
+          {{t.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <br>
+
+    <mat-label>Căn hộ</mat-label>
+    <div class="row water-type">
+      <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+        <mat-label>Toà nhà</mat-label>
+        <mat-select class="text-left" (selectionChange)="selectBuildingChange($event)">
+          <mat-option *ngFor="let b of buildings" [value]="b.id">
+            {{b.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+        <mat-label>Tầng</mat-label>
+        <mat-select class="text-left" (selectionChange)="selectFloorChange($event)">
+          <mat-option *ngFor="let f of floors" [value]="f.id">
+            {{f.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+        <mat-label>Căn hộ</mat-label>
+        <mat-select class="text-left" (selectionChange)="selectedRoomChange($event)">
+          <mat-option *ngFor="let r of rooms" [value]="r.id">
+            {{r.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <br />
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('month')" matInput placeholder="Số tháng"
+        (change)="monthChange($event.target.value)" required>
+      <mat-error *ngIf="frm.get('month').hasError('required')">
+        Bạn phải nhập số tháng thanh toán trước
+      </mat-error>
+      <mat-error *ngIf="frm.get('month').hasError('min')">
+        Bạn phải nhập số tháng thanh toán trước lớn hơn 0
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="number" [formControl]="frm.get('price')" matInput placeholder="Thành tiền" readonly="readonly">
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="full-width">
+      <input type="text" [formControl]="frm.get('description')" matInput placeholder="Mô tả">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [disabled]="frm.invalid" class="btn-success" (click)="save()">
+    Thanh toán
+  </button>
+  <button mat-raised-button (click)="onNoClick()">Huỷ bỏ</button>
+</div>

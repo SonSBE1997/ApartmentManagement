@@ -20,7 +20,7 @@ create table employee(
     photo varchar(255) default '',
     username varchar(255),
     password varchar(255),
-    role enum('Manager','Guardian') default 'Guardian',
+    role enum('Manager','Normal') default 'Normal',
     dept_id int,
     is_manager bit,
     disable bit default 0,
@@ -47,10 +47,11 @@ create table room (
 	id int auto_increment primary key,
     name varchar(50),
     area double,
-    status enum('0','1','2') default '0',
+    status enum('0','1','2', '3', '4') default '0',
     floor_id int,
     building_id int,
     room_type enum('A', 'B') default 'B',
+    household int default 0,
     disable bit default 0,
     foreign key (building_id) references building(id),
     foreign key (floor_id) references floor(id)
@@ -62,6 +63,7 @@ create table household(
     id_card varchar(50),
     address varchar(255),
     phone_number  varchar(50),
+    email varchar(255),
     come_date date,
     leave_date date,
     is_hire bit,
@@ -69,8 +71,9 @@ create table household(
     deposit double,
     deposit_date date,
     room_id int,
-    status bit,
+    status enum('0','1','2', '3', '4') default '0',
     created_by int,
+    user_id int default 0,
     disable bit default 0,
     foreign key (room_id) references room(id),
     foreign key (created_by) references employee(id)
@@ -136,6 +139,7 @@ create  table service_type (
     unit varchar(50),
     supplier varchar(255),
     increase varchar(255),
+    is_fixed bit default 0,
     disable bit default 0
 );
 

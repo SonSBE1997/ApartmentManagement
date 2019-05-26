@@ -1,0 +1,102 @@
+<div class="container">
+  <notifier-container></notifier-container>
+  <ngx-loading-bar></ngx-loading-bar>
+  <p class="page-header text-center text-uppercase">Tra cứu thông tin thẻ</p>
+</div>
+
+<mat-card>
+  <div class="row mt-1">
+    <mat-form-field class="col-xl-3 col-md-3 col-sm-3 col-lg-3">
+      <input matInput (keyup)="search($event.target.value)" placeholder="Tìm kiếm">
+    </mat-form-field>
+    <div class="col-xl-6 col-md-6 col-sm-6 col-lg-6"></div>
+    <mat-form-field class="col-xl-2 col-md-2 col-sm-2 col-lg-2">
+      <mat-label>Loại thẻ</mat-label>
+      <mat-select class="text-left" (selectionChange)="selectTypeChange($event.value)">
+        <mat-option value="-1">-- Bỏ chọn --</mat-option>
+        <mat-option *ngFor="let t of cardTypes" [value]="t.id">
+          {{t.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="col-xl-1 col-md-1 col-sm-1 col-lg-1">
+      <button *ngIf="isFilter===false" mat-raised-button style="margin-top: 10px;" (click)="clickFilter()">
+        Lọc <i class="fa fa-filter"></i>
+      </button>
+      <button *ngIf="isFilter===true" mat-raised-button style="margin-top: 10px;" (click)="cancelFilter()">
+        Huỷ lọc
+      </button>
+    </div>
+  </div>
+  <div class="mat-elevation-z8 mt-1">
+    <table class="table table-bordered table-sm" mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="cardType">
+        <th mat-header-cell *matHeaderCellDef style="width: 10%">Loại thẻ</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.cardType?.name" style="width: 10%">
+          {{ row?.cardType?.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cardNumber">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header style="width: 10%">Số thẻ</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.cardNumber" style="width: 10%">
+          {{ row?.cardNumber }}
+        </td>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="vehicleType">
+        <th mat-header-cell *matHeaderCellDef style="width: 10%">Loại xe</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.vehicle?.vehicleType?.name" style="width: 10%">
+          {{ row?.vehicle?.vehicleType?.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="plateNumber">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header style="width: 10%">Biển số xe</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.vehicle?.plateNumber" style="width: 10%">
+          {{ row?.vehicle?.plateNumber }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef style="width: 15%">Cư dân</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.user.name" style="width: 15%">
+          {{ row?.user.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="room">
+        <th mat-header-cell *matHeaderCellDef style="width: 15%">Căn hộ</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.user.household.room.name" style="width: 15%">
+          {{ row?.user.household.room.name + ' - ' + row?.user.household.room.floor.name + ' - ' + row?.user.household.room.building.name}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdDate">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header style="width: 15%">Ngày cấp</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.createdDate  | date : 'dd-MM-yyyy'" style="width: 15%">
+          {{ row?.createdDate | date : 'dd-MM-yyyy' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="emp">
+        <th mat-header-cell *matHeaderCellDef style="width: 15%">Người cấp</th>
+        <td mat-cell *matCellDef="let row" [title]="row?.employee?.name" style="width: 15%">
+          {{ row?.employee?.name }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row
+        *matHeaderRowDef="['cardType','cardNumber', 'vehicleType','plateNumber','user','room','createdDate','emp']">
+      </tr>
+      <tr mat-row
+        *matRowDef="let row; columns: ['cardType','cardNumber','vehicleType','plateNumber','user','room','createdDate', 'emp']">
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+</mat-card>

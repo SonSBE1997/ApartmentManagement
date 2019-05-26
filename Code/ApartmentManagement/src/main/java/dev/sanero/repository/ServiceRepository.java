@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import dev.sanero.entity.Room;
 import dev.sanero.entity.Service;
 
 /*
@@ -38,4 +39,13 @@ public interface ServiceRepository extends JpaRepository<Service, Integer> {
   @Query(value="select t.name, count(s.id) from service_type t left outer join (select * from service where collect_month like ?1 and paid=?2 ) s\r\n" + 
       "on t.id = s.service_type group by t.name order by t.id", nativeQuery=true)
   public List<Object> paidByMonth(String month, int paid);
+  
+  @Query(value="select count(id) from service where collect_month like ?1  and service_type = ?2 and payment_date is null", nativeQuery=true)
+  public long isGeneratedFixedService(String month, int type);
+  
+  @Query("select s.room from service s where s.collectMonth like ?1 and s.serviceType.id = ?2 and s.paymentDate is not null")
+  public List<Room> listGeneratedFixedService(String month, int type);
+  
+  @Query("select s from service s where s.collectMonth like ?1 and s.paymentDate is null order by s.room.id")
+  public List<Service> listServiceIsNotPay(String month);
 }

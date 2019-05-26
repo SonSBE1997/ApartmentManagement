@@ -1,3 +1,4 @@
+<ngx-loading-bar></ngx-loading-bar>
 <h1 mat-dialog-title class="font-weight-bold">{{data.new? 'Thêm mới' : 'Cập nhật thông tin'}}</h1>
 <div mat-dialog-content>
   <form novalidate [formGroup]="empFrm" class="form-horizontal">
@@ -94,7 +95,7 @@
     <br>
     <mat-form-field class="full-width">
       <mat-select [formControl]="empFrm.get('role')">
-        <mat-option value="Guardian">Nhân viên</mat-option>
+        <mat-option value="Normal">Nhân viên</mat-option>
         <mat-option value="Manager">Quản lý</mat-option>
       </mat-select>
       <mat-label>

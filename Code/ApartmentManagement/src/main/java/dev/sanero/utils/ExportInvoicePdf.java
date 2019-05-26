@@ -37,11 +37,13 @@ import dev.sanero.entity.HouseHold;
 import dev.sanero.entity.Room;
 import dev.sanero.entity.Service;
 import dev.sanero.entity.ServiceType;
+import dev.sanero.entity.User;
 
 public class ExportInvoicePdf extends AbstractPdfView{
   Font fontItalic = new Font(Font.HELVETICA, 12, Font.BOLDITALIC);
   Font fontBold = new Font(Font.HELVETICA, 12, Font.BOLD);
   Font fontNormal = new Font(Font.HELVETICA, 12, Font.NORMAL);
+  
   @Override
   protected void buildPdfDocument(Map<String, Object> model, Document document,
       PdfWriter writer, HttpServletRequest request,
@@ -256,11 +258,19 @@ public class ExportInvoicePdf extends AbstractPdfView{
     Chunk chunkSupplier = new Chunk("\n" + s.getServiceType().getSupplier(), fontNormal);
     Phrase phSupplier = new Phrase(chunkSupplier);
     Room r = s.getRoom();
+    int hh = r.getHousehold();
     String fullName = "";
-    for (HouseHold v : r.getHouseholds()) {
-       if (v.getLeaveDate() == null && v.isStatus() == true) {
-         fullName = v.getFullName();
-       }
+    for(HouseHold h: r.getHouseholds()) {
+      if (h.getId() == hh) {
+          int user = h.getUserId();
+          for(User u: h.getUsers()) {
+            if (user == u.getId()) {
+              fullName = u.getName();
+              break;
+            }
+          }
+          break;
+      }
     }
     Chunk chunkUserFullname = new Chunk("\n" + fullName, fontNormal);
     Phrase phUserFullName = new Phrase(chunkUserFullname);

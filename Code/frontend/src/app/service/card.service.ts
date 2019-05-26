@@ -16,6 +16,17 @@ export class CardService {
     this.token = localStorage.getItem('token');
   }
 
+  findAll(): Observable<Card[]> {
+    return this.http
+      .get<Card[]>(this.url, {
+        headers: new HttpHeaders().set('Authorization', this.token)
+      })
+      .pipe(
+        tap(),
+        catchError(err => of(null))
+      );
+  }
+
   findAllCardType(): Observable<CardType[]> {
     return this.http
       .get<CardType[]>(this.url + '/type', {

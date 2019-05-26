@@ -1,4 +1,5 @@
 <h1 mat-dialog-title class="font-weight-bold">{{data === null? 'Thêm mới' : 'Cập nhật thông tin'}}</h1>
+<ngx-loading-bar></ngx-loading-bar>
 <div mat-dialog-content>
   <form novalidate [formGroup]="frm" class="form-horizontal">
     <mat-form-field class="full-width">
@@ -9,7 +10,9 @@
       </mat-error>
     </mat-form-field>
     <br>
+    <mat-checkbox (change)="changeFixed($event)" [checked]="fixed">Phí cố định hàng tháng</mat-checkbox>
     <br>
+    <br/>
     <mat-form-field class="full-width">
       <mat-select [(value)]="type" (selectionChange)="typeChange($event)">
         <mat-option value="0">Đơn giá</mat-option>
@@ -19,6 +22,7 @@
         Loại
       </mat-label>
     </mat-form-field>
+    <br/>
     <br/>
     <ng-container *ngIf="type === '0'">
       <mat-form-field class="full-width">

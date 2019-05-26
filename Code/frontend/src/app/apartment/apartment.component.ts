@@ -24,11 +24,11 @@ export class AptPopUpComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-apartment',
+  templateUrl: './apartment.component.html',
+  styleUrls: ['./apartment.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class ApartmentComponent implements OnInit {
   buildings: Building[] = [];
   floors: Floor[] = [];
   matrix = [];
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(AptPopUpComponent, {
       width: '300px',
       data: r,
-      position: {top: '50px'}
+      position: { top: '50px' }
     });
 
     dialogRef.afterClosed().subscribe(result => {});

@@ -28,6 +28,7 @@ export class SaveServiceComponent implements OnInit {
   selectedType: ServiceType;
   households: Household[];
   size = 0;
+  isShow = false;
   constructor(
     public dialogRef: MatDialogRef<SaveServiceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,6 +49,11 @@ export class SaveServiceComponent implements OnInit {
       newIndex: 0
     });
     this.types = this.data.types;
+    if (this.types[0].fixed === true) {
+      this.isShow = false;
+    } else {
+      this.isShow = true;
+    }
     this.types.sort((a, b) => a.id - b.id );
     this.selectedType = this.types[0];
     this.loadBuilding();
@@ -166,6 +172,11 @@ export class SaveServiceComponent implements OnInit {
   selectTypeChange(e) {
     this.selectedType = this.types.find(v => v.id === e.value);
     this.frm.get('price').setValue(this.selectedType.price.toFixed(2));
+    if (this.selectedType.fixed === true) {
+      this.isShow = false;
+    } else {
+      this.isShow = true;
+    }
   }
 
   changeIndex() {

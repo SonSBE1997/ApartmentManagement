@@ -1,3 +1,4 @@
+<ngx-loading-bar></ngx-loading-bar>
 <div class="container">
   <div class="page-header mt-2 text-center text-uppercase">Tổng quan chung cư</div>
 </div>
@@ -9,32 +10,31 @@
       <button mat-raised-button [routerLink]="['/apartment/detail']">Cập nhật thông tin</button>
     </div>
     <div class="col-xl-3 col-md-3 col-lg-3 col-sm-3">
-      <!-- <ol class="breadcrumb float-right">
-            <li class="breadcrumb-item" [routerLink]="['/apartment']">Căn hộ</li>
-            <li class="breadcrumb-item active">Tổng quan</li>
-          </ol> -->
     </div>
   </div>
   <div class="row mt-3">
-    <div class="col-sm-3 col-md-3 col-xl-7 text-right font-weight-bold">Trạng thái căn hộ: </div>
-    <div class="col-sm-10 col-md-10 col-xl-5">
+    <div class="col-sm-3 col-md-4 col-lg-5 col-xl-5 text-right font-weight-bold">Trạng thái căn hộ: </div>
+    <div class="col-sm-9 col-md-8 col-lg-7 col-xl-7">
       <div class="row align-content-center">
-        <!-- <div class="col-xl-3">
-              <div class="color-secondary w100"></div> Tạm đóng
-            </div> -->
-        <div class="col-xl-4">
+        <div class="col-sm-4 col-md-4 col-lg-3 c col-xl-2">
           <div class="room-empty w100"></div> Trống
         </div>
-        <div class="col-xl-4">
+        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
           <div class="room-rent w100"></div> Đang cho thuê
         </div>
-        <div class="col-xl-4">
+        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
           <div class="room-sale w100"></div> Đã bán
         </div>
+        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
+          <div class="will-rent w100"></div> Sẽ cho thuê
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2">
+          <div class="will-sale w100"></div> Sẽ bán
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2"></div>
       </div>
     </div>
   </div>
-
   <div class="row">
     <div class="col-xl-8">
       <span class="font-weight-bold">Toà nhà: </span>
@@ -61,7 +61,8 @@
             <ng-template ngFor let-i [ngForOf]="matrix">
               <td *ngIf="f.rooms.length > i" style="width: 75px;">
                 <button *ngIf="!f.rooms[i].disable" mat-button class="btn" (click)="openDialog(f.rooms[i])"
-                  [ngClass]="{'room-rent': f.rooms[i].status === '1', 'room-sale': f.rooms[i].status === '2'}">
+                  [ngClass]="{'room-rent': f.rooms[i].status === '1', 'room-sale': f.rooms[i].status === '2',
+                    'will-rent': f.rooms[i].status === '3', 'will-sale': f.rooms[i].status === '4' }">
                   {{ f.rooms[i].name }}
                 </button>
                 <button *ngIf="f.rooms[i].disable" mat-button class="btn color-secondary"

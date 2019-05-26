@@ -8,15 +8,18 @@ export interface Household {
   idCard: string;
   address: string;
   phoneNumber: string;
+  email: string;
   comeDate: Date;
   leaveDate: Date;
   hire: boolean;
   price: number;
   deposit: number;
   depositDate: Date;
-  status: boolean;
+  status: string;
   employee: Employee;
   disable: boolean;
   users: User[];
   room: Room;
+  userId: number;
+  statusStr: string;
 }

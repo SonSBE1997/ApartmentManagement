@@ -1,5 +1,6 @@
 <div class="container">
   <notifier-container></notifier-container>
+  <ngx-loading-bar></ngx-loading-bar>
   <div class="mt-2 text-center text-uppercase page-header">Thông tin căn hộ</div>
 </div>
 
@@ -12,7 +13,7 @@
             add
           </i>
         </button>
-        <button mat-raised-button (click)="cancelCome()" class="btn-danger ml-2" matTooltip="Huỷ chuyển đi">
+        <button mat-raised-button (click)="cancel()" class="btn-danger ml-2" matTooltip="Huỷ chuyển đến / đi">
           <i class="material-icons">
             clear
           </i>
@@ -134,11 +135,10 @@
           <td mat-cell *matCellDef="let row" style="width: 150px">{{row.depositDate | date: 'dd-MM-yyyy'}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="status">
+        <ng-container matColumnDef="statusStr">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px">Tình trạng</th>
           <td mat-cell *matCellDef="let row" style="width: 100px">
-            {{ row.leaveDate === null ? (row.status === true? 'Đã bàn giao' : 'Chưa bàn giao') :
-              (row.leaveDate === row.comeDate? 'Đã huỷ' : 'Chuyển đi')}}
+            {{ row.statusStr }}
           </td>
         </ng-container>
 

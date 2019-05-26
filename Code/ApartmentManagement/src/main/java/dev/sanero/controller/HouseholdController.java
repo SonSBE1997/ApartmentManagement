@@ -91,4 +91,11 @@ public class HouseholdController {
       return new ResponseEntity<String>("Ok", HttpStatus.OK);
     return new ResponseEntity<String>("Not ok", HttpStatus.OK);
   }
+  
+  @PostMapping("/cancel-leave")
+  public ResponseEntity<String> cancelLeave(@RequestBody HouseHold h) {
+    if (householdService.cancelLeave(h.getId()))
+      return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    return new ResponseEntity<String>("Not ok", HttpStatus.OK);
+  }
 }

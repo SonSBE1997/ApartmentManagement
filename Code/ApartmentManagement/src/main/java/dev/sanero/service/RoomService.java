@@ -260,4 +260,12 @@ public class RoomService {
       return null;
     }
   }
+  
+  public List<Room> findRoomsIsLive() {
+    try {
+      return repository.findRoomsIsLive();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }

@@ -1,23 +1,24 @@
+<ngx-loading-bar></ngx-loading-bar>
 <h1 mat-dialog-title class="font-weight-bold text-uppercase text-center" align="center">Hoá đơn {{data.serviceType.name}}</h1>
 <div mat-dialog-content>
   <div class="row">
-    <div class="col-xl-5 font-weight-bold">Kể từ ngày: </div>
-    <div class="col-xl-7">20-{{lastmonth}} đến 20-{{data.collectMonth}}</div>
+    <div class="col-xl-6 font-weight-bold">Kể từ ngày: </div>
+    <div class="col-xl-6">20-{{lastmonth}} đến 20-{{data.collectMonth}}</div>
   </div>
   <br />
   <div class="row">
-    <div class="col-xl-5 font-weight-bold" >Nhà cung cấp</div>
-    <div class="col-xl-7">{{data.serviceType.supplier}}</div>
+    <div class="col-xl-6 font-weight-bold" >Nhà cung cấp</div>
+    <div class="col-xl-6">{{data.serviceType.supplier}}</div>
   </div>
   <br/>
   <div class="row">
-    <div class="col-xl-5 font-weight-bold">Khách hàng</div>
-    <div class="col-xl-7">{{data.fullName}}</div>
+    <div class="col-xl-6 font-weight-bold">Khách hàng</div>
+    <div class="col-xl-6">{{data.fullName}}</div>
   </div>
   <br />
   <div class="row">
-    <div class="col-xl-5 font-weight-bold">Căn hộ</div>
-    <div class="col-xl-7">{{data.room.name}} - {{data.room.floor.name}} - {{data.room.building.name}}</div>
+    <div class="col-xl-6 font-weight-bold">Căn hộ</div>
+    <div class="col-xl-6">{{data.room.name}} - {{data.room.floor.name}} - {{data.room.building.name}}</div>
   </div>
   <br />
   <ng-container *ngIf="isShow === true">

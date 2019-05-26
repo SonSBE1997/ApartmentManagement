@@ -47,6 +47,7 @@ public class HouseHold implements Serializable {
   private String address;
   @Column(name = "phone_number", nullable = true)
   private String phoneNumber;
+  private String email;
   @Column(name = "come_date")
   private Date comeDate;
   @Column(name = "leave_date", nullable = true)
@@ -57,8 +58,9 @@ public class HouseHold implements Serializable {
   private double deposit;
   @Column(name = "deposit_date")
   private Date depositDate;
-  private boolean status;
-
+  private String status; // 0: chua ban giao, 1: da ban giao, 2: da chuyen di, 3: se chuyen di , 4: da huy dang ky chuyen den, 
+  @Column(name = "user_id")
+  private int userId;
   @ManyToOne
   @JoinColumn(name = "room_id")
   @JsonIgnoreProperties(value = "households", allowSetters = true)
@@ -71,9 +73,49 @@ public class HouseHold implements Serializable {
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "household_id")
-  @JsonIgnoreProperties( value = "household", allowSetters = true)
+  @JsonIgnoreProperties(value = "household", allowSetters = true)
   private Set<User> users;
   private boolean disable;
+
+  /*
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 9:05:37 PM
+   * @return the email
+   */
+  public String getEmail() {
+    return email;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 9:05:37 PM
+   * @param email the email to set
+   */
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 8:23:50 PM
+   * @return the userId
+   */
+  public int getUserId() {
+    return userId;
+  }
+
+  /*
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 8:23:50 PM
+   * @param userId the userId to set
+   */
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
 
   public boolean isDisable() {
     return disable;
@@ -105,7 +147,7 @@ public class HouseHold implements Serializable {
    */
   public HouseHold(int id, String fullName, String idCard, String address,
       String phoneNumber, Date comeDate, Date leaveDate, boolean isHire,
-      double price, double deposit, Date depositDate, boolean status, Room room,
+      double price, double deposit, Date depositDate, String status, Room room,
       Employee employee) {
     super();
     this.id = id;
@@ -397,7 +439,7 @@ public class HouseHold implements Serializable {
    * Created time: 10:00:03 PM
    * @return the status
    */
-  public boolean isStatus() {
+  public String getStatus() {
     return status;
   }
 
@@ -407,7 +449,7 @@ public class HouseHold implements Serializable {
    * Created time: 10:00:03 PM
    * @param status the status to set
    */
-  public void setStatus(boolean status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 

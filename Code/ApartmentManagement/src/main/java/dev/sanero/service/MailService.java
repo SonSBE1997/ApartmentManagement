@@ -42,8 +42,7 @@ public class MailService {
               true, "UTF-8");
           messageHelper.setTo(emailToRecipient);
           messageHelper.setFrom("sonsbe1997@gmail.com");
-          messageHelper
-              .setSubject(subject);
+          messageHelper.setSubject(subject);
           messageHelper.setText(emailContent, true);
         }
       });
@@ -71,18 +70,19 @@ public class MailService {
     return builder.toString();
   }
   
+  
   public StringBuilder getInvoiceString(dev.sanero.entity.Service s, String fullName) {
     StringBuilder builder = new StringBuilder();
     builder.append("<div style=\"margin: 40px;\">");
     builder.append("<h2 align=\"center\" style=\"text-transform: uppercase\">Hoá đơn " + s.getServiceType().getName() + "</h2>");
     String date[] = s.getCollectMonth().split("-");
     String dateStr = "20-" + (Integer.parseInt(date[0]) - 1) + "-" + date[1] + " đến 20-" + s.getCollectMonth();
-    builder.append("<div><b>Kể từ ngày:</b>" + dateStr + "</div><br />");
-    builder.append("<div><b>Nhà cung cấp:</b> " + s.getServiceType().getSupplier() + "</div><br />");
-    builder.append("<div><b>Khách hàng:</b> " + fullName + "</div> <br />");
+    builder.append("<div><b>Kể từ ngày: </b>" + dateStr + "</div><br />");
+    builder.append("<div><b>Nhà cung cấp: </b> " + s.getServiceType().getSupplier() + "</div><br />");
+    builder.append("<div><b>Khách hàng: </b> " + fullName + "</div> <br />");
     Room r = s.getRoom();
     String add = r.getName() + " - " + r.getFloor().getName() + " - " + r.getBuilding().getName();
-    builder.append("<div><b>Địa chỉ:</b> " + add + "</>");
+    builder.append("<div><b>Căn hộ: </b> " + add + "</>");
     NumberFormat formatter = new DecimalFormat("#0.00");  
     if (!"".equals(s.getDetail())) {
       String index[] = s.getDetail().split("-");
@@ -135,7 +135,7 @@ public class MailService {
         price = use * type.getPrice();
       }
       
-      builder.append("<table style=\"text-align: center; border-collapse: collapse;margin-top: 50px;\">");
+      builder.append("<table style=\"text-align: center; border-collapse: collapse;margin-top: 50px;width: 100%;\">");
       builder.append("<thead>");
       builder.append("<tr>");
       builder.append("<th style=\"width: 20%;border: 1px solid #000000\">Chỉ số cũ</th>");
@@ -190,6 +190,55 @@ public class MailService {
     builder.append("<div style=\"padding-right: 50px !important; text-align: right\">"+ s.getEmployee().getName() +"</div>");
     builder.append("</div>");
     
+    return builder;
+  }
+  
+  public StringBuilder getInvoiceHeader(dev.sanero.entity.Service s, String fullName) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("<div style=\"margin: 40px;\">");
+    builder.append("<h2 align=\"center\" style=\"text-transform: uppercase\">Thông báo thu tiền tháng ");
+    builder.append(s.getCollectMonth());
+    builder.append("</h2>");
+    String date[] = s.getCollectMonth().split("-");
+    String dateStr = "20-" + (Integer.parseInt(date[0]) - 1) + "-" + date[1] + " đến 20-" + s.getCollectMonth();
+    builder.append("<div><b>Kể từ ngày: </b>" + dateStr + "</div><br />");
+    builder.append("<div><b>Chủ hộ: </b> " + fullName + "</div> <br />");
+    Room r = s.getRoom();
+    String add = r.getName() + " - " + r.getFloor().getName() + " - " + r.getBuilding().getName();
+    builder.append("<div><b>Căn hộ: </b> " + add + "</>");
+    builder.append("<table style=\"text-align: center; border-collapse: collapse;margin-top: 50px;width: 100%;\">");
+    builder.append("<thead>");
+    builder.append("<tr>");
+    builder.append("<th style=\"width: 50%;border: 1px solid #000000\">Loại dịch vụ</th>");
+    builder.append("<th style=\"width: 50%;border: 1px solid #000000\">Thành tiền</th>");
+    builder.append(" </tr>");
+    builder.append(" </thead>");
+    builder.append("<tbody>");
+    return builder;
+  }
+  
+  public StringBuilder getInvoiceBody(dev.sanero.entity.Service s) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("<tr>");
+    builder.append(" <td style=\"border: 1px solid #000000\"> " + s.getServiceType().getName() + " </td>");
+    builder.append(" <td style=\"border: 1px solid #000000\">" + s.getPrice() + "</td>");
+    builder.append(" </tr>");
+    return builder;
+  }
+  
+
+  public StringBuilder getInvoiceFooter(String empName, double  total) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("<tr>");
+    builder.append("<td style=\"border: 1px solid #000000\">Tổng cộng tiền thanh toán</td>");
+    builder.append("<td style=\"border: 1px solid #000000\">" + total + "</td>");
+    builder.append("</tr>");
+    builder.append("</tbody>");
+    builder.append("</table>");
+    builder.append("<br />");
+    builder.append("<div style=\"padding-right: 30px !important; text-align: right\">Người thông báo</div>");
+    builder.append("<div style=\"padding-right: 50px !important; text-align: right\">"+ empName +"</div>");
+    builder.append("</div>");
     return builder;
   }
 }

@@ -47,17 +47,6 @@ export class HeaderComponent implements OnInit {
       this.sharedService.changePage(this.url);
       this.router.navigateByUrl(url);
     }
-    // setInterval(() => {
-    //   const token = localStorage.getItem('token');
-    //   if (token !== null) {
-    //     const data = jwt_decode(token);
-    //     if (data.exp * 1000 <= new Date().getTime()) {
-    //       alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại');
-    //       localStorage.clear();
-    //       window.location.href = '/';
-    //     }
-    //   }
-    // }, 500);
 
     this.checkNotify();
     setInterval(() => {
@@ -137,8 +126,8 @@ export class HeaderComponent implements OnInit {
     }
 
     this.households.forEach(household => {
-      if (!household.status) {
-        household.status = true;
+      if (household.status === '0') {
+        household.status = '1';
         this.householdService.save(household).subscribe(s => console.log(s), e => console.log(e));
       }
       this.roomService.getRoomById(household.room.id).subscribe(r => {
@@ -155,7 +144,6 @@ export class HeaderComponent implements OnInit {
     if (this.userLeave.length === 0) {
       return;
     }
-
     this.userLeave.forEach(user => {
         if (!user.leave) {
           user.leave = true;

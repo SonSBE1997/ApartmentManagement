@@ -13,4 +13,5 @@ export interface Room {
   disable: boolean;
   deletable: boolean;
   roomType: string;
+  household: number;
 }

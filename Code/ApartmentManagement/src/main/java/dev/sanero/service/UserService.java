@@ -161,4 +161,19 @@ public class UserService {
       return null;
     }
   }
+
+  /**
+   * Author: Sanero.
+   * Created date: May 18, 2019
+   * Created time: 9:31:25 PM
+   * Description: TODO - .
+   * @return
+   */
+  public User findById(int id) {
+    try {
+      return repository.findById(id).get();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }

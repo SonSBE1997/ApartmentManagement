@@ -1,4 +1,5 @@
 <h1 mat-dialog-title class="font-weight-bold">Thêm thông tin thu phí dịch vụ</h1>
+<ngx-loading-bar></ngx-loading-bar>
 <div mat-dialog-content>
   <form novalidate [formGroup]="frm" class="form-horizontal">
     <mat-form-field class="full-width">
@@ -48,18 +49,19 @@
     </mat-form-field>
     <br>
     <br>
-    <mat-form-field class="full-width">
-      <input type="number" [formControl]="frm.get('oldIndex')" matInput placeholder="Chỉ số cũ"
-        (change)="changeIndex()">
-    </mat-form-field>
-    <br>
-    <br>
-    <mat-form-field class="full-width">
-      <input type="number" [formControl]="frm.get('newIndex')" matInput placeholder="Chỉ số mới"
-        (change)="changeIndex()">
-    </mat-form-field>
-    <br>
-    <br>
+    <ng-container *ngIf="isShow === true">
+      <mat-form-field class="full-width">
+        <input type="number" [formControl]="frm.get('oldIndex')" matInput placeholder="Chỉ số cũ" (change)="changeIndex()">
+      </mat-form-field>
+      <br>
+      <br>
+      <mat-form-field class="full-width">
+        <input type="number" [formControl]="frm.get('newIndex')" matInput placeholder="Chỉ số mới" (change)="changeIndex()">
+      </mat-form-field>
+      <br>
+      <br>
+    </ng-container>
+
     <mat-form-field class="full-width">
       <input type="number" [formControl]="frm.get('price')" matInput placeholder="Thành tiền">
     </mat-form-field>
