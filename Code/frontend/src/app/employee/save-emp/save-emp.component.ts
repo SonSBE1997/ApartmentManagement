@@ -11,6 +11,9 @@ export function validatePhoneNumber(c: AbstractControl): ValidationErrors | null
   if (c.value === '' || c.value === undefined) {
     return null;
   }
+  if (c.value.length === 0) {
+    return null;
+  }
   const pattern = /^0(\d{9})$/;
   return !pattern.test(c.value)
     ? {
@@ -24,6 +27,11 @@ export function validateIdCard(c: AbstractControl): ValidationErrors | null {
   if (idCard === '' || idCard === undefined) {
     return null;
   }
+
+  if (idCard.length === 0) {
+    return null;
+  }
+
   if (idCard.length !== 9 && idCard.length !== 12) {
     return {
       validIdCard: true

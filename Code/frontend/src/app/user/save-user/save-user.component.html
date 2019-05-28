@@ -12,9 +12,8 @@
         Họ và tên phải có độ dài dưới 100
       </mat-error>
     </mat-form-field>
-    <br />
-    <br />
-
+    <br/>
+    <br/>
     <mat-radio-group [formControl]="frm.get('gender')">
       <mat-radio-button [value]="true">Nam</mat-radio-button>
       <mat-radio-button class="ml-2" [value]="false">Nữ</mat-radio-button>
@@ -74,7 +73,8 @@
     <br>
 
     <mat-form-field class="full-width">
-      <mat-select required [formControl]="frm.get('household')">
+      <mat-select required [formControl]="frm.get('household')" (selectionChange)="selectHHChange($event)"
+        [disabled]="data.new != true">
         <mat-option *ngFor="let h of households" [value]="h.id">{{h.room.name + ' - ' + h.room.building.name}}</mat-option>
       </mat-select>
       <mat-label>
@@ -84,6 +84,12 @@
         Bạn phải chọn căn hộ
       </mat-error>
     </mat-form-field>
+    <br />
+    <mat-checkbox (change)="changeHead($event)" [checked]="isHead == true" [disabled]="isCurrHead">Chủ hộ</mat-checkbox>
+    <br />
+    <ng-container *ngIf="headName != ''">
+      <p class="text-center text-danger">{{headName}} đang là chủ hộ</p>
+    </ng-container>
   </form>
 </div>
 <div mat-dialog-actions>

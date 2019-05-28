@@ -59,6 +59,7 @@ export class ServicesComponent implements OnInit {
   searchStr = '';
   cMonth = new FormControl(moment());
   isClickGenerate = false;
+  isClickNotify = false;
   displayedColumns: string[] = [
     'serviceType',
     'room',
@@ -355,6 +356,7 @@ export class ServicesComponent implements OnInit {
     if (this.isClickGenerate === true) {
       return;
     }
+    this.isClickGenerate = true;
     const userId = parseInt(localStorage.getItem('userId'), 10);
     this.serviceService.generate(userId).subscribe(
       success => {
@@ -368,15 +370,21 @@ export class ServicesComponent implements OnInit {
         } else {
           this.notifierService.notify('error', 'Khởi tạo phí thất bại');
         }
+        this.isClickGenerate = false;
       },
       error => {
         console.log(error);
         this.notifierService.notify('error', 'Khởi tạo phí thất bại');
+        this.isClickGenerate = false;
       }
     );
   }
 
   notifyAll() {
+    if (this.isClickNotify === true) {
+      return;
+    }
+    this.isClickNotify = true;
     const userId = parseInt(localStorage.getItem('userId'), 10);
     this.serviceService.notifyAll(userId).subscribe(
       success => {
@@ -386,10 +394,12 @@ export class ServicesComponent implements OnInit {
         } else {
           this.notifierService.notify('error', 'Gửi thông báo thất bại');
         }
+        this.isClickNotify = false;
       },
       error => {
         console.log(error);
         this.notifierService.notify('error', 'Gửi thông báo thất bại');
+        this.isClickNotify = false;
       }
     );
   }

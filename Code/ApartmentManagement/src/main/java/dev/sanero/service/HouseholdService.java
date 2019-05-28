@@ -157,11 +157,9 @@ public class HouseholdService {
       h = repository.save(h);
       
       h.getUsers().forEach(u -> {
-        if(u.getLeaveDate() == null) {
-          u.setLeaveDate(null);
-          u.setDisable(false);
-          userService.save(u);
-        }
+        u.setLeaveDate(null);
+        u.setDisable(false);
+        userService.save(u);
       });
       return true;
     } catch (Exception e) {

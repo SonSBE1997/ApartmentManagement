@@ -390,7 +390,7 @@ public class ServiceService {
           builder = new StringBuilder();
           builder.append(mailService.getInvoiceHeader(s, u.getName()));
           total = s.getPrice();
-          
+          builder.append(mailService.getInvoiceBody(s));
         } else {
           total += s.getPrice();
           builder.append(mailService.getInvoiceBody(s));

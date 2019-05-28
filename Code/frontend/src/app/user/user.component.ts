@@ -84,7 +84,6 @@ export class UserComponent implements OnInit {
           result.obj.forEach(v => {
             this.users.push(v);
           });
-          console.log(result.obj);
           this.matPaginator.length = result.size;
           this.dataSource = new MatTableDataSource(this.users);
           this.dataSource.sort = this.matSort;

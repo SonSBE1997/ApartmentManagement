@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import dev.sanero.entity.HouseHold;
 import dev.sanero.entity.User;
 import dev.sanero.repository.UserRepository;
 import dev.sanero.utils.ResultList;
@@ -35,6 +36,9 @@ import dev.sanero.utils.ResultList;
 public class UserService {
   @Autowired
   UserRepository repository;
+  
+  @Autowired 
+  HouseholdService householdService;
   
   public ResultList findByPage(Pageable pageable) {
     try {
@@ -85,11 +89,25 @@ public class UserService {
 
   public boolean save(User u) {
     try {
+      boolean isNew = true;
       if (u.getId() != 0) {
-        User origin = repository.findById(u.getId()).get();
-        u.setHousehold(origin.getHousehold());
+        isNew = false;
+        if (u.getHousehold() == null) {
+          User origin = repository.findById(u.getId()).get();
+          u.setHousehold(origin.getHousehold());
+        }
       }
       u = repository.save(u);
+      
+      if (isNew && u.isHead()) {
+        HouseHold h = u.getHousehold();
+        int userId = h.getUserId();
+        User user = findById(userId);
+        user.setHead(false);
+        repository.save(user);
+        h.setUserId(u.getId());
+        householdService.save(h);
+      }
       return true;
     } catch (Exception e) {
       return false;

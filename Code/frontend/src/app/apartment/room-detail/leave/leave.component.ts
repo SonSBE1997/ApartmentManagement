@@ -26,6 +26,10 @@ export class LeaveComponent implements OnInit {
     this.frm = this.fb.group({
       leaveDate: ['', [Validators.required, validateLeaveDate(new Date())]]
     });
+    this.frm.patchValue({
+      leaveDate:
+        this.data.household.leaveDate != null ? this.data.household.leaveDate : ''
+    });
   }
 
   save() {
