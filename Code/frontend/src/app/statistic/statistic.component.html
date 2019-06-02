@@ -19,7 +19,13 @@
       <mat-datepicker #cMonthDate #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
         (monthSelected)="chosenMonthHandler($event, dp)"></mat-datepicker>
     </mat-form-field>
-    <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4"></div>
+    <div class="col-xl-4 col-md-4 col-sm-4 col-lg-4">
+      <button mat-raised-button class="ml-1 btn-default" matTooltip="Tải về thống kê" (click)="downloadExcel()">
+        <i class="material-icons">
+          insert_chart_outlined
+        </i>
+      </button>
+    </div>
   </div>
 
   <ng-container *ngIf="selectedType === -1">

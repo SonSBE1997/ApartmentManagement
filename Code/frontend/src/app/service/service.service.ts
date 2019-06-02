@@ -128,9 +128,15 @@ export class ServiceService {
   }
 
   notifyAll(data) {
-    return this.http.post(
-      this.url + '/notify-all',
-      { id: data },
+    return this.http.post(this.url + '/notify-all', data, {
+      headers: new HttpHeaders().set('Authorization', this.token),
+      responseType: 'text'
+    });
+  }
+
+  statistic() {
+    return this.http.get(
+      this.url + '/export-statistic',
       {
         headers: new HttpHeaders().set('Authorization', this.token),
         responseType: 'text'

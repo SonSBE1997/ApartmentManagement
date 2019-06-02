@@ -126,8 +126,14 @@ public class ServiceController {
   
   @PostMapping("/notify-all")
   public ResponseEntity<String> notifyAll(@RequestBody Employee emp) {
-    if(serviceService.notifyAllRoom(emp.getId()))
+    if(serviceService.notifyAllRoom(emp.getId(), emp.getName()))
       return new ResponseEntity<String>("Ok", HttpStatus.OK);
     return new ResponseEntity<String>("Not ok", HttpStatus.OK);  
+  }
+  
+  @GetMapping("/export-statistic")
+  public ResponseEntity<String> statistic() {
+    String result = serviceService.exportStatistic()? "Ok" : "Not ok";
+    return new ResponseEntity<String>(result, HttpStatus.OK); 
   }
 }

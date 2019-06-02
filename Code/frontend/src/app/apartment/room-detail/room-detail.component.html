@@ -120,21 +120,6 @@
           <td mat-cell *matCellDef="let row" style="width: 100px"> {{row.hire === true? 'Thuê' : 'Mua'}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 150px">Giá tiền (VNĐ)</th>
-          <td mat-cell *matCellDef="let row" style="width: 150px" class="t-right"> {{row.price | number : '1.0-2'}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="deposit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 150px">Đặt cọc (VNĐ)</th>
-          <td mat-cell *matCellDef="let row" style="width: 150px" class="t-right"> {{row.deposit | number : '1.0-2'}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="depositDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 150px">Ngày đặt cọc</th>
-          <td mat-cell *matCellDef="let row" style="width: 150px">{{row.depositDate | date: 'dd-MM-yyyy'}} </td>
-        </ng-container>
-
         <ng-container matColumnDef="statusStr">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 100px">Tình trạng</th>
           <td mat-cell *matCellDef="let row" style="width: 100px">

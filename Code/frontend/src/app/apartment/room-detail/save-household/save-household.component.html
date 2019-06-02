@@ -60,36 +60,11 @@
     </mat-form-field>
     <br />
     <br />
-    <mat-form-field class="full-width">
-      <input type="number" min="0" [formControl]="frm.get('price')" matInput placeholder="Giá căn hộ" required>
-      <mat-error *ngIf="frm.get('price').hasError('required')">
-        Bạn phải nhập giá căn hộ
-      </mat-error>
-    </mat-form-field>
-    <br />
-    <br />
     <mat-radio-group [formControl]="frm.get('hire')">
       <mat-radio-button [value]="true">Thuê</mat-radio-button>
       <mat-radio-button class="ml-2" [value]="false">Mua</mat-radio-button>
     </mat-radio-group>
   </form>
-  <br />
-  <br />
-
-  <mat-form-field class="full-width">
-    <input type="number" min="0" [formControl]="frm.get('deposit')" matInput placeholder="Tiền đặt cọc" required>
-    <mat-error *ngIf="frm.get('deposit').hasError('required')">
-      Bạn phải nhập giá căn hộ
-    </mat-error>
-  </mat-form-field>
-  <br />
-  <br />
-  <mat-form-field class="full-width">
-    <input type="date" [formControl]="frm.get('depositDate')" matInput placeholder="Ngày đặt cọc" required>
-    <mat-error *ngIf="frm.get('depositDate').hasError('required')">
-      Bạn phải nhập ngày sẽ chuyển đến
-    </mat-error>
-  </mat-form-field>
 
   <br />
   <br />

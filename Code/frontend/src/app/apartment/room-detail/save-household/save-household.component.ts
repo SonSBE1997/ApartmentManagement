@@ -30,11 +30,8 @@ export class SaveHouseholdComponent implements OnInit {
       idCard: ['', [validateIdCard]],
       phoneNumber: ['', [validatePhoneNumber]],
       address: ['', [Validators.required, Validators.maxLength(100)]],
-      email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
-      price: [0, [Validators.required]],
+      email: ['', [Validators.maxLength(100), Validators.email]],
       hire: false,
-      deposit: [0, [Validators.required]],
-      depositDate: [null, [Validators.required]],
       comeDate: [null, [Validators.required]]
     });
   }
@@ -49,6 +46,9 @@ export class SaveHouseholdComponent implements OnInit {
       leaveDate: null,
       userId: 0,
       statusStr: '',
+      price: 0,
+      deposit: 0,
+      depositDate: null,
       ...this.frm.value
     };
 

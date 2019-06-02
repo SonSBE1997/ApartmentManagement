@@ -13,8 +13,10 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -347,10 +349,13 @@ public class ServiceService {
            Service service = new Service();
            service.setEmployee(emp);
            service.setCollectMonth(month);
-           service.setDescription("Phí cố định tháng " + month);
+           service.setDescription("Phí " + serviceType.getName().toLowerCase() + " tháng " + month);
            service.setServiceType(serviceType);
-           service.setRoom(roomsIsLive.get(j));
-           service.setPrice(serviceType.getPrice());
+           Room r = roomsIsLive.get(j);
+           service.setRoom(r);
+           if (serviceType.getId() == 3 ) 
+             service.setPrice(serviceType.getPrice() * r.getArea());
+           else service.setPrice(serviceType.getPrice());
            save(service);
         }
         
@@ -364,7 +369,7 @@ public class ServiceService {
     }
   }
   
-  public boolean notifyAllRoom(int empId) {
+  public boolean notifyAllRoom(int empId, String numNoti) {
     try {
       String empName = empService.findById(empId).getName();
       String month = new SimpleDateFormat("MM-yyyy").format(new Date());
@@ -372,20 +377,39 @@ public class ServiceService {
       StringBuilder builder = new StringBuilder();
       int roomId = 0;
       String mailTo = "";
+      List<Map<String, String>> rooms = new ArrayList<Map<String, String>>();
       double total = 0;
       mailService.authorization();
+      String mailTitle = "Thông báo đóng phí";
+      try {
+        int numberNoti = Integer.parseInt(numNoti);
+        if (numberNoti > 0) {
+          mailTitle = "Nhắc nhở đóng phí lần thứ " + numberNoti;
+        }
+      } catch (NumberFormatException e) {
+      }
       for (Service s : lst) {
         int rId = s.getRoom().getId();
         if (roomId != rId) {
           if (builder.length() > 0) {
             builder.append(mailService.getInvoiceFooter(empName, total));
-            mailService.send(mailTo, builder.toString(), "Thông báo đóng phí");
+            mailService.send(mailTo, builder.toString(), mailTitle);
           } 
           
           roomId = rId;
           Room r = s.getRoom();
           HouseHold h = householdService.findById(r.getHousehold());
           User u = userService.findById(h.getUserId());
+          if (u.getEmail() == null || "".equals(u.getEmail())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("ROOM", r.getName());
+            map.put("FLOOR", r.getFloor().getName());
+            map.put("BUILDING", r.getBuilding().getName());
+            map.put("USER", u.getName());
+            rooms.add(map);
+            mailTo = "";
+            continue;
+          }
           mailTo = u.getEmail();
           builder = new StringBuilder();
           builder.append(mailService.getInvoiceHeader(s, u.getName()));
@@ -399,9 +423,27 @@ public class ServiceService {
       
       if (!("".equals(mailTo)) && builder.length() > 0) {
         builder.append(mailService.getInvoiceFooter(empName, total));
-        mailService.send(mailTo, builder.toString(), "Thông báo đóng phí");
+        mailService.send(mailTo, builder.toString(), mailTitle);
+      }
+      
+      if (rooms.size() > 0) {
+        fileService.exportInfoRoomHasNoEmail(rooms);
       }
       return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  
+  public boolean exportStatistic() {
+    try {
+      String month = new SimpleDateFormat("MM-yyyy").format(new Date());
+      List<Map<String, Object>> prices = repository.pricePaidByMonth1(month, 1);
+      List<Map<String, Object>> percent = repository.paidByMonth1(month, 1);
+      List<Map<String, Object>> prices1 = repository.pricePaidByMonth1(month, 0);
+      List<Map<String, Object>> percent1 = repository.paidByMonth1(month, 0);
+      return fileService.exportStatistic(prices, prices1, percent, percent1);
     } catch (Exception e) {
       return false;
     }

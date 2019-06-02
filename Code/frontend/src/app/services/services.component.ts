@@ -386,11 +386,30 @@ export class ServicesComponent implements OnInit {
     }
     this.isClickNotify = true;
     const userId = parseInt(localStorage.getItem('userId'), 10);
-    this.serviceService.notifyAll(userId).subscribe(
+    const month = localStorage.getItem('month');
+    let numberNoti = localStorage.getItem('numNoti');
+    const dt = new Date();
+    const now = dt.getFullYear() + '-' + dt.getMonth();
+    if (month == null || month === undefined) {
+      numberNoti = '0';
+      localStorage.setItem('month', now);
+      localStorage.setItem('numNoti', '0');
+    } else {
+      if (month === now) {
+        numberNoti = (parseInt(numberNoti, 10) + 1) + '';
+        localStorage.setItem('numNoti', numberNoti);
+      } else {
+        localStorage.setItem('month', now);
+        localStorage.setItem('numNoti', '0');
+      }
+    }
+
+    this.serviceService.notifyAll({ id: userId, name: numberNoti }).subscribe(
       success => {
         if (success === 'Ok') {
           this.notifierService.notify('success', 'Gửi thông báo thành công');
           this.loadService();
+          this.fileService.downloadSample('RoomNoEmail.xlsx');
         } else {
           this.notifierService.notify('error', 'Gửi thông báo thất bại');
         }

@@ -8,6 +8,7 @@ import { Moment } from 'moment';
 import { FormControl } from '@angular/forms';
 import { ServiceService } from '../service/service.service';
 import { DateService } from '../service/date.servce';
+import { FileService } from '../service/file.service';
 const moment = _moment;
 
 @Component({
@@ -68,7 +69,8 @@ export class StatisticComponent implements OnInit {
   isOk1 = false;
   constructor(
     private serviceService: ServiceService,
-    private dateService: DateService
+    private dateService: DateService,
+    private fileService: FileService
   ) {}
 
   ngOnInit() {
@@ -144,7 +146,7 @@ export class StatisticComponent implements OnInit {
           sum += dt[1];
         });
         if (sum !== 0) {
-           this.isOk = true;
+          this.isOk = true;
         }
       });
 
@@ -222,5 +224,14 @@ export class StatisticComponent implements OnInit {
     } else {
       this.loadDataByType();
     }
+  }
+
+  downloadExcel() {
+    this.serviceService.statistic().subscribe(success => {
+      console.log(success);
+      if (success === 'Ok') {
+        this.fileService.downloadSample('statistic.xlsx');
+      }
+    }, error => console.log(error));
   }
 }

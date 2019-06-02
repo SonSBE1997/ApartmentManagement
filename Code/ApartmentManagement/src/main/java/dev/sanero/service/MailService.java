@@ -144,7 +144,10 @@ public class MailService {
       List<Double> p = new ArrayList<>();
       List<Double> arr = new ArrayList<>();
       List<Double> arr1 = new ArrayList<>();
-      String increase = s.getIncrease();
+      String increase = "";
+      if (s.getIncrease() != null) {
+        increase = s.getIncrease();
+      }
       double price = 0;
       
       ServiceType type = s.getServiceType();

@@ -9,8 +9,6 @@
 
 package dev.sanero.utils;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -87,11 +85,9 @@ public class ExportInvoicePdf extends AbstractPdfView{
     dataTable.addCell(createCell(fontNormal, "Đơn giá",  1, true));
     dataTable.addCell(createCell(fontNormal, "Thành tiền",  1, true));
     
-    if (!"".equals(s.getDetail())) {
+    if (s.getDetail() != null && !"".equals(s.getDetail())) {
       String index[] = s.getDetail().split("-");
       
-      
-      NumberFormat formatter = new DecimalFormat("#0.00");  
       double use = Double.parseDouble(index[1]) - Double.parseDouble(index[0]);
       
       List<Double> m = new ArrayList<>();
@@ -144,10 +140,10 @@ public class ExportInvoicePdf extends AbstractPdfView{
 
       dataTable.addCell(createCell(fontNormal, index[0],  1, true));
       dataTable.addCell(createCell(fontNormal, index[1],  1, true));
-      dataTable.addCell(createCell(fontNormal, formatter.format(use) + "",  1, true));
+      dataTable.addCell(createCell(fontNormal, use + "",  1, true));
       if(arr.size() == 0) {
-        dataTable.addCell(createCell(fontNormal,  formatter.format(type.getPrice()) + "",  1, true));
-        dataTable.addCell(createCell(fontNormal, formatter.format(price) + "",  1, true));
+        dataTable.addCell(createCell(fontNormal, type.getPrice() + "",  1, true));
+        dataTable.addCell(createCell(fontNormal, price + "",  1, true));
       } else {
         dataTable.addCell(createCell(fontNormal, "",  1, true));
         dataTable.addCell(createCell(fontNormal, "",  1, true));
@@ -159,21 +155,23 @@ public class ExportInvoicePdf extends AbstractPdfView{
           dataTable.addCell(createCell(fontNormal, "",  1, true));
           
           dataTable.addCell(createCell(fontNormal, arr.get(i) + "",  1, true));
-          dataTable.addCell(createCell(fontNormal, formatter.format(p.get(i)) + "",  1, true));
-          dataTable.addCell(createCell(fontNormal, formatter.format(arr1.get(i)) + "",  1, true));
+          dataTable.addCell(createCell(fontNormal, p.get(i).longValue() + "",  1, true));
+          dataTable.addCell(createCell(fontNormal, (arr1.get(i).longValue()) + "",  1, true));
         }
       }
       
       
       dataTable.addCell(createCell(fontNormal, "Thuế GTGT 10% ",  4, true));
-      dataTable.addCell(createCell(fontNormal, formatter.format((price * 0.1)) + "",  1, true));
+      dataTable.addCell(createCell(fontNormal,  (long) (price * 0.1) + "",  1, true));
       
       dataTable.addCell(createCell(fontNormal, "Tổng cộng tiền thanh toán ",  4, true));
-      dataTable.addCell(createCell(fontNormal, formatter.format((price * 1.1)) + "",  1, true));
+      dataTable.addCell(createCell(fontNormal, (long) (price * 1.1) + "",  1, true));
+      dataTable.addCell(createCell(fontNormal, "Số tiền bằng chữ: " + NumberToWord.convert((long) (price * 1.1)) + " đồng",  5, true));
     }
     else {
       table.addCell(createCellLeft(fontNormal, "Tổng tiền thanh toán:"));
-      table.addCell(createCellRight(fontNormal, s.getPrice() + ""));
+      table.addCell(createCellRight(fontNormal,(long) s.getPrice() + ""));
+      table.addCell(createCell(fontNormal, "Số tiền bằng chữ: " + NumberToWord.convert((long) s.getPrice()) + " đồng",  5, false));
     }
     Paragraph paragraph = new Paragraph();
     paragraph.add(new Chunk(""));
@@ -197,7 +195,7 @@ public class ExportInvoicePdf extends AbstractPdfView{
     tabletmp.addCell(paragraph);
     tabletmp.addCell(paragraph);
     
-    if (!"".equals(s.getDetail())) {
+    if (s.getDetail() != null && !"".equals(s.getDetail())) {
       tabletmp.addCell(dataTable);
     }
     tabletmp.addCell(paragraph);

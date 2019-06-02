@@ -52,9 +52,6 @@ export class RoomDetailComponent implements OnInit {
     'comeDate',
     'leaveDate',
     'hire',
-    'price',
-    'deposit',
-    'depositDate',
     'statusStr',
     'employee'
   ];
@@ -143,10 +140,8 @@ export class RoomDetailComponent implements OnInit {
     this.dataSource.filterPredicate = (data, filter) => {
       let dataStr =
         data.fullName +
-        data.deposit +
         data.idCard +
         data.phoneNumber +
-        data.price +
         data.address +
         data.employee.name;
       dataStr += data.hire === true ? 'Thuê' : 'Mua';
